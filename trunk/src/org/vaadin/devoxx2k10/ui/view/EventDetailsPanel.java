@@ -52,6 +52,7 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener {
         hideButton.setStyleName(BaseTheme.BUTTON_LINK);
         speakers = new VerticalLayout();
         speakers.setMargin(true);
+        speakers.setSpacing(true);
         speakers.setStyleName("speakers-layout");
 
         // add to the layout
