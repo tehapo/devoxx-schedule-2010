@@ -159,6 +159,14 @@
 	color: #f08800;	
 }
 
+.speaker-details .v-button .v-button-caption {
+	padding-left: 10px;
+	background: url("img/arrow-right.png") center left no-repeat;
+}
+.speaker-details .v-button-open .v-button-caption {
+	background: url("img/arrow-down.png") center left no-repeat;	
+}
+
 .speaker-details p {
 	font-size: 11px;
 	color: #b5b2ad;
