@@ -50,7 +50,7 @@
 		</java>
 	</target>
 	
-	<target name="package-war" depends="">
+	<target name="package-war" depends="compile-server-side, compile-client-side">
 		<echo>Packaging WAR to ${dist.dir}.</echo>
 		<mkdir dir="${dist.dir}/WebContent"/>
 		<mkdir dir="${dist.dir}/WebContent/WEB-INF/classes"/>
