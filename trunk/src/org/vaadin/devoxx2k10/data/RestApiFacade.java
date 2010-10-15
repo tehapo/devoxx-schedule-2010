@@ -125,7 +125,7 @@ public class RestApiFacade {
                             .getString("speaker");
 
                     // wrap the speaker inside a lazy loading proxy
-                    speakers.add(LazyLoadProxy.getProxy(new DevoxxSpeakerImpl(
+                    speakers.add(LazyLoadProxyFactory.getProxy(new DevoxxSpeakerImpl(
                             speakerName, speakerUri), this));
                 }
             }
@@ -135,7 +135,7 @@ public class RestApiFacade {
                     partnerSlot, presentationUri);
 
             // wrap the presentation inside a lazy loading proxy
-            return LazyLoadProxy.getProxy(event, this);
+            return LazyLoadProxyFactory.getProxy(event, this);
         } catch (ParseException e) {
             throw new JSONException(e);
         }

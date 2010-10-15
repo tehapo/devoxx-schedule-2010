@@ -5,7 +5,7 @@ package org.vaadin.devoxx2k10.data;
  * LazyLoadable provides an URI for lazily loading more details via REST API.
  * 
  * @see LazyLoad
- * @see LazyLoadProxy
+ * @see LazyLoadProxyFactory
  */
 public interface LazyLoadable {
 
