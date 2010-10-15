@@ -85,6 +85,9 @@
 .v-calendar .selected .v-calendar-event-content {
 	background: #efefe6;
 }
+.v-calendar .selected  .v-calendar-event-caption span {
+	text-shadow: none;	
+}
 .v-calendar .selected .v-calendar-event-caption {
 	font-weight: bold;
 	color: #2f2e2d;
