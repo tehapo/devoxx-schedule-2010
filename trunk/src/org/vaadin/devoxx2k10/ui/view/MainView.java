@@ -62,7 +62,6 @@ public class MainView extends HorizontalLayout implements EventClickHandler {
 
             private static final long serialVersionUID = 2374330709036930792L;
 
-            @Override
             public void valueChange(ValueChangeEvent event) {
                 calendar.setDate((Date) daySelector.getValue());
             }
@@ -72,7 +71,6 @@ public class MainView extends HorizontalLayout implements EventClickHandler {
         return daySelector;
     }
 
-    @Override
     public void eventClick(EventClick event) {
         CalendarEvent calEvent = event.getCalendarEvent();
 

@@ -19,7 +19,7 @@
 		<mkdir dir="${server-side.dest.dir}"/>
 		
 		<!-- compile Java source files -->
-		<javac destdir="${server-side.dest.dir}" encoding="utf-8" target="1.6">
+		<javac destdir="${server-side.dest.dir}" encoding="utf-8" target="1.5">
 			<src path="${src.dir}"/>
 			<classpath>
 				<fileset dir="${lib.dir}"/>
