@@ -1,5 +1,6 @@
 Devoxx 2010 Schedule Application
 written by Teemu Pöntelin / Vaadin Ltd / http://vaadin.com/teemu
+theme design by Jouni Koivuviita / Vaadin Ltd / http://vaadin.com/jouni
 
 About
 =====
@@ -24,7 +25,7 @@ directory.
 Dependencies
 ============
 
-The application has dependencies to the following libraries (see WEB-INF/lib):
+The application has dependencies to the following libraries (see /WebContent/WEB-INF/lib):
 	
 Vaadin
  - UI framework for the application
@@ -47,3 +48,12 @@ org.json
  - http://json.org/
  
  
+Also during the build there are following dependencies (see /build-lib):
+
+GWT
+ - Google Web Toolkit for the client-side compilation
+ - http://code.google.com/webtoolkit/
+ 
+XMLTask
+ - For modifying the web.xml from Ant script
+ - http://www.oopsconsultancy.com/software/xmltask/
