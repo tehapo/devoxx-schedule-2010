@@ -42,7 +42,6 @@ public class DevoxxEventProvider extends BasicEventProvider {
             calEvent.setStart(event.getFromTime());
             calEvent.setEnd(event.getToTime());
             calEvent.setCaption(caption);
-            calEvent.setDescription(caption);
             calEvent.setStyleName(event.getKind().name().toLowerCase());
             if (calEvent.getStyleName().equals("registration")) {
                 calEvent.addStyleName("java");
