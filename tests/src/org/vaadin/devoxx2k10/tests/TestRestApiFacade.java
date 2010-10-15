@@ -54,7 +54,6 @@ public class TestRestApiFacade {
         DevoxxPresentation event = schedule.get(2);
         DevoxxSpeaker speaker = event.getSpeakers().get(0);
         Assert.assertEquals(56, speaker.getId());
-        Assert.assertEquals("Martijn Dashorst", speaker.getName());
         Assert.assertEquals(
                 "http://cfp.devoxx.com/static/images/56/thumbnail.gif",
                 speaker.getImageUri());
