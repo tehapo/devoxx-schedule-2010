@@ -28,7 +28,8 @@
 
 .v-theme-devoxx2k10 .v-calendar-event-caption {
 	left: 0;
-	padding: 2px 9px;
+	top: 0;
+	padding: 4px 9px;
 	font-size: 12px;
 	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
 	-moz-box-sizing: border-box;
@@ -97,6 +98,44 @@
 	cursor: default;	
 }
 */
+
+/* Rooms */
+.v-theme-devoxx2k10 .at-room4 .v-calendar-event-caption,
+.v-theme-devoxx2k10 .at-room5 .v-calendar-event-caption,
+.v-theme-devoxx2k10 .at-room6 .v-calendar-event-caption,
+.v-theme-devoxx2k10 .at-room7 .v-calendar-event-caption,
+.v-theme-devoxx2k10 .at-room8 .v-calendar-event-caption,
+.v-theme-devoxx2k10 .at-room9 .v-calendar-event-caption,
+.v-theme-devoxx2k10 .at-hollywoodlounge .v-calendar-event-caption,
+.v-theme-devoxx2k10 .at-bof1 .v-calendar-event-caption,
+.v-theme-devoxx2k10 .at-bof2 .v-calendar-event-caption {
+	height: 100%;
+	background-color: transparent;
+	background-position: 98% 98%;
+	background-repeat: no-repeat;
+}
+.v-theme-devoxx2k10 .at-room4 .v-calendar-event-caption { background-image: url("img/room4.png"); }
+.v-theme-devoxx2k10 .at-room5 .v-calendar-event-caption { background-image: url("img/room5.png"); }
+.v-theme-devoxx2k10 .at-room6 .v-calendar-event-caption { background-image: url("img/room6.png"); }
+.v-theme-devoxx2k10 .at-room7 .v-calendar-event-caption { background-image: url("img/room7.png"); }
+.v-theme-devoxx2k10 .at-room8 .v-calendar-event-caption { background-image: url("img/room8.png"); }
+.v-theme-devoxx2k10 .at-room9 .v-calendar-event-caption { background-image: url("img/room9.png"); }
+.v-theme-devoxx2k10 .at-hollywoodlounge .v-calendar-event-caption { background-image: url("img/java.png"); }
+.v-theme-devoxx2k10 .at-bof1 .v-calendar-event-caption { background-image: url("img/bof1.png"); }
+.v-theme-devoxx2k10 .at-bof2 .v-calendar-event-caption { background-image: url("img/bof2.png"); }
+
+.v-theme-devoxx2k10 .selected.at-room4 .v-calendar-event-caption { background-image: url("img/room4-inv.png"); }
+.v-theme-devoxx2k10 .selected.at-room5 .v-calendar-event-caption { background-image: url("img/room5-inv.png"); }
+.v-theme-devoxx2k10 .selected.at-room6 .v-calendar-event-caption { background-image: url("img/room6-inv.png"); }
+.v-theme-devoxx2k10 .selected.at-room7 .v-calendar-event-caption { background-image: url("img/room7-inv.png"); }
+.v-theme-devoxx2k10 .selected.at-room8 .v-calendar-event-caption { background-image: url("img/room8-inv.png"); }
+.v-theme-devoxx2k10 .selected.at-room9 .v-calendar-event-caption { background-image: url("img/room9-inv.png"); }
+.v-theme-devoxx2k10 .selected.at-hollywoodlounge .v-calendar-event-caption { background-image: url("img/java-inv.png"); }
+.v-theme-devoxx2k10 .selected.at-bof1 .v-calendar-event-caption { background-image: url("img/bof1-inv.png"); }
+.v-theme-devoxx2k10 .selected.at-bof2 .v-calendar-event-caption { background-image: url("img/bof2-inv.png"); }
+.v-theme-devoxx2k10 .short-event .v-calendar-event-caption {
+	background-image: none !important;	
+}
 
 /* Navigation */
 .navigation .v-panel-content > div {
