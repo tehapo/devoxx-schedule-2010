@@ -23,7 +23,6 @@ public class SpeakerDetails extends CssLayout implements Button.ClickListener {
         addComponent(speakerButton);
     }
 
-    @Override
     public void buttonClick(ClickEvent event) {
         DevoxxSpeaker speaker = (DevoxxSpeaker) event.getButton().getData();
 

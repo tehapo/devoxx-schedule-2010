@@ -123,7 +123,6 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener {
         speakers.setVisible(!event.getSpeakers().isEmpty());
     }
 
-    @Override
     public void buttonClick(ClickEvent event) {
         if (event.getButton() == hideButton) {
             setVisible(false);

@@ -49,7 +49,6 @@ public class DaySelector extends CustomField implements Button.ClickListener,
         }
     }
 
-    @Override
     public void buttonClick(ClickEvent event) {
         Button clicked = event.getButton();
         setValue((Date) clicked.getData());
