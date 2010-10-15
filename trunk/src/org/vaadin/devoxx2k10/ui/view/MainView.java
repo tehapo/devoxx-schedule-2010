@@ -4,20 +4,19 @@ import java.util.Date;
 
 import org.vaadin.devoxx2k10.ui.calendar.DevoxxCalendar;
 import org.vaadin.devoxx2k10.ui.calendar.DevoxxCalendarEvent;
+import org.vaadin.devoxx2k10.ui.view.NavigationPanel.DateChangeListener;
 
 import com.vaadin.addon.calendar.event.CalendarEvent;
 import com.vaadin.addon.calendar.ui.CalendarComponentEvents.EventClick;
 import com.vaadin.addon.calendar.ui.CalendarComponentEvents.EventClickHandler;
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
 
 /**
  * The main view of the application displaying navigation, calendar and details.
  */
-public class MainView extends HorizontalLayout implements EventClickHandler {
+public class MainView extends HorizontalLayout implements EventClickHandler,
+        DateChangeListener {
 
     private static final long serialVersionUID = 7622207451668068454L;
 
@@ -25,8 +24,7 @@ public class MainView extends HorizontalLayout implements EventClickHandler {
     private DaySelector daySelector;
     private DevoxxCalendarEvent selectedEvent;
     private EventDetailsPanel detailsPanel;
-
-    private static final String DEMO_VAADIN_COM_TRACKER_ID = "UA-658457-6";
+    private NavigationPanel navigationPanel;
 
     public MainView() {
         initUi();
@@ -38,8 +36,12 @@ public class MainView extends HorizontalLayout implements EventClickHandler {
 
         calendar = new DevoxxCalendar();
         calendar.setHandler(this);
+        calendar.setDate(DevoxxCalendar.getDefaultDate());
 
-        addComponent(constructNavigation());
+        // addComponent(constructNavigation());
+        navigationPanel = new NavigationPanel(DevoxxCalendar.getDefaultDate());
+        navigationPanel.addListener(this);
+        addComponent(navigationPanel);
 
         Panel calendarPanel = new Panel();
         calendarPanel.setStyleName("calendar-panel");
@@ -55,20 +57,8 @@ public class MainView extends HorizontalLayout implements EventClickHandler {
         setExpandRatio(calendarPanel, 1f);
     }
 
-    private Component constructNavigation() {
-        daySelector = new DaySelector(DevoxxCalendar.DEVOXX_FIRST_DAY,
-                DevoxxCalendar.DEVOXX_LAST_DAY);
-        daySelector.addListener(new ValueChangeListener() {
-
-            private static final long serialVersionUID = 2374330709036930792L;
-
-            public void valueChange(ValueChangeEvent event) {
-                calendar.setDate((Date) daySelector.getValue());
-            }
-        });
-        daySelector.setValue(DevoxxCalendar.getDefaultDate());
-        daySelector.setWidth("200px");
-        return daySelector;
+    public void dateChanged(Date newDate) {
+        calendar.setDate(newDate);
     }
 
     public void eventClick(EventClick event) {
