@@ -20,6 +20,8 @@ public class DevoxxEventProvider extends BasicEventProvider {
     private transient final RestApiFacade facade = new CachingRestApiFacade();
     private boolean eventsLoaded;
 
+    private static final long SHORT_EVENT_THRESHOLD_MS = 1000 * 60 * 30;
+
     public List<CalendarEvent> getEvents(Date startDate, Date endDate) {
         if (!eventsLoaded) {
             loadEventsFromBackend();
@@ -43,8 +45,10 @@ public class DevoxxEventProvider extends BasicEventProvider {
             calEvent.setEnd(event.getToTime());
             calEvent.setCaption(caption);
             calEvent.setStyleName(event.getKind().name().toLowerCase());
-            if (calEvent.getStyleName().equals("registration")) {
-                calEvent.addStyleName("java");
+            calEvent.addStyleName("at-"
+                    + event.getRoom().toLowerCase().replaceAll(" ", ""));
+            if (isShortEvent(event)) {
+                calEvent.addStyleName("short-event");
             }
             calEvent.setDevoxxEvent(event);
             calEvent.addListener(this);
@@ -53,6 +57,10 @@ public class DevoxxEventProvider extends BasicEventProvider {
 
         logger.debug("Fetched schedule from backend (total " + schedule.size()
                 + " events).");
+    }
+
+    private static boolean isShortEvent(DevoxxPresentation event) {
+        return event.getToTime().getTime() - event.getFromTime().getTime() < SHORT_EVENT_THRESHOLD_MS;
     }
 
     private String getSpeakersString(DevoxxPresentation event) {
