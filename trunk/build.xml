@@ -12,6 +12,8 @@
 	<property name="build.lib.dir" value="${basedir}/build-lib"/>
 	<property name="dist.dir" value="${basedir}/dist"/>
 	
+	<taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask" classpath="${build.lib.dir}/xmltask.jar"/>
+	
 	<target name="compile-server-side">
 		<echo>Compiling server-side code to ${server-side.dest.dir}.</echo>
 		<mkdir dir="${server-side.dest.dir}"/>
@@ -62,6 +64,12 @@
 		<copy todir="${dist.dir}/WebContent/WEB-INF/classes">
 			<fileset dir="${server-side.dest.dir}"/>
 		</copy>
+		
+		<!-- update productionMode flag on web.xml -->
+		<echo>Setting productionMode parameter to ${productionMode}.</echo>
+		<xmltask source="${dist.dir}/WebContent/WEB-INF/web.xml" dest="${dist.dir}/WebContent/WEB-INF/web.xml" encoding="utf-8">
+			<replace path="/:web-app/:context-param[:param-name='productionMode']/:param-value/text()" withText="${productionMode}"/>
+		</xmltask>
 		
 		<war destfile="${dist.dir}/devoxx-schedule.war" basedir="${dist.dir}/WebContent" />
 	</target>
