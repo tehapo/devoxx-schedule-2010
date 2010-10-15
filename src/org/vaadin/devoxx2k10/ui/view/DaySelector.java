@@ -6,19 +6,20 @@ import java.util.Iterator;
 import java.util.Locale;
 
 import com.vaadin.data.Property;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.event.LayoutEvents.LayoutClickEvent;
+import com.vaadin.event.LayoutEvents.LayoutClickListener;
+import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.CustomField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Label;
 
 /**
  * CustomField for selecting days from a certain date interval given in the
  * constructor.
  */
-public class DaySelector extends CustomField implements Button.ClickListener,
+public class DaySelector extends CustomField implements LayoutClickListener,
         Property.ValueChangeListener {
 
     private static final long serialVersionUID = 2754744076391844451L;
@@ -26,8 +27,9 @@ public class DaySelector extends CustomField implements Button.ClickListener,
     private ComponentContainer layout;
 
     public DaySelector(Date firstDay, Date lastDay) {
-        layout = new VerticalLayout();
+        layout = new CssLayout();
         setCompositionRoot(layout);
+        setStyleName("day-selector");
         addListener(this);
 
         Calendar javaCalendar = Calendar.getInstance();
@@ -37,11 +39,16 @@ public class DaySelector extends CustomField implements Button.ClickListener,
             String dayName = javaCalendar.getDisplayName(Calendar.DAY_OF_WEEK,
                     Calendar.LONG, Locale.US);
 
-            Button dayButton = new Button(dayName);
-            dayButton.setDescription(dayName);
-            dayButton.setStyleName(dayName.toLowerCase());
+            CssLayout dayButton = new CssLayout();
+            dayButton.setStyleName("day");
+            Label dayLabel = new Label(dayName/*
+                                               * + "<span>5</span>",
+                                               * Label.CONTENT_XHTML
+                                               */);
+            dayLabel.setWidth("100%");
+            dayButton.addComponent(dayLabel);
             dayButton.setData(javaCalendar.getTime());
-            dayButton.addListener((ClickListener) this);
+            dayButton.addListener((LayoutClickListener) this);
             layout.addComponent(dayButton);
 
             // next day
@@ -49,9 +56,9 @@ public class DaySelector extends CustomField implements Button.ClickListener,
         }
     }
 
-    public void buttonClick(ClickEvent event) {
-        Button clicked = event.getButton();
-        setValue((Date) clicked.getData());
+    public void layoutClick(LayoutClickEvent event) {
+        Date clickedValue = (Date) ((CssLayout) event.getSource()).getData();
+        setValue(clickedValue);
     }
 
     @Override
@@ -59,7 +66,7 @@ public class DaySelector extends CustomField implements Button.ClickListener,
         // set the style name
         for (Iterator<Component> it = layout.getComponentIterator(); it
                 .hasNext();) {
-            Button b = (Button) it.next();
+            AbstractComponent b = (AbstractComponent) it.next();
 
             if (dayEquals((Date) b.getData(), (Date) getValue())) {
                 b.addStyleName("selected");

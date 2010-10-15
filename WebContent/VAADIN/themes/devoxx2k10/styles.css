@@ -98,6 +98,53 @@
 }
 */
 
+/* Navigation */
+.navigation .v-panel-content > div {
+	background: #f9e6be;	
+}
+.navigation .v-panel-content {
+	border: none;	
+}
+.navigation .v-panel-deco {
+	display: none;	
+}
+.navigation .v-label {
+	color: #cb7200;
+	font-size: 16px;
+	font-weight: bold;
+	text-shadow: 0 1px 0px rgba(255, 255, 255, 0.5);
+}
+.navigation .day-selector {
+	margin-top: 8px;	
+}
+.navigation .day-selector .day {
+	padding: 2px 13px;
+	margin-bottom: 5px;
+	cursor: pointer;
+}
+.navigation .day-selector .selected {
+	background: url("img/day-selector-gradient.png") #343433 top left repeat-x;
+	cursor: default;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	-moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+.navigation .day-selector .day .v-label {
+	font-size: 14px;
+	color: #313131;
+	cursor: pointer;
+}
+.navigation .day-selector .selected .v-label {
+	color: #fff;	
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+.navigation .day-selector .day span {
+	float: right;	
+}
+
 /* Details */
 .event-details {
 	color: #b5b2ad;
