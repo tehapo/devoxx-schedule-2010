@@ -19,6 +19,16 @@ public class DevoxxScheduleApplication extends Application {
 
     private static final long serialVersionUID = 1167695727109405960L;
 
+    private static final CustomizedSystemMessages systemMessages;
+
+    static {
+        systemMessages = new CustomizedSystemMessages();
+
+        // Disable session expired notification -> just restart the application
+        // if the session expires.
+        systemMessages.setSessionExpiredNotificationEnabled(false);
+    }
+
     @Override
     public void init() {
         Window mainWindow = new Window("Devoxx 2010 Schedule");
@@ -27,6 +37,10 @@ public class DevoxxScheduleApplication extends Application {
 
         MainView mainView = new MainView();
         mainWindow.setContent(mainView);
+    }
+
+    public static SystemMessages getSystemMessages() {
+        return systemMessages;
     }
 
 }
