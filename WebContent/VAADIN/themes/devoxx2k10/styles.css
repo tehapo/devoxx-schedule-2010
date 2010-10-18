@@ -153,7 +153,10 @@
 	color: #acaaa7;
 	font-size: 13px;
 	margin-left: 57px;
-	cursor: pointer;
+}
+.v-csslayout-toolbar .v-checkbox input,
+.v-csslayout-toolbar .v-checkbox label {
+	cursor: pointer;	
 }
 .v-csslayout-toolbar .v-checkbox label {
 	padding-left: 5px;
