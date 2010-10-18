@@ -93,14 +93,14 @@
 	color: #2f2e2d;
 	text-shadow: 0 1px 0px rgba(255, 255, 255, 0.4);
 }
-/*
-.v-calendar-event-registration .v-calendar-event-resizebottom {
+
+.v-calendar-event.attending .v-calendar-event-resizebottom {
 	height: 60px;
 	width: 60px;
 	background: url("img/attending-badge.png") transparent bottom left no-repeat;
 	cursor: default;	
 }
-*/
+
 
 /* Rooms */
 .v-theme-devoxx2k10 .at-room4 .v-calendar-event-caption,
@@ -140,6 +140,23 @@
 .v-theme-devoxx2k10 .selected.v-calendar-event-keynote .v-calendar-event-caption { background-image: url("img/devoxx-inv.png"); }
 .v-theme-devoxx2k10 .short-event .v-calendar-event-caption {
 	background-image: none !important;	
+}
+
+.v-calendar-my-schedule .v-calendar-event {
+	opacity: 0.2;
+}
+.v-calendar-my-schedule .v-calendar-event.attending {
+	opacity: 1.0;	
+}
+
+.v-csslayout-toolbar .v-checkbox {
+	color: #acaaa7;
+	font-size: 13px;
+	margin-left: 57px;
+	cursor: pointer;
+}
+.v-csslayout-toolbar .v-checkbox label {
+	padding-left: 5px;
 }
 
 /* Navigation */
@@ -211,7 +228,8 @@
 	margin: 15px 0;	
 	text-shadow: 0 2px 1px rgba(0, 0, 0, 0.5);
 }
-.event-details-panel .hide-button {
+.event-details-panel .hide-button,
+.v-csslayout-toolbar {
 	background: url("img/toolbar-bg.png") #323130 top left repeat-x;
 	height: 33px;
 	padding-top: 10px;
@@ -231,6 +249,34 @@
 	background: url("img/sidebar-collapse.png") transparent center right no-repeat;
 	min-height: 17px;
 }
+
+.event-details .attending-button .v-button-wrap,
+.event-details .attending-button .v-button {
+	background: transparent;	
+}
+.event-details .attending-button .v-button {
+	border: 1px solid #272726;
+	height: 20px;
+	background: url("img/attending-button-bg.png") #333332 top left repeat-x;
+	cursor: pointer;
+	-moz-border-radius: 9px;
+	-webkit-border-radius: 9px;
+	border-radius: 9px;
+	
+	-moz-box-shadow: 0 1px 0px rgba(255, 255, 255, 0.1);
+	-webkit-box-shadow: 0 1px 0px rgba(255, 255, 255, 0.1);
+	box-shadow: 0 1px 0px rgba(255, 255, 255, 0.1);
+}
+.event-details .attending-button .v-button-wrap {
+	padding: 1px 12px 0 9px;	
+}
+.event-details .attending-button .v-button-caption {
+	color: #cbc7c0;
+	font-size: 12px;
+	font-weight: normal;
+	text-shadow: 0 -1px 0px rgba(0, 0, 0, 0.33);
+}
+
 
 .speakers-layout {
 	background: #363634;
