@@ -8,10 +8,10 @@ import org.vaadin.devoxx2k10.ui.calendar.DevoxxCalendar;
 
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Panel;
 
-public class NavigationPanel extends Panel implements ValueChangeListener {
+public class NavigationPanel extends CssLayout implements ValueChangeListener {
 
     private static final long serialVersionUID = -4150447116715964273L;
 
@@ -20,7 +20,6 @@ public class NavigationPanel extends Panel implements ValueChangeListener {
 
     public NavigationPanel(Date initialDateValue) {
         setStyleName("navigation");
-        setWidth("200px");
         setHeight("100%");
 
         addComponent(new Label("Schedule"));

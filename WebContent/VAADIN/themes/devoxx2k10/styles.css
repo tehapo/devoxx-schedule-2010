@@ -160,14 +160,10 @@
 }
 
 /* Navigation */
-.navigation .v-panel-content > div {
-	background: #f9e6be;	
-}
-.navigation .v-panel-content {
-	border: none;	
-}
-.navigation .v-panel-deco {
-	display: none;	
+.navigation {
+	background: #f9e6be;
+	padding: 20px;
+	width: 160px;
 }
 .navigation .v-label {
 	color: #cb7200;
