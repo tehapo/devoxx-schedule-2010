@@ -2,8 +2,10 @@ package org.vaadin.devoxx2k10.ui.view;
 
 import java.text.SimpleDateFormat;
 
+import org.apache.log4j.Logger;
 import org.vaadin.devoxx2k10.data.domain.DevoxxPresentation;
 import org.vaadin.devoxx2k10.data.domain.DevoxxSpeaker;
+import org.vaadin.devoxx2k10.ui.calendar.DevoxxCalendarEvent;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -20,7 +22,9 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener {
 
     private static final long serialVersionUID = -671137262550574991L;
 
-    private DevoxxPresentation event;
+    private final Logger logger = Logger.getLogger(getClass());
+
+    private DevoxxCalendarEvent event;
 
     private CustomLayout layout;
     private Label roomLabel;
@@ -47,7 +51,7 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener {
         titleLabel = new Label();
         abstractLabel = new Label();
         trackLabel = new Label();
-        attendingButton = new Button("I'm attending");
+        attendingButton = new Button("I'm attending", this);
         hideButton = new Button("Hide Event Details", this);
         hideButton.setStyleName(BaseTheme.BUTTON_LINK);
         speakers = new VerticalLayout();
@@ -61,7 +65,7 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener {
         layout.addComponent(roomLabel, "room");
         layout.addComponent(timeLabel, "time");
         layout.addComponent(titleLabel, "title");
-        // layout.addComponent(attendingButton, "attending-button");
+        layout.addComponent(attendingButton, "attending-button");
         layout.addComponent(abstractLabel, "abstract");
         layout.addComponent(hideButton, "hide-button");
         layout.addComponent(trackLabel, "track");
@@ -96,36 +100,46 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener {
                 + ")";
     }
 
-    public void setEvent(DevoxxPresentation devoxxEvent) {
+    public void setEvent(DevoxxCalendarEvent devoxxEvent) {
         event = devoxxEvent;
         updateEventDetails();
     }
 
     private void updateEventDetails() {
-        roomLabel.setValue(event.getRoom());
-        timeLabel.setValue(getEventFromTo(event));
-        titleLabel.setValue(event.getTitle());
-        attendingButton.setData(event);
-        abstractLabel.setValue(event.getSummary());
+        DevoxxPresentation presentation = event.getDevoxxEvent();
 
-        if (event.getTrack() != null && event.getExperience() != null) {
-            trackLabel.setValue(event.getTrack() + " (" + event.getExperience()
-                    + ")");
+        roomLabel.setValue(presentation.getRoom());
+        timeLabel.setValue(getEventFromTo(presentation));
+        titleLabel.setValue(presentation.getTitle());
+        attendingButton.setData(event);
+        abstractLabel.setValue(presentation.getSummary());
+
+        if (presentation.getTrack() != null
+                && presentation.getExperience() != null) {
+            trackLabel.setValue(presentation.getTrack() + " ("
+                    + presentation.getExperience() + ")");
             trackLabel.setVisible(true);
         } else {
             trackLabel.setVisible(false);
         }
 
         speakers.removeAllComponents();
-        for (DevoxxSpeaker speaker : event.getSpeakers()) {
+        for (DevoxxSpeaker speaker : presentation.getSpeakers()) {
             speakers.addComponent(new SpeakerDetails(speaker));
         }
-        speakers.setVisible(!event.getSpeakers().isEmpty());
+        speakers.setVisible(!presentation.getSpeakers().isEmpty());
     }
 
     public void buttonClick(ClickEvent event) {
         if (event.getButton() == hideButton) {
             setVisible(false);
+        } else if (event.getButton() == attendingButton) {
+            DevoxxCalendarEvent calEvent = (DevoxxCalendarEvent) event
+                    .getButton().getData();
+            calEvent.addStyleName("attending");
+
+            // TODO: implement the backend for the MySchedule
+            logger.error("MySchedule not yet implemented!");
         }
     }
 }

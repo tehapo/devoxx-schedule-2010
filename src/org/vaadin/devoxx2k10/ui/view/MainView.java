@@ -9,22 +9,27 @@ import org.vaadin.devoxx2k10.ui.view.NavigationPanel.DateChangeListener;
 import com.vaadin.addon.calendar.event.CalendarEvent;
 import com.vaadin.addon.calendar.ui.CalendarComponentEvents.EventClick;
 import com.vaadin.addon.calendar.ui.CalendarComponentEvents.EventClickHandler;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.CheckBox;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Layout;
 import com.vaadin.ui.Panel;
 
 /**
  * The main view of the application displaying navigation, calendar and details.
  */
 public class MainView extends HorizontalLayout implements EventClickHandler,
-        DateChangeListener {
+        DateChangeListener, ClickListener {
 
     private static final long serialVersionUID = 7622207451668068454L;
 
     private DevoxxCalendar calendar;
-    private DaySelector daySelector;
     private DevoxxCalendarEvent selectedEvent;
     private EventDetailsPanel detailsPanel;
     private NavigationPanel navigationPanel;
+    private CheckBox calendarMode;
 
     public MainView() {
         initUi();
@@ -43,10 +48,26 @@ public class MainView extends HorizontalLayout implements EventClickHandler,
         navigationPanel.addListener(this);
         addComponent(navigationPanel);
 
+        calendarMode = new CheckBox("Highlight events I'm attending", this);
+        calendarMode.setImmediate(true);
+
+        CssLayout toolbar = new CssLayout();
+        toolbar.setWidth("100%");
+        toolbar.setHeight("");
+        toolbar.setStyleName("toolbar");
+        toolbar.addComponent(calendarMode);
+
+        CssLayout calendarWrapper = new CssLayout();
+        calendarWrapper.setMargin(true);
+        calendarWrapper.setSizeFull();
+        calendarWrapper.addComponent(calendar);
+
         Panel calendarPanel = new Panel();
+        ((Layout) calendarPanel.getContent()).setMargin(false);
         calendarPanel.setStyleName("calendar-panel");
         calendarPanel.setSizeFull();
-        calendarPanel.addComponent(calendar);
+        calendarPanel.addComponent(toolbar);
+        calendarPanel.addComponent(calendarWrapper);
         addComponent(calendarPanel);
 
         detailsPanel = new EventDetailsPanel();
@@ -75,7 +96,17 @@ public class MainView extends HorizontalLayout implements EventClickHandler,
             selectedEvent = devoxxCalEvent;
             devoxxCalEvent.addStyleName("selected");
 
-            detailsPanel.setEvent(devoxxCalEvent.getDevoxxEvent());
+            detailsPanel.setEvent(devoxxCalEvent);
+        }
+    }
+
+    public void buttonClick(ClickEvent event) {
+        if (event.getButton() == calendarMode) {
+            if (calendarMode.booleanValue()) {
+                calendar.addStyleName("my-schedule");
+            } else {
+                calendar.removeStyleName("my-schedule");
+            }
         }
     }
 }
