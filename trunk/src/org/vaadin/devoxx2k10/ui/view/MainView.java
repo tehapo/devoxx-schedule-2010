@@ -43,7 +43,6 @@ public class MainView extends HorizontalLayout implements EventClickHandler,
         calendar.setHandler(this);
         calendar.setDate(DevoxxCalendar.getDefaultDate());
 
-        // addComponent(constructNavigation());
         navigationPanel = new NavigationPanel(DevoxxCalendar.getDefaultDate());
         navigationPanel.addListener(this);
         addComponent(navigationPanel);
