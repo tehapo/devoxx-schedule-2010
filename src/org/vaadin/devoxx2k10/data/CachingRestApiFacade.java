@@ -7,9 +7,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.log4j.Logger;
 import org.vaadin.devoxx2k10.data.domain.DevoxxPresentation;
-import org.vaadin.devoxx2k10.data.json.JsonDataProvider;
+import org.vaadin.devoxx2k10.data.http.HttpClient;
 
-public class CachingRestApiFacade extends RestApiFacade {
+public class CachingRestApiFacade extends RestApiFacadeImpl {
 
     private static final ConcurrentHashMap<String, List<DevoxxPresentation>> scheduleCache = new ConcurrentHashMap<String, List<DevoxxPresentation>>();
 
@@ -33,12 +33,12 @@ public class CachingRestApiFacade extends RestApiFacade {
         super();
     }
 
-    public CachingRestApiFacade(JsonDataProvider jsonProvider) {
+    public CachingRestApiFacade(HttpClient jsonProvider) {
         super(jsonProvider);
     }
 
     @Override
-    protected List<DevoxxPresentation> getScheduleData() {
+    public List<DevoxxPresentation> getFullSchedule() {
         // Note that with some unlucky timing, two threads might
         // call the super version of this method. In case of this
         // application this is not a problem. Could be solved by
@@ -47,7 +47,7 @@ public class CachingRestApiFacade extends RestApiFacade {
         List<DevoxxPresentation> scheduleData = scheduleCache.get("schedule");
         if (scheduleData == null) {
             // cache miss
-            scheduleData = super.getScheduleData();
+            scheduleData = super.getFullSchedule();
             scheduleCache.put("schedule", scheduleData);
         }
         return scheduleData;

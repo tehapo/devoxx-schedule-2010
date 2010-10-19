@@ -1,8 +1,11 @@
 package org.vaadin.devoxx2k10;
 
+import org.vaadin.devoxx2k10.data.CachingRestApiFacade;
+import org.vaadin.devoxx2k10.data.RestApiFacade;
 import org.vaadin.devoxx2k10.ui.view.MainView;
 
 import com.vaadin.Application;
+import com.vaadin.service.ApplicationContext.TransactionListener;
 import com.vaadin.ui.Window;
 
 /**
@@ -15,11 +18,18 @@ import com.vaadin.ui.Window;
  * @see http://www.devoxx.com/display/Devoxx2K10/Schedule+REST+interface
  * @see http://vaadin.com/addon/vaadin-calendar
  */
-public class DevoxxScheduleApplication extends Application {
+public class DevoxxScheduleApplication extends Application implements
+        TransactionListener {
 
     private static final long serialVersionUID = 1167695727109405960L;
 
     private static final CustomizedSystemMessages systemMessages;
+
+    // Use the ThreadLocal pattern, for more details see:
+    // http://vaadin.com/wiki/-/wiki/Main/ThreadLocal%20Pattern
+    private static final ThreadLocal<DevoxxScheduleApplication> currentApplication = new ThreadLocal<DevoxxScheduleApplication>();
+
+    private transient RestApiFacade backendFacade;
 
     static {
         systemMessages = new CustomizedSystemMessages();
@@ -29,8 +39,17 @@ public class DevoxxScheduleApplication extends Application {
         systemMessages.setSessionExpiredNotificationEnabled(false);
     }
 
+    public static SystemMessages getSystemMessages() {
+        return systemMessages;
+    }
+
     @Override
     public void init() {
+        currentApplication.set(this);
+        getContext().addTransactionListener(this);
+
+        backendFacade = new CachingRestApiFacade();
+
         Window mainWindow = new Window("Devoxx 2010 Schedule");
         setMainWindow(mainWindow);
         setTheme("devoxx2k10");
@@ -39,8 +58,24 @@ public class DevoxxScheduleApplication extends Application {
         mainWindow.setContent(mainView);
     }
 
-    public static SystemMessages getSystemMessages() {
-        return systemMessages;
+    public RestApiFacade getBackendFacade() {
+        return backendFacade;
+    }
+
+    public static DevoxxScheduleApplication getCurrentInstance() {
+        return currentApplication.get();
+    }
+
+    public void transactionStart(Application application, Object transactionData) {
+        if (application == this) {
+            currentApplication.set(this);
+        }
+    }
+
+    public void transactionEnd(Application application, Object transactionData) {
+        if (application == this) {
+            currentApplication.remove();
+        }
     }
 
 }

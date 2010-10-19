@@ -35,6 +35,10 @@ Vaadin Calendar (AGPL)
  - Calendar add-on for Vaadin
  - http://vaadin.com/addon/vaadin-calendar
 
+TouchScroll
+ - TouchScroll add-on to provide better touch device support
+ - http://vaadin.com/addon/touchscroll
+
 CustomField
  - CustomField add-on for Vaadin
  - http://vaadin.com/addon/customfield
