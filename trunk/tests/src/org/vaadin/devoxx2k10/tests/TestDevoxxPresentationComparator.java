@@ -26,11 +26,11 @@ public class TestDevoxxPresentationComparator {
                 null, "Room 8", false, null);
 
         cal.set(Calendar.YEAR, 2010);
-        year2010room8 = new DevoxxPresentationImpl(1, cal.getTime(),
+        year2010room8 = new DevoxxPresentationImpl(2, cal.getTime(),
                 cal.getTime(), "", "", DevoxxPresentationKind.KEYNOTE, null,
                 null, "Room 8", false, null);
 
-        year2010room7 = new DevoxxPresentationImpl(1, cal.getTime(),
+        year2010room7 = new DevoxxPresentationImpl(3, cal.getTime(),
                 cal.getTime(), "", "", DevoxxPresentationKind.KEYNOTE, null,
                 null, "Room 7", false, null);
     }

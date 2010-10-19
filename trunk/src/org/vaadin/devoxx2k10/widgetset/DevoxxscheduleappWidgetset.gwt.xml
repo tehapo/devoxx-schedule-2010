@@ -18,8 +18,10 @@
      Google Chrome.
     -->
     <!-- <set-property name="user.agent" value="gecko"/> -->
-
-
+    
     <inherits name="com.vaadin.addon.calendar.gwt.CalendarWidgetset" />
     
+    
+
+    <inherits name="org.vaadin.touchscroll.widgetset.T2Widgetset" />
 </module>

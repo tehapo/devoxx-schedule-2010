@@ -1,7 +1,5 @@
 package org.vaadin.devoxx2k10.tests;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.junit.Assert;
@@ -9,28 +7,16 @@ import org.junit.Test;
 import org.vaadin.devoxx2k10.data.CachingRestApiFacade;
 import org.vaadin.devoxx2k10.data.domain.DevoxxPresentation;
 import org.vaadin.devoxx2k10.data.domain.DevoxxSpeaker;
-import org.vaadin.devoxx2k10.data.json.JsonDataProvider;
-import org.vaadin.devoxx2k10.data.json.OfflineJsonDataProvider;
+import org.vaadin.devoxx2k10.data.http.HttpClient;
+import org.vaadin.devoxx2k10.data.http.OfflineHttpClientMock;
 
 public class TestRestApiFacade {
 
-    private JsonDataProvider jsonProvider;
+    private HttpClient jsonProvider;
     private CachingRestApiFacade devoxxFacade;
 
-    private static final Date TUE_START;
-    private static final Date TUE_END;
-
-    static {
-        Calendar cal = Calendar.getInstance();
-        cal.set(2010, 10, 16, 0, 0);
-        TUE_START = cal.getTime();
-
-        cal.set(2010, 10, 16, 23, 59);
-        TUE_END = cal.getTime();
-    }
-
     public TestRestApiFacade() {
-        jsonProvider = new OfflineJsonDataProvider();
+        jsonProvider = new OfflineHttpClientMock();
         devoxxFacade = new CachingRestApiFacade(jsonProvider);
     }
 
@@ -41,16 +27,8 @@ public class TestRestApiFacade {
     }
 
     @Test
-    public void testTuesdaySchedule() {
-        List<DevoxxPresentation> schedule = devoxxFacade.getSchedule(TUE_START,
-                TUE_END);
-        Assert.assertEquals(31, schedule.size());
-    }
-
-    @Test
     public void testSpeaker() {
-        List<DevoxxPresentation> schedule = devoxxFacade.getSchedule(TUE_START,
-                TUE_END);
+        List<DevoxxPresentation> schedule = devoxxFacade.getFullSchedule();
         DevoxxPresentation event = schedule.get(2);
         DevoxxSpeaker speaker = event.getSpeakers().get(0);
         Assert.assertEquals(56, speaker.getId());
@@ -63,8 +41,7 @@ public class TestRestApiFacade {
 
     @Test
     public void testPresentationDetails() {
-        List<DevoxxPresentation> schedule = devoxxFacade.getSchedule(TUE_START,
-                TUE_END);
+        List<DevoxxPresentation> schedule = devoxxFacade.getFullSchedule();
         DevoxxPresentation event = schedule.get(2);
         Assert.assertEquals("SENIOR", event.getExperience());
         Assert.assertEquals(

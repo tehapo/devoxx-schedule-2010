@@ -94,11 +94,17 @@
 	text-shadow: 0 1px 0px rgba(255, 255, 255, 0.4);
 }
 
+.v-calendar-event .v-calendar-event-resizebottom,
+.v-calendar-event .v-calendar-event-resizetop {
+	display: none;	
+}
+
 .v-calendar-event.attending .v-calendar-event-resizebottom {
 	height: 60px;
 	width: 60px;
 	background: url("img/attending-badge.png") transparent bottom left no-repeat;
-	cursor: default;	
+	cursor: default;
+	display: block;
 }
 
 
@@ -206,14 +212,19 @@
 }
 
 /* Details */
-.event-details {
+.event-details,
+.login-window .v-window-contents {
 	color: #b5b2ad;
 	padding: 15px 20px;
 }
-.event-details .room .v-label {
+.event-details .room .v-label,
+.login-window .v-caption,
+.login-window .v-window-header {
 	color: #ff9001;
-	font-size: 14px;
 	font-weight: bold;
+}
+.event-details .room .v-label {
+	font-size: 14px;
 	line-height: 1.1em;
 }
 .event-details .time,
@@ -228,8 +239,12 @@
 	text-shadow: 0 2px 1px rgba(0, 0, 0, 0.5);
 }
 .event-details-panel .hide-button,
-.v-csslayout-toolbar {
+.v-csslayout-toolbar,
+.login-window .v-window-contents {
 	background: url("img/toolbar-bg.png") #323130 top left repeat-x;
+}
+.event-details-panel .hide-button,
+.v-csslayout-toolbar {
 	height: 33px;
 	padding-top: 10px;
 }
@@ -250,10 +265,13 @@
 }
 
 .event-details .attending-button .v-button-wrap,
-.event-details .attending-button .v-button {
+.event-details .attending-button .v-button,
+.login-window .v-button-wrap,
+.login-window .attending-button .v-button {
 	background: transparent;	
 }
-.event-details .attending-button .v-button {
+.event-details .attending-button .v-button,
+.login-window .v-button {
 	border: 1px solid #272726;
 	height: 20px;
 	background: url("img/attending-button-bg.png") #333332 top left repeat-x;
@@ -266,10 +284,12 @@
 	-webkit-box-shadow: 0 1px 0px rgba(255, 255, 255, 0.1);
 	box-shadow: 0 1px 0px rgba(255, 255, 255, 0.1);
 }
-.event-details .attending-button .v-button-wrap {
+.event-details .attending-button .v-button-wrap,
+.login-window .v-button-wrap {
 	padding: 1px 12px 0 9px;	
 }
-.event-details .attending-button .v-button-caption {
+.event-details .attending-button .v-button-caption,
+.login-window .v-button-caption {
 	color: #cbc7c0;
 	font-size: 12px;
 	font-weight: normal;

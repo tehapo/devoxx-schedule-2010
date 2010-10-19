@@ -3,8 +3,12 @@ package org.vaadin.devoxx2k10.ui.view;
 import java.text.SimpleDateFormat;
 
 import org.apache.log4j.Logger;
+import org.vaadin.devoxx2k10.DevoxxScheduleApplication;
+import org.vaadin.devoxx2k10.data.RestApiException;
+import org.vaadin.devoxx2k10.data.RestApiFacade;
 import org.vaadin.devoxx2k10.data.domain.DevoxxPresentation;
 import org.vaadin.devoxx2k10.data.domain.DevoxxSpeaker;
+import org.vaadin.devoxx2k10.data.domain.MyScheduleUser;
 import org.vaadin.devoxx2k10.ui.calendar.DevoxxCalendarEvent;
 
 import com.vaadin.ui.Button;
@@ -13,6 +17,7 @@ import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window.Notification;
 import com.vaadin.ui.themes.BaseTheme;
 
 /**
@@ -31,7 +36,8 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener {
     private Label timeLabel;
     private Label titleLabel;
     private Label abstractLabel;
-    private Button attendingButton;
+    private Button addToFavouritesButton;
+    private Button removeFromFavouritesButton;
     private Button hideButton;
     private Label trackLabel;
     private VerticalLayout speakers;
@@ -51,7 +57,8 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener {
         titleLabel = new Label();
         abstractLabel = new Label();
         trackLabel = new Label();
-        attendingButton = new Button("I'm attending", this);
+        addToFavouritesButton = new Button("I'm attending", this);
+        removeFromFavouritesButton = new Button("I'm not attending", this);
         hideButton = new Button("Hide Event Details", this);
         hideButton.setStyleName(BaseTheme.BUTTON_LINK);
         speakers = new VerticalLayout();
@@ -65,7 +72,7 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener {
         layout.addComponent(roomLabel, "room");
         layout.addComponent(timeLabel, "time");
         layout.addComponent(titleLabel, "title");
-        layout.addComponent(attendingButton, "attending-button");
+        layout.addComponent(addToFavouritesButton, "attending-button");
         layout.addComponent(abstractLabel, "abstract");
         layout.addComponent(hideButton, "hide-button");
         layout.addComponent(trackLabel, "track");
@@ -111,7 +118,6 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener {
         roomLabel.setValue(presentation.getRoom());
         timeLabel.setValue(getEventFromTo(presentation));
         titleLabel.setValue(presentation.getTitle());
-        attendingButton.setData(event);
         abstractLabel.setValue(presentation.getSummary());
 
         if (presentation.getTrack() != null
@@ -128,18 +134,67 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener {
             speakers.addComponent(new SpeakerDetails(speaker));
         }
         speakers.setVisible(!presentation.getSpeakers().isEmpty());
+
+        addToFavouritesButton.setData(event);
+        removeFromFavouritesButton.setData(event);
+        addToFavouritesButton.setVisible(event.getDevoxxEvent().getId() > 0);
     }
 
     public void buttonClick(ClickEvent event) {
         if (event.getButton() == hideButton) {
             setVisible(false);
-        } else if (event.getButton() == attendingButton) {
+        } else if (event.getButton() == addToFavouritesButton
+                || event.getButton() == removeFromFavouritesButton) {
+
             DevoxxCalendarEvent calEvent = (DevoxxCalendarEvent) event
                     .getButton().getData();
-            calEvent.addStyleName("attending");
 
-            // TODO: implement the backend for the MySchedule
-            logger.error("MySchedule not yet implemented!");
+            MyScheduleUser user = (MyScheduleUser) DevoxxScheduleApplication
+                    .getCurrentInstance().getUser();
+            if (user != null && user.getActivationCode() != null) {
+                if (event.getButton() == addToFavouritesButton) {
+                    addToMySchedule(user, calEvent);
+                } else {
+                    removeFromMySchedule(user, calEvent);
+                }
+            } else {
+                // display login window
+                getWindow().addWindow(new LoginWindow());
+            }
+        }
+    }
+
+    private void removeFromMySchedule(MyScheduleUser user,
+            DevoxxCalendarEvent event) {
+        try {
+            user.getFavourites()
+                    .remove((Object) event.getDevoxxEvent().getId());
+
+            RestApiFacade facade = DevoxxScheduleApplication
+                    .getCurrentInstance().getBackendFacade();
+            facade.saveMySchedule(user);
+            event.removeStyleName("attending");
+            layout.replaceComponent(removeFromFavouritesButton,
+                    addToFavouritesButton);
+        } catch (RestApiException e) {
+            getWindow().showNotification(e.getMessage(),
+                    Notification.TYPE_ERROR_MESSAGE);
+        }
+    }
+
+    private void addToMySchedule(MyScheduleUser user, DevoxxCalendarEvent event) {
+        try {
+            user.getFavourites().add(event.getDevoxxEvent().getId());
+
+            RestApiFacade facade = DevoxxScheduleApplication
+                    .getCurrentInstance().getBackendFacade();
+            facade.saveMySchedule(user);
+            event.addStyleName("attending");
+            layout.replaceComponent(addToFavouritesButton,
+                    removeFromFavouritesButton);
+        } catch (RestApiException e) {
+            getWindow().showNotification(e.getMessage(),
+                    Notification.TYPE_ERROR_MESSAGE);
         }
     }
 }
