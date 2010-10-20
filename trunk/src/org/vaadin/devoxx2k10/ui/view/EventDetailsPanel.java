@@ -221,32 +221,27 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener {
             if (clickedButton == removeFromFavouritesButton) {
                 addToFavourites = false;
             }
-            modifyMySchedule(user, event, addToFavourites);
-        }
-    }
+            try {
+                if (addToFavourites) {
+                    user.addFavourite(event.getDevoxxEvent());
+                } else {
+                    user.removeFavourite(event.getDevoxxEvent());
+                }
 
-    private void modifyMySchedule(MyScheduleUser user,
-            DevoxxCalendarEvent event, boolean add) {
-        try {
-            if (add) {
-                user.addFavourite(event.getDevoxxEvent());
-            } else {
-                user.removeFavourite(event.getDevoxxEvent());
+                RestApiFacade facade = DevoxxScheduleApplication
+                        .getCurrentInstance().getBackendFacade();
+                facade.saveMySchedule(user);
+
+                if (addToFavourites) {
+                    event.addStyleName("attending");
+                } else {
+                    event.removeStyleName("attending");
+                }
+                updateFavouriteButtons();
+            } catch (RestApiException e) {
+                getWindow().showNotification(e.getMessage(),
+                        Notification.TYPE_ERROR_MESSAGE);
             }
-
-            RestApiFacade facade = DevoxxScheduleApplication
-                    .getCurrentInstance().getBackendFacade();
-            facade.saveMySchedule(user);
-
-            if (add) {
-                event.addStyleName("attending");
-            } else {
-                event.removeStyleName("attending");
-            }
-            updateFavouriteButtons();
-        } catch (RestApiException e) {
-            getWindow().showNotification(e.getMessage(),
-                    Notification.TYPE_ERROR_MESSAGE);
         }
     }
 

@@ -32,21 +32,20 @@ public class DevoxxEventProvider extends BasicEventProvider {
         logger.debug("Returning " + result.size() + " events for " + startDate
                 + " - " + endDate);
 
-        assignAttendingStyles(result);
-
         return result;
     }
 
-    private void assignAttendingStyles(List<CalendarEvent> events) {
+    public void refreshAttendingStyles() {
         MyScheduleUser user = (MyScheduleUser) DevoxxScheduleApplication
                 .getCurrentInstance().getUser();
-        if (user != null && user.getFavourites() != null) {
-            for (CalendarEvent event : events) {
-                if (event instanceof DevoxxCalendarEvent) {
-                    DevoxxCalendarEvent devoxxEvent = (DevoxxCalendarEvent) event;
-                    if (user.hasFavourited(devoxxEvent.getDevoxxEvent())) {
-                        devoxxEvent.addStyleName("attending");
-                    }
+        for (CalendarEvent event : eventList) {
+            if (event instanceof DevoxxCalendarEvent) {
+                DevoxxCalendarEvent devoxxEvent = (DevoxxCalendarEvent) event;
+                if (user != null
+                        && user.hasFavourited(devoxxEvent.getDevoxxEvent())) {
+                    devoxxEvent.addStyleName("attending");
+                } else {
+                    devoxxEvent.removeStyleName("attending");
                 }
             }
         }
