@@ -22,6 +22,8 @@ public class NavigationPanel extends CssLayout implements ValueChangeListener {
         setStyleName("navigation");
         setHeight("100%");
 
+        addComponent(new UserLayout());
+
         addComponent(new Label("Schedule"));
 
         daySelector = new DaySelector(DevoxxCalendar.DEVOXX_FIRST_DAY,

@@ -87,7 +87,9 @@ public class DevoxxCalendar extends Calendar implements UserChangeListener {
 
     public void applicationUserChanged(UserChangeEvent event) {
         logger.debug("User has changed, requesting repaint of the Calendar");
-        requestRepaint();
+        if (getEventProvider() instanceof DevoxxEventProvider) {
+            ((DevoxxEventProvider) getEventProvider()).refreshAttendingStyles();
+        }
     }
 
 }

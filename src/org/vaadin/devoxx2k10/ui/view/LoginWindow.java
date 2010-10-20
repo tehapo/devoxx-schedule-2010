@@ -5,6 +5,7 @@ import org.vaadin.devoxx2k10.DevoxxScheduleApplication;
 import org.vaadin.devoxx2k10.data.RestApiException;
 import org.vaadin.devoxx2k10.data.domain.MyScheduleUser;
 
+import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -52,10 +53,15 @@ public class LoginWindow extends Window implements Button.ClickListener {
                 "Activate MySchedule by providing your name and e-mail address. After activation you'll receive an activation code to the given e-mail address.");
         activateFirstName = new TextField("First Name");
         activateFirstName.setWidth("100%");
+        activateFirstName.setRequired(true);
         activateLastName = new TextField("Last Name");
         activateLastName.setWidth("100%");
+        activateLastName.setRequired(true);
         activateEmail = new TextField("E-mail");
+        activateEmail.addValidator(new EmailValidator(
+                "Not a valid e-mail address"));
         activateEmail.setWidth("100%");
+        activateEmail.setRequired(true);
         activateButton = new Button("Activate", this);
         activateButton.setClickShortcut(KeyCode.ENTER);
         activateDoneLabel = new Label(
@@ -64,8 +70,12 @@ public class LoginWindow extends Window implements Button.ClickListener {
         activateDoneLabel.setVisible(false);
 
         signInEmail = new TextField("E-mail");
+        signInEmail.addValidator(new EmailValidator(
+                "Not a valid e-mail address"));
         signInEmail.setWidth("100%");
+        signInEmail.setRequired(true);
         signInActivationCode = new TextField("Activation Code");
+        signInActivationCode.setRequired(true);
         signInActivationCode.setWidth("100%");
         signInButton = new Button("Sign In", this);
         signInButton.setClickShortcut(KeyCode.ENTER);
@@ -117,7 +127,10 @@ public class LoginWindow extends Window implements Button.ClickListener {
     }
 
     private void doActivate() {
-        // TODO: validation of fields!
+        if (!activateEmail.isValid() || !activateFirstName.isValid()
+                || !activateLastName.isValid()) {
+            return;
+        }
 
         DevoxxScheduleApplication app = DevoxxScheduleApplication
                 .getCurrentInstance();
@@ -143,7 +156,9 @@ public class LoginWindow extends Window implements Button.ClickListener {
     }
 
     private void doSignIn() {
-        // TODO: validation of fields!
+        if (!signInEmail.isValid() || !signInActivationCode.isValid()) {
+            return;
+        }
 
         MyScheduleUser newUser = new MyScheduleUser(
                 (String) signInEmail.getValue(),
