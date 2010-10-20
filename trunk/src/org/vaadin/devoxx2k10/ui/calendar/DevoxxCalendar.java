@@ -2,15 +2,22 @@ package org.vaadin.devoxx2k10.ui.calendar;
 
 import java.util.Date;
 
+import org.apache.log4j.Logger;
+import org.vaadin.devoxx2k10.DevoxxScheduleApplication;
+
+import com.vaadin.Application.UserChangeEvent;
+import com.vaadin.Application.UserChangeListener;
 import com.vaadin.addon.calendar.ui.Calendar;
 
 /**
  * DevoxxCalendar is a Calendar UI component for displaying the Devoxx
  * conference schedule.
  */
-public class DevoxxCalendar extends Calendar {
+public class DevoxxCalendar extends Calendar implements UserChangeListener {
 
     private static final long serialVersionUID = -3068684747425348483L;
+
+    private Logger logger = Logger.getLogger(getClass());
 
     /** First day of Devoxx 2010 */
     public static final Date DEVOXX_FIRST_DAY;
@@ -38,6 +45,9 @@ public class DevoxxCalendar extends Calendar {
 
         // set up the event provider
         setEventProvider(new DevoxxEventProvider());
+
+        // attach this Calendar as a UserChangeListener
+        DevoxxScheduleApplication.getCurrentInstance().addListener(this);
     }
 
     /**
@@ -73,6 +83,11 @@ public class DevoxxCalendar extends Calendar {
                     && date.compareTo(DEVOXX_LAST_DAY) <= 0;
         }
         return false;
+    }
+
+    public void applicationUserChanged(UserChangeEvent event) {
+        logger.debug("User has changed, requesting repaint of the Calendar");
+        requestRepaint();
     }
 
 }

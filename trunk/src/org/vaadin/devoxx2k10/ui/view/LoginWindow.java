@@ -1,84 +1,164 @@
 package org.vaadin.devoxx2k10.ui.view;
 
+import org.apache.log4j.Logger;
 import org.vaadin.devoxx2k10.DevoxxScheduleApplication;
+import org.vaadin.devoxx2k10.data.RestApiException;
 import org.vaadin.devoxx2k10.data.domain.MyScheduleUser;
 
-import com.vaadin.data.Item;
-import com.vaadin.data.util.BeanItem;
+import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CustomLayout;
-import com.vaadin.ui.DefaultFieldFactory;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.Form;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import com.vaadin.ui.themes.BaseTheme;
 
-public class LoginWindow extends Window {
+public class LoginWindow extends Window implements Button.ClickListener {
+
+    private static final long serialVersionUID = 5020323273015528048L;
+
+    private Logger logger = Logger.getLogger(getClass());
+
+    private TextField activateFirstName;
+    private TextField activateLastName;
+    private TextField activateEmail;
+    private Button activateButton;
+    private Label activateDoneLabel;
+    private Label activateInstructionsLabel;
+    private Button showActivateButton;
+
+    private TextField signInEmail;
+    private TextField signInActivationCode;
+    private Button signInButton;
+    private Label signInInstructionsLabel;
+
+    private VerticalLayout activateLayout;
+    private VerticalLayout signInLayout;
 
     public LoginWindow() {
-        super("Activate MySchedule or Sign In");
+        super("Sign in to MySchedule");
         setStyleName("login-window");
         setModal(true);
-        setWidth("450px");
+        setWidth("235px");
         setContent(createLayout());
-        /*-
-        RestApiFacade facade = DevoxxScheduleApplication
-                .getCurrentInstance().getBackendFacade();
-        facade.activateMySchedule("Teemu", "Tester", "tehapo@utu.fi");
-         */
     }
 
     private Layout createLayout() {
-        CustomLayout layout = new CustomLayout("login-window");
-        layout.addComponent(new SignInForm(), "sign-in-form");
+
+        // create all required fields
+        activateInstructionsLabel = new Label(
+                "Activate MySchedule by providing your name and e-mail address. After activation you'll receive an activation code to the given e-mail address.");
+        activateFirstName = new TextField("First Name");
+        activateFirstName.setWidth("100%");
+        activateLastName = new TextField("Last Name");
+        activateLastName.setWidth("100%");
+        activateEmail = new TextField("E-mail");
+        activateEmail.setWidth("100%");
+        activateButton = new Button("Activate", this);
+        activateButton.setClickShortcut(KeyCode.ENTER);
+        activateDoneLabel = new Label(
+                "<strong>Activation code sent!</strong> Check your inbox and copy the code to the field below and you're ready to go.",
+                Label.CONTENT_XHTML);
+        activateDoneLabel.setVisible(false);
+
+        signInEmail = new TextField("E-mail");
+        signInEmail.setWidth("100%");
+        signInActivationCode = new TextField("Activation Code");
+        signInActivationCode.setWidth("100%");
+        signInButton = new Button("Sign In", this);
+        signInButton.setClickShortcut(KeyCode.ENTER);
+        signInInstructionsLabel = new Label(
+                "Sign in by providing your e-mail address and activation code.");
+        showActivateButton = new Button("Don't yet have an activation code?",
+                this);
+        showActivateButton.setStyleName(BaseTheme.BUTTON_LINK);
+
+        // add the created fields to a Layout
+        Layout layout = new VerticalLayout();
+
+        signInLayout = new VerticalLayout();
+        signInLayout.setSpacing(true);
+        signInLayout.setSizeFull();
+        signInLayout.setStyleName("sign-in");
+        signInLayout.addComponent(activateDoneLabel);
+        signInLayout.addComponent(signInInstructionsLabel);
+        signInLayout.addComponent(signInEmail);
+        signInLayout.addComponent(signInActivationCode);
+        signInLayout.addComponent(signInButton);
+        signInLayout.addComponent(showActivateButton);
+        layout.addComponent(signInLayout);
+
+        activateLayout = new VerticalLayout();
+        activateLayout.setSpacing(true);
+        activateLayout.setSizeFull();
+        activateLayout.setStyleName("activate");
+        activateLayout.setVisible(false);
+        activateLayout.addComponent(activateInstructionsLabel);
+        activateLayout.addComponent(activateFirstName);
+        activateLayout.addComponent(activateLastName);
+        activateLayout.addComponent(activateEmail);
+        activateLayout.addComponent(activateButton);
+        layout.addComponent(activateLayout);
+
         return layout;
     }
 
-    private class SignInForm extends Form implements Button.ClickListener {
-
-        private static final long serialVersionUID = -2517086646231682994L;
-
-        private BeanItem<MyScheduleUser> item;
-
-        public SignInForm() {
-            setFormFieldFactory(new DefaultFieldFactory() {
-
-                private static final long serialVersionUID = -2259575092732484965L;
-
-                public Field createField(Item item, Object propertyId,
-                        Component uiContext) {
-                    if (propertyId.equals("favourites")) {
-                        return null;
-                    } else {
-                        Field field = super.createField(item, propertyId,
-                                uiContext);
-                        if (field instanceof TextField) {
-                            ((TextField) field).setNullRepresentation("");
-                        }
-                        return field;
-                    }
-                }
-            });
-            item = new BeanItem<MyScheduleUser>(new MyScheduleUser());
-            setItemDataSource(item);
-
-            getFooter().addComponent(
-                    new Button("Sign In", (Button.ClickListener) this));
+    public void buttonClick(ClickEvent event) {
+        if (event.getButton() == signInButton) {
+            doSignIn();
+        } else if (event.getButton() == activateButton) {
+            doActivate();
+        } else if (event.getButton() == showActivateButton) {
+            activateLayout.setVisible(true);
+            signInLayout.setVisible(false);
         }
+    }
 
-        public void buttonClick(ClickEvent event) {
-            this.commit();
+    private void doActivate() {
+        // TODO: validation of fields!
 
-            DevoxxScheduleApplication app = DevoxxScheduleApplication
-                    .getCurrentInstance();
-            app.getBackendFacade().getScheduleForUser(item.getBean());
-            app.setUser(item.getBean());
+        DevoxxScheduleApplication app = DevoxxScheduleApplication
+                .getCurrentInstance();
+        try {
+            // tell the backend to do the activation
+            app.getBackendFacade().activateMySchedule(
+                    (String) activateFirstName.getValue(),
+                    (String) activateLastName.getValue(),
+                    (String) activateEmail.getValue());
 
-            close();
+            // hide the activation fields and show sign in fields again
+            activateLayout.setVisible(false);
+            signInLayout.setVisible(true);
+
+            // show further instructions and copy the e-mail to sign in field
+            activateDoneLabel.setVisible(true);
+            signInEmail.setValue(activateEmail.getValue());
+        } catch (RestApiException e) {
+            logger.error(e.getMessage(), e);
+            getWindow().showNotification(e.getMessage(),
+                    Notification.TYPE_ERROR_MESSAGE);
         }
+    }
+
+    private void doSignIn() {
+        // TODO: validation of fields!
+
+        MyScheduleUser newUser = new MyScheduleUser(
+                (String) signInEmail.getValue(),
+                (String) signInActivationCode.getValue());
+
+        // load the favourites for this user from the backend
+        DevoxxScheduleApplication app = DevoxxScheduleApplication
+                .getCurrentInstance();
+        app.getBackendFacade().getScheduleForUser(newUser);
+
+        // set the new user instance as the logged in user
+        getApplication().setUser(newUser);
+
+        // close this modal window
+        close();
     }
 
 }

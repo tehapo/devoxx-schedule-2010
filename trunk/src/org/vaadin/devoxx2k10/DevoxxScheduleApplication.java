@@ -58,22 +58,36 @@ public class DevoxxScheduleApplication extends Application implements
         mainWindow.setContent(mainView);
     }
 
+    /**
+     * Returns the facade for calling the backend methods for retrieving or
+     * storing data.
+     * 
+     * @return the facade for calling the backend.
+     */
     public RestApiFacade getBackendFacade() {
         return backendFacade;
     }
 
+    /**
+     * Returns the instance of this Application for the currently running Thread
+     * for easy access to this instance.
+     * 
+     * @return instance of this Application for the currently running Thread.
+     */
     public static DevoxxScheduleApplication getCurrentInstance() {
         return currentApplication.get();
     }
 
     public void transactionStart(Application application, Object transactionData) {
         if (application == this) {
+            // set the ThreadLocal value
             currentApplication.set(this);
         }
     }
 
     public void transactionEnd(Application application, Object transactionData) {
         if (application == this) {
+            // remove the ThreadLocal value
             currentApplication.remove();
         }
     }
