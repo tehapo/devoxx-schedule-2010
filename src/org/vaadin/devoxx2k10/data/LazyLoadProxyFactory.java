@@ -16,26 +16,26 @@ public class LazyLoadProxyFactory {
      * of all lazy loading more data when required.
      * 
      * @param lazyLoadable
-     * @param facade
+     * @param lazyLoadProvider
      * @return
      */
     @SuppressWarnings("unchecked")
     public static <V extends LazyLoadable> V getProxy(V lazyLoadable,
-            RestApiFacade facade) {
+            LazyLoadProvider lazyLoadProvider) {
         return (V) Proxy.newProxyInstance(lazyLoadable.getClass()
                 .getClassLoader(), lazyLoadable.getClass().getInterfaces(),
-                new LazyLoadProxy(lazyLoadable, facade));
+                new LazyLoadProxy(lazyLoadable, lazyLoadProvider));
     }
 
     private static class LazyLoadProxy implements InvocationHandler {
 
         private final LazyLoadable lazyLoadable;
-        private final RestApiFacade facade;
+        private final LazyLoadProvider lazyLoadProvider;
         private volatile boolean lazyLoaded;
 
-        public LazyLoadProxy(LazyLoadable lazyLoadable, RestApiFacade facade) {
+        public LazyLoadProxy(LazyLoadable lazyLoadable, LazyLoadProvider lazyLoadProvider) {
             this.lazyLoadable = lazyLoadable;
-            this.facade = facade;
+            this.lazyLoadProvider = lazyLoadProvider;
         }
 
         public Object invoke(Object proxy, Method method, Object[] args)
@@ -44,7 +44,7 @@ public class LazyLoadProxyFactory {
             Method actualMethod = lazyLoadable.getClass().getMethod(
                     method.getName(), method.getParameterTypes());
             if (!lazyLoaded && actualMethod.isAnnotationPresent(LazyLoad.class)) {
-                facade.lazyLoadFields(lazyLoadable);
+                lazyLoadProvider.lazyLoadFields(lazyLoadable);
                 lazyLoaded = true;
             }
             return method.invoke(lazyLoadable, args);

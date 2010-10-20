@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public interface HttpClient {
 
-    public String get(String urlString) throws IOException;
+    public HttpResponse get(String urlString) throws IOException;
 
     public int post(String urlString, String postData) throws IOException;
 

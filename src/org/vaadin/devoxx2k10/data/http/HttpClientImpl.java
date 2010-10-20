@@ -26,7 +26,7 @@ public class HttpClientImpl implements HttpClient {
      * @return
      * @throws IOException
      */
-    public String get(String urlString) throws IOException {
+    public HttpResponse get(String urlString) throws IOException {
         logger.debug("HTTP GET: " + urlString);
         HttpURLConnection urlConnection = openURLConnection(urlString);
 
@@ -34,22 +34,18 @@ public class HttpClientImpl implements HttpClient {
             int responseCode = urlConnection.getResponseCode();
             logger.debug("Response code: " + responseCode);
 
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                BufferedReader in = new BufferedReader(new InputStreamReader(
-                        urlConnection.getInputStream(), "utf-8"));
-                try {
-                    StringBuilder result = new StringBuilder();
-                    String line;
-                    while ((line = in.readLine()) != null) {
-                        result.append(line);
-                        line = in.readLine();
-                    }
-                    return result.toString();
-                } finally {
-                    in.close();
+            BufferedReader in = new BufferedReader(new InputStreamReader(
+                    urlConnection.getInputStream(), "utf-8"));
+            try {
+                StringBuilder result = new StringBuilder();
+                String line;
+                while ((line = in.readLine()) != null) {
+                    result.append(line);
+                    line = in.readLine();
                 }
-            } else {
-                throw new IOException("Response code: " + responseCode);
+                return new HttpResponse(responseCode, result.toString());
+            } finally {
+                in.close();
             }
         } finally {
             urlConnection.disconnect();

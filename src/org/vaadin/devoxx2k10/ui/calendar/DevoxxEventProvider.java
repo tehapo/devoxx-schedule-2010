@@ -44,8 +44,7 @@ public class DevoxxEventProvider extends BasicEventProvider {
             for (CalendarEvent event : events) {
                 if (event instanceof DevoxxCalendarEvent) {
                     DevoxxCalendarEvent devoxxEvent = (DevoxxCalendarEvent) event;
-                    if (user.getFavourites().contains(
-                            devoxxEvent.getDevoxxEvent().getId())) {
+                    if (user.hasFavourited(devoxxEvent.getDevoxxEvent())) {
                         devoxxEvent.addStyleName("attending");
                     }
                 }

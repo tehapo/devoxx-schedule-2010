@@ -23,6 +23,7 @@ import org.vaadin.devoxx2k10.data.domain.DevoxxSpeaker;
 import org.vaadin.devoxx2k10.data.domain.MyScheduleUser;
 import org.vaadin.devoxx2k10.data.http.HttpClient;
 import org.vaadin.devoxx2k10.data.http.HttpClientImpl;
+import org.vaadin.devoxx2k10.data.http.HttpResponse;
 
 /**
  * Facade for the Devoxx REST API.
@@ -31,7 +32,7 @@ import org.vaadin.devoxx2k10.data.http.HttpClientImpl;
  * taking it as a parameter or you can use the default implementation by using
  * the no-arg constructor.
  */
-public class RestApiFacadeImpl implements RestApiFacade {
+public class RestApiFacadeImpl implements RestApiFacade, LazyLoadProvider {
 
     private final Logger logger = Logger.getLogger(getClass());
 
@@ -125,10 +126,22 @@ public class RestApiFacadeImpl implements RestApiFacade {
     public void getScheduleForUser(MyScheduleUser user) {
         if (user != null && user.getEmail() != null) {
             try {
-                user.setFavourites(getScheduleIds(httpClient.get(SCHEDULE_URL
-                        + "/" + user.getEmail())));
-                logger.debug("Retrieved " + user.getFavourites().size()
-                        + " favourites for user " + user.getEmail());
+                HttpResponse response = httpClient.get(SCHEDULE_URL + "/"
+                        + user.getEmail());
+
+                if (response.getResponseCode() == HttpURLConnection.HTTP_NO_CONTENT) {
+                    // user has no favourites yet
+                    user.setFavourites(new ArrayList<Integer>());
+                } else if (response.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                    // parse the response
+                    user.setFavourites(getScheduleIds(httpClient.get(
+                            SCHEDULE_URL + "/" + user.getEmail()).getResponse()));
+                }
+
+                if (user.getFavourites() != null) {
+                    logger.debug("Retrieved " + user.getFavourites().size()
+                            + " favourites for user " + user.getEmail());
+                }
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -137,7 +150,7 @@ public class RestApiFacadeImpl implements RestApiFacade {
 
     public List<DevoxxPresentation> getFullSchedule() {
         try {
-            return getScheduleData(httpClient.get(SCHEDULE_URL));
+            return getScheduleData(httpClient.get(SCHEDULE_URL).getResponse());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -259,8 +272,8 @@ public class RestApiFacadeImpl implements RestApiFacade {
             logger.debug("Lazy loading object details "
                     + lazy.getLazyLoadingUri());
 
-            JSONObject jsonData = new JSONObject(httpClient.get(lazy
-                    .getLazyLoadingUri()));
+            JSONObject jsonData = new JSONObject(httpClient.get(
+                    lazy.getLazyLoadingUri()).getResponse());
 
             for (Method method : lazy.getClass().getMethods()) {
                 if (method.getName().startsWith("get")
