@@ -8,6 +8,48 @@
 .v-button-link:focus {
 	outline: none !important;	
 }
+.v-button,
+.v-button:focus {
+	border: 1px solid #272726;
+	height: 20px;
+	background: url("img/attending-button-bg.png") #333332 top left repeat-x;
+	cursor: pointer;
+	-moz-border-radius: 9px;
+	-webkit-border-radius: 9px;
+	border-radius: 9px;
+	
+	-moz-box-shadow: 0 1px 0px rgba(255, 255, 255, 0.1);
+	-webkit-box-shadow: 0 1px 0px rgba(255, 255, 255, 0.1);
+	box-shadow: 0 1px 0px rgba(255, 255, 255, 0.1);
+}
+.v-button-wrap,
+.v.button:focus .v-button-wrap {
+	background: transparent !important;	
+}
+.v-button-wrap {
+	padding: 1px 12px 0 9px;	
+}
+.v-button-caption {
+	color: #cbc7c0;
+	font-size: 12px;
+	font-weight: normal;
+	text-shadow: 0 -1px 0px rgba(0, 0, 0, 0.33);
+}
+.v-button-link,
+.v-button-link:focus {
+	border: none;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+.v-button-link .v-button-caption {
+	color: #cbc7c0;
+	text-shadow: none;
+}
+.v-button-link:focus .v-button-caption {
+	outline: none;	
+}
+
 
 .v-calendar-back, .v-calendar-next {
 	cursor: pointer;	
@@ -263,39 +305,6 @@
 	background: url("img/sidebar-collapse.png") transparent center right no-repeat;
 	min-height: 17px;
 }
-
-.event-details .attending-button .v-button-wrap,
-.event-details .attending-button .v-button,
-.login-window .v-button .v-button-wrap,
-.login-window .v-button {
-	background: transparent;	
-}
-.event-details .attending-button .v-button,
-.login-window .v-button {
-	border: 1px solid #272726;
-	height: 20px;
-	background: url("img/attending-button-bg.png") #333332 top left repeat-x;
-	cursor: pointer;
-	-moz-border-radius: 9px;
-	-webkit-border-radius: 9px;
-	border-radius: 9px;
-	
-	-moz-box-shadow: 0 1px 0px rgba(255, 255, 255, 0.1);
-	-webkit-box-shadow: 0 1px 0px rgba(255, 255, 255, 0.1);
-	box-shadow: 0 1px 0px rgba(255, 255, 255, 0.1);
-}
-.event-details .attending-button .v-button-wrap,
-.login-window .v-button-wrap {
-	padding: 1px 12px 0 9px;	
-}
-.event-details .attending-button .v-button-caption,
-.login-window .v-button-caption {
-	color: #cbc7c0;
-	font-size: 12px;
-	font-weight: normal;
-	text-shadow: 0 -1px 0px rgba(0, 0, 0, 0.33);
-}
-
 
 .speakers-layout {
 	background: #363634;
