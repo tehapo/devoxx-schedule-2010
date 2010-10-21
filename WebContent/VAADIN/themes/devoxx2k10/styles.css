@@ -1,9 +1,23 @@
 @import url(../reindeer/styles.css);
 
-.v-generated-body .v-app {
+.v-app {
 	background: #292a29;
 	font-family: Helvetica, sans-serif;	
 }
+
+.v-view {
+	border-top: none;
+	margin-top: 0px;	
+}
+
+/* Required if embedding in an HTML 4.0 Transitional page */
+/*
+.v-app input.v-textfield, 
+.v-window input.v-textfield, 
+.v-app textarea.v-textarea, 
+.v-window textarea.v-textarea {
+	height: 25px;	
+}*/
 
 .v-button-link:focus {
 	outline: none !important;	
