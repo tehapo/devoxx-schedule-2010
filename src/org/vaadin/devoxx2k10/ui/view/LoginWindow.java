@@ -43,6 +43,7 @@ public class LoginWindow extends Window implements Button.ClickListener {
         setStyleName("login-window");
         setModal(true);
         setWidth("235px");
+        setResizable(false);
         setContent(createLayout());
     }
 
