@@ -61,6 +61,9 @@
 .event-details-panel,
 .calendar-panel {
 	background: url("img/calendar-bg.png") #494846 top left;
+	-moz-box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.6);
+	-webkit-box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.6);
+	-moz-box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.6);
 }
 .v-theme-devoxx2k10 .v-calendar,
 .v-panel-content-calendar-panel > div,
