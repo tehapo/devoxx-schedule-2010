@@ -63,7 +63,6 @@ public class LoginWindow extends Window implements Button.ClickListener {
         activateEmail.setWidth("100%");
         activateEmail.setRequired(true);
         activateButton = new Button("Activate", this);
-        activateButton.setClickShortcut(KeyCode.ENTER);
         activateDoneLabel = new Label(
                 "<strong>Activation code sent!</strong> Check your inbox and copy the code to the field below and you're ready to go.",
                 Label.CONTENT_XHTML);
@@ -121,9 +120,22 @@ public class LoginWindow extends Window implements Button.ClickListener {
         } else if (event.getButton() == activateButton) {
             doActivate();
         } else if (event.getButton() == showActivateButton) {
-            activateLayout.setVisible(true);
-            signInLayout.setVisible(false);
+            showActivateLayout();
         }
+    }
+
+    private void showActivateLayout() {
+        activateLayout.setVisible(true);
+        activateButton.setClickShortcut(KeyCode.ENTER);
+        signInLayout.setVisible(false);
+        signInButton.removeClickShortcut();
+    }
+
+    private void hideActivateLayout() {
+        activateLayout.setVisible(false);
+        activateButton.removeClickShortcut();
+        signInLayout.setVisible(true);
+        signInButton.setClickShortcut(KeyCode.ENTER);
     }
 
     private void doActivate() {
@@ -142,8 +154,7 @@ public class LoginWindow extends Window implements Button.ClickListener {
                     (String) activateEmail.getValue());
 
             // hide the activation fields and show sign in fields again
-            activateLayout.setVisible(false);
-            signInLayout.setVisible(true);
+            hideActivateLayout();
 
             // show further instructions and copy the e-mail to sign in field
             activateDoneLabel.setVisible(true);
