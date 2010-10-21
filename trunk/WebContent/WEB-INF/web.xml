@@ -26,20 +26,19 @@
   
   <servlet-mapping>
   	<servlet-name>DevoxxScheduleApplication</servlet-name>
-  	<url-pattern>/*</url-pattern>
+  	<url-pattern>/application/*</url-pattern>
   </servlet-mapping>
-  
+  <servlet-mapping>
+  	<servlet-name>DevoxxScheduleApplication</servlet-name>
+  	<url-pattern>/VAADIN/*</url-pattern>
+  </servlet-mapping>
+    
   <session-config>
   	<session-timeout>60</session-timeout>
   </session-config>
   
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
-    <welcome-file>index.htm</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
-    <welcome-file>default.html</welcome-file>
-    <welcome-file>default.htm</welcome-file>
-    <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
   
 </web-app>

@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<!-- 
+		An example of embedding a Vaadin application inside a div.
+	-->
+	<head>
+		<title>Schedule - Devoxx 2010 -&nbsp;Devoxx</title>
+		<style type="text/css">
+			body {
+				background: #272827;
+				padding: 0;
+				margin: 0;
+			}
+			p {
+				width: 100%;
+				text-align: center;
+				font-family: Helvetica, sans-serif;
+			}
+			a {
+				color: #eee;
+			}
+			#container {
+				width: 1074px;
+				height: 700px;
+				margin: 10px auto;
+				border: 8px solid #434445;
+				-moz-border-radius: 6px;
+				-webkit-border-radius: 6px;
+				border-radius: 6px;
+			}
+			#schedule-wrapper.fullScreen {
+				position: absolute;
+				top: 0px;
+				left: 0px;
+				width: 100%;
+				height: 100%;
+			}
+		</style>
+		
+		<script type="text/javascript">
+		//<![CDATA[
+			function fullscreen() {
+				var applicationElem = document.getElementById("schedule-wrapper");
+				applicationElem.className += " fullScreen";
+				
+				// force Vaadin to recalculate layout
+				vaadin.forceLayout();
+			}
+		//]]>
+		</script>
+	</head>
+	
+	<body>
+		<!-- VAADIN SCRIPTS -->
+		<script type="text/javascript">
+		//<![CDATA[
+		if (!vaadin || !vaadin.vaadinConfigurations) {
+			if (!vaadin) { var vaadin = {} } 
+			vaadin.vaadinConfigurations = {};
+			if (!vaadin.themesLoaded) { vaadin.themesLoaded = {}; }
+			vaadin.debug = true;
+			document.write('<iframe tabIndex="-1" id="__gwt_historyFrame" style="position:absolute;width:0;height:0;border:0;overflow:hidden;" src="javascript:false"></iframe>');
+			document.write("<script language='javascript' src='/DevoxxScheduleApp/VAADIN/widgetsets/org.vaadin.devoxx2k10.widgetset.DevoxxscheduleappWidgetset/org.vaadin.devoxx2k10.widgetset.DevoxxscheduleappWidgetset.nocache.js?1287649373268'><\/script>");
+		}
+		vaadin.vaadinConfigurations["schedule-wrapper"] = {appUri:'/DevoxxScheduleApp/application', pathInfo: '/', themeUri:'/DevoxxScheduleApp/VAADIN/themes/devoxx2k10', versionInfo : {vaadinVersion:"6.4.6",applicationVersion:"NONVERSIONED"},"comErrMsg": {"caption":"Communication problem","message" : "Take note of any unsaved data, and <u>click here</u> to continue.","url" : null},"authErrMsg": {"caption":"Authentication problem","message" : "Take note of any unsaved data, and <u>click here</u> to continue.","url" : null}};
+		//]]>
+		</script>
+		<script type="text/javascript">
+		//<![CDATA[
+		if (!vaadin.themesLoaded['devoxx2k10']) {
+			var stylesheet = document.createElement('link');
+			stylesheet.setAttribute('rel', 'stylesheet');
+			stylesheet.setAttribute('type', 'text/css');
+			stylesheet.setAttribute('href', '/DevoxxScheduleApp/VAADIN/themes/devoxx2k10/styles.css');
+			document.getElementsByTagName('head')[0].appendChild(stylesheet);
+			vaadin.themesLoaded['devoxx2k10'] = true;
+		}
+		//]]>
+		</script>
+		<script type="text/javascript">
+		//<![CDATA[
+			setTimeout('if (typeof org_vaadin_devoxx2k10_widgetset_DevoxxscheduleappWidgetset == "undefined") {alert("Failed to load the widgetset: /DevoxxScheduleApp/VAADIN/widgetsets/org.vaadin.devoxx2k10.widgetset.DevoxxscheduleappWidgetset/org.vaadin.devoxx2k10.widgetset.DevoxxscheduleappWidgetset.nocache.js?1287649373268")};',15000);
+		//]]>
+		</script>
+		<!-- /VAADIN SCRIPTS -->
+	
+		<p>
+			<a href="#" onclick="fullscreen(); return false;">Open in full screen mode</a>
+		</p>
+		<div id="container">
+			<div id="schedule-wrapper" class="v-app v-app-loading v-theme-devoxx2k10 v-app-DevoxxScheduleApplication"></div>
+		</div>
+	</body>
+</html>
