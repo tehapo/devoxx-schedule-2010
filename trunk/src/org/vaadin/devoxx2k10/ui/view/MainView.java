@@ -2,6 +2,7 @@ package org.vaadin.devoxx2k10.ui.view;
 
 import java.util.Date;
 
+import org.vaadin.devoxx2k10.ui.FullScreenButton;
 import org.vaadin.devoxx2k10.ui.calendar.DevoxxCalendar;
 import org.vaadin.devoxx2k10.ui.calendar.DevoxxCalendarEvent;
 import org.vaadin.devoxx2k10.ui.view.NavigationPanel.DateChangeListener;
@@ -62,6 +63,7 @@ public class MainView extends HorizontalLayout implements EventClickHandler,
         toolbar.setWidth("100%");
         toolbar.setHeight("");
         toolbar.setStyleName("toolbar");
+        toolbar.addComponent(new FullScreenButton());
         toolbar.addComponent(daySelector);
         toolbar.addComponent(calendarMode);
 

@@ -12,14 +12,6 @@
 				padding: 0;
 				margin: 0;
 			}
-			p.fullScreenLink {
-				width: 100%;
-				text-align: center;
-				font-family: Helvetica, sans-serif;
-			}
-			p.fullScreenLink a {
-				color: #eee;
-			}
 			#container {
 				width: 1074px;
 				height: 700px;
@@ -37,18 +29,7 @@
 				height: 100%;
 			}
 		</style>
-		
-		<script type="text/javascript">
-		//<![CDATA[
-			function fullscreen() {
-				var applicationElem = document.getElementById("schedule-wrapper");
-				applicationElem.className += " fullScreen";
-				
-				// force Vaadin to recalculate layout
-				vaadin.forceLayout();
-			}
-		//]]>
-		</script>
+
 	</head>
 	
 	<body>
@@ -85,9 +66,6 @@
 		</script>
 		<!-- /VAADIN SCRIPTS -->
 	
-		<p class="fullScreenLink">
-			<a href="#" onclick="fullscreen(); return false;">Open in full screen mode</a>
-		</p>
 		<div id="container">
 			<div id="schedule-wrapper" class="v-app v-app-loading v-theme-devoxx2k10 v-app-DevoxxScheduleApplication"></div>
 		</div>
