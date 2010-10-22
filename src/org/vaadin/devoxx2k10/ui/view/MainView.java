@@ -9,6 +9,8 @@ import org.vaadin.devoxx2k10.ui.view.NavigationPanel.DateChangeListener;
 import com.vaadin.addon.calendar.event.CalendarEvent;
 import com.vaadin.addon.calendar.ui.CalendarComponentEvents.EventClick;
 import com.vaadin.addon.calendar.ui.CalendarComponentEvents.EventClickHandler;
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CheckBox;
@@ -21,7 +23,7 @@ import com.vaadin.ui.Panel;
  * The main view of the application displaying navigation, calendar and details.
  */
 public class MainView extends HorizontalLayout implements EventClickHandler,
-        DateChangeListener, ClickListener {
+        DateChangeListener, ClickListener, ValueChangeListener {
 
     private static final long serialVersionUID = 7622207451668068454L;
 
@@ -30,6 +32,7 @@ public class MainView extends HorizontalLayout implements EventClickHandler,
     private EventDetailsPanel detailsPanel;
     private NavigationPanel navigationPanel;
     private CheckBox calendarMode;
+    private DaySelectorField daySelector;
 
     public MainView() {
         initUi();
@@ -43,17 +46,23 @@ public class MainView extends HorizontalLayout implements EventClickHandler,
         calendar.setHandler(this);
         calendar.setDate(DevoxxCalendar.getDefaultDate());
 
-        navigationPanel = new NavigationPanel(DevoxxCalendar.getDefaultDate());
+        /*-navigationPanel = new NavigationPanel(DevoxxCalendar.getDefaultDate());
         navigationPanel.addListener(this);
-        addComponent(navigationPanel);
+        addComponent(navigationPanel);*/
 
         calendarMode = new CheckBox("Highlight events I'm attending", this);
         calendarMode.setImmediate(true);
+
+        daySelector = new DaySelectorField(DevoxxCalendar.DEVOXX_FIRST_DAY,
+                DevoxxCalendar.DEVOXX_LAST_DAY);
+        daySelector.addListener((ValueChangeListener) this);
+        daySelector.setValue(DevoxxCalendar.getDefaultDate());
 
         CssLayout toolbar = new CssLayout();
         toolbar.setWidth("100%");
         toolbar.setHeight("");
         toolbar.setStyleName("toolbar");
+        toolbar.addComponent(daySelector);
         toolbar.addComponent(calendarMode);
 
         CssLayout calendarWrapper = new CssLayout();
@@ -70,8 +79,8 @@ public class MainView extends HorizontalLayout implements EventClickHandler,
         addComponent(calendarPanel);
 
         detailsPanel = new EventDetailsPanel();
-        detailsPanel.setVisible(false); // hide at first
         addComponent(detailsPanel);
+        detailsPanel.setVisible(false); // hide at first
 
         // make the calendar expand to use all available space
         setExpandRatio(calendarPanel, 1f);
@@ -107,5 +116,9 @@ public class MainView extends HorizontalLayout implements EventClickHandler,
                 calendar.removeStyleName("my-schedule");
             }
         }
+    }
+
+    public void valueChange(ValueChangeEvent event) {
+        calendar.setDate((Date) daySelector.getValue());
     }
 }

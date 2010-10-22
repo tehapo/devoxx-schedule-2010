@@ -10,6 +10,11 @@
 	margin-top: 0px;	
 }
 
+.v-splitpanel-hsplitter,
+.v-splitpanel-hsplitter-locked {
+	width: 0;
+}
+
 /* Required if embedding in an HTML 4.0 Transitional page */
 /*
 .v-app input.v-textfield, 
@@ -226,6 +231,61 @@
 .v-csslayout-toolbar .v-checkbox label {
 	padding-left: 5px;
 }
+
+/* Day Selector */
+.day-selector-field {
+	float: left;
+	margin: 0px 20px 0px 62px;
+	width: auto !important;
+	height: auto !important;
+}
+.day-selector-field .v-csslayout,
+.day-selector-field .v-csslayout-container {
+	float: left;
+	padding-bottom: 2px;
+}
+
+.day-selector-field .v-button {
+	background: url("img/toggle-button-up-bg.png") #333332 top left repeat-x;
+	border-top: 1px solid #60605f;
+	border-bottom: 1px solid #2a2a29;
+	border-left: 1px solid transparent;
+	border-right: 1px solid #2a2a29;	
+	height: 25px;
+	padding-top: 3px;
+	-moz-border-radius: 0px;
+	-webkit-border-radius: 0px;
+	border-radius: 0px;
+	-moz-box-shadow: 0 1px 0px rgba(255, 255, 255, 0.1);
+	-webkit-box-shadow: 0 1px 0px rgba(255, 255, 255, 0.1);
+	box-shadow: 0 1px 0px rgba(255, 255, 255, 0.1);
+}
+.day-selector-field .v-button-selected {
+	background: url("img/toggle-button-down-bg.png") #272725 top left repeat-x;
+	border: 1px solid;
+	border-color: #0d0d0c #181817 #222221 #181817
+}
+.day-selector-field .v-button-first {
+	border-left: 1px solid #2a2a29;	
+	-moz-border-radius: 4px 0px 0px 4px;
+	-webkit-border-radius: 4px 0px 0px 4px;
+	border-radius: 4px 0px 0px 4px;
+}
+.day-selector-field .v-button-last {
+	-moz-border-radius: 0px 4px 4px 0px;
+	-webkit-border-radius: 0px 4px 4px 0px;
+	border-radius: 0px 4px 4px 0px;
+}
+.day-selector-field .v-button .v-button-caption {
+	color: #cbc7c0;
+	font-size: 13px;
+	font-weight: bold;	
+	text-shadow: 0 -1px 0px rgba(0, 0, 0, 0.75);
+}
+.day-selector-field .v-button-selected .v-button-caption {
+	color: #fff;	
+}
+
 
 /* Navigation */
 .navigation {
