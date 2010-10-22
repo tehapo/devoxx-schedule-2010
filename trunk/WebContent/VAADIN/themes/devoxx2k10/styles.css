@@ -254,9 +254,9 @@
 	padding: 1px 0;	
 }
 .day-selector-field .v-csslayout-container {
-	-moz-box-shadow: 0 1px 0px rgba(255, 255, 255, 0.1);
-	-webkit-box-shadow: 0 1px 0px rgba(255, 255, 255, 0.1);
-	box-shadow: 0 1px 0px rgba(255, 255, 255, 0.1);
+	-moz-box-shadow: 0 1px 0px #4f4e4d;
+	-webkit-box-shadow: 0 1px 0px #4f4e4d;
+	box-shadow: 0 1px 0px #4f4e4d;
 }
 .day-selector-field .v-csslayout-margin {
 	-moz-box-shadow: 0 -1px 0px rgba(0, 0, 0, 0.4);
@@ -280,9 +280,6 @@
 	background: url("img/toggle-button-down-bg.png") #272725 top left repeat-x;
 	border: 1px solid;
 	border-color: #0d0d0c #181817 #222221 #181817;
-	-moz-box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.4);
-	-webkit-box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.4);
-	box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.4);
 }
 .day-selector-field .v-button-first {
 	border-left: 1px solid #2a2a29;	
