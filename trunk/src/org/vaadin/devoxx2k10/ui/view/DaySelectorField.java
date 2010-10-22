@@ -27,6 +27,7 @@ public class DaySelectorField extends CustomField implements
     private static final long serialVersionUID = -4777985742354898074L;
 
     private ComponentContainer layout;
+    private UriFragmentUtility uriFragment;
     private Map<String, Button> uriFragmentToButtonMap = new HashMap<String, Button>();
 
     public DaySelectorField(Date firstDay, Date lastDay) {
@@ -58,7 +59,7 @@ public class DaySelectorField extends CustomField implements
         }
         dayButton.addStyleName("last");
 
-        UriFragmentUtility uriFragment = new UriFragmentUtility();
+        uriFragment = new UriFragmentUtility();
         uriFragment.addListener(this);
         layout.addComponent(uriFragment);
     }
@@ -66,11 +67,16 @@ public class DaySelectorField extends CustomField implements
     @Override
     public void valueChange(com.vaadin.data.Property.ValueChangeEvent event) {
         // set the style name for selected
-        for (Button b : uriFragmentToButtonMap.values()) {
-            if (dayEquals((Date) b.getData(), (Date) getValue())) {
-                b.addStyleName("selected");
+        for (Map.Entry<String, Button> entry : uriFragmentToButtonMap
+                .entrySet()) {
+            String fragment = entry.getKey();
+            Button button = entry.getValue();
+
+            if (dayEquals((Date) button.getData(), (Date) getValue())) {
+                button.addStyleName("selected");
+                uriFragment.setFragment(fragment);
             } else {
-                b.removeStyleName("selected");
+                button.removeStyleName("selected");
             }
         }
     }
