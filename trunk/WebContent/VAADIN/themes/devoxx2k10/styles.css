@@ -267,8 +267,8 @@
 	background: url("img/toggle-button-up-bg.png") #333332 top left repeat-x;
 	border: 1px solid;
 	border-color: #60605f #2a2a29 #2a2a29 #484847;
-	height: 25px;
-	padding-top: 3px;
+	height: 23px;
+	padding-top: 2px;
 	-moz-border-radius: 0px;
 	-webkit-border-radius: 0px;
 	border-radius: 0px;
