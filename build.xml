@@ -65,6 +65,11 @@
 			<fileset dir="${server-side.dest.dir}"/>
 		</copy>
 		
+		<!-- copy production log4j configuration to be used -->
+		<copy file="${basedir}/log4j-production.properties" 
+		      tofile="${dist.dir}/WebContent/WEB-INF/classes/log4j.properties"
+			  overwrite="true"/>
+		
 		<!-- update productionMode flag on web.xml -->
 		<echo>Setting productionMode parameter to ${productionMode}.</echo>
 		<xmltask source="${dist.dir}/WebContent/WEB-INF/web.xml" dest="${dist.dir}/WebContent/WEB-INF/web.xml" encoding="utf-8">
