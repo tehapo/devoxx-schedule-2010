@@ -46,8 +46,8 @@
 			<classpath>
 				<fileset dir="${lib.dir}"/>
 				<fileset dir="${build.lib.dir}"/>
+				<pathelement location="${server-side.dest.dir}"/>
 				<pathelement location="${src.dir}"/>
-				<pathelement location="${serverside.dest.dir}"/>
 			</classpath>
 		</java>
 	</target>
