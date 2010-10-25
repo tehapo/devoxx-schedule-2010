@@ -3,6 +3,7 @@ package org.vaadin.devoxx2k10.widgetset.client.ui;
 import com.google.gwt.dom.client.BodyElement;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -14,6 +15,8 @@ public class VFullScreenButton extends VButton {
 
     @Override
     public void onClick(ClickEvent event) {
+        super.onClick(event);
+
         if (previousAppParent == null) {
             doFullScreen();
         } else {
@@ -43,9 +46,9 @@ public class VFullScreenButton extends VButton {
             Element rootElement = Document.get().getElementById(rootId);
             previousAppParent.appendChild(rootElement);
             setRestoredStyle(rootElement);
+            previousAppParent = null;
 
             client.forceLayout();
-            previousAppParent = null;
         }
     }
 
@@ -55,6 +58,10 @@ public class VFullScreenButton extends VButton {
         rootElement.getStyle().setLeft(0, Unit.PX);
         rootElement.getStyle().setWidth(100, Unit.PCT);
         rootElement.getStyle().setHeight(100, Unit.PCT);
+
+        Document.get().getBody().getStyle().setWidth(100, Unit.PCT);
+        Document.get().getBody().getStyle().setHeight(100, Unit.PCT);
+        Document.get().getBody().getStyle().setOverflow(Overflow.HIDDEN);
     }
 
     private void setRestoredStyle(Element rootElement) {
@@ -63,5 +70,9 @@ public class VFullScreenButton extends VButton {
         rootElement.getStyle().clearLeft();
         rootElement.getStyle().clearWidth();
         rootElement.getStyle().clearHeight();
+
+        Document.get().getBody().getStyle().clearWidth();
+        Document.get().getBody().getStyle().clearHeight();
+        Document.get().getBody().getStyle().clearOverflow();
     }
 }
