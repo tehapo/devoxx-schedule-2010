@@ -52,31 +52,21 @@ public class LoginWindow extends Window implements Button.ClickListener {
         // create all required fields
         activateInstructionsLabel = new Label(
                 "Activate MySchedule by providing your name and e-mail address. After activation you'll receive an activation code to the given e-mail address.");
-        activateFirstName = new TextField("First Name");
-        activateFirstName.setWidth("100%");
-        activateFirstName.setRequired(true);
-        activateLastName = new TextField("Last Name");
-        activateLastName.setWidth("100%");
-        activateLastName.setRequired(true);
-        activateEmail = new TextField("E-mail");
+        activateFirstName = createTextField("First Name");
+        activateLastName = createTextField("Last Name");
+        activateEmail = createTextField("E-mail");
         activateEmail.addValidator(new EmailValidator(
                 "Not a valid e-mail address"));
-        activateEmail.setWidth("100%");
-        activateEmail.setRequired(true);
         activateButton = new Button("Activate", this);
         activateDoneLabel = new Label(
                 "<strong>Activation code sent!</strong> Check your inbox and copy the code to the field below and you're ready to go.",
                 Label.CONTENT_XHTML);
         activateDoneLabel.setVisible(false);
 
-        signInEmail = new TextField("E-mail");
+        signInEmail = createTextField("E-mail");
         signInEmail.addValidator(new EmailValidator(
                 "Not a valid e-mail address"));
-        signInEmail.setWidth("100%");
-        signInEmail.setRequired(true);
-        signInActivationCode = new TextField("Activation Code");
-        signInActivationCode.setRequired(true);
-        signInActivationCode.setWidth("100%");
+        signInActivationCode = createTextField("Activation Code");
         signInButton = new Button("Sign In", this);
         signInButton.setClickShortcut(KeyCode.ENTER);
         signInInstructionsLabel = new Label(
@@ -115,6 +105,15 @@ public class LoginWindow extends Window implements Button.ClickListener {
         return layout;
     }
 
+    private TextField createTextField(String caption) {
+        TextField field = new TextField(caption);
+        field.setValidationVisible(false);
+        field.setRequired(true);
+        field.setRequiredError("Required field");
+        field.setWidth("100%");
+        return field;
+    }
+
     public void buttonClick(ClickEvent event) {
         if (event.getButton() == signInButton) {
             doSignIn();
@@ -140,6 +139,9 @@ public class LoginWindow extends Window implements Button.ClickListener {
     }
 
     private void doActivate() {
+        activateEmail.setValidationVisible(true);
+        activateFirstName.setValidationVisible(true);
+        activateLastName.setValidationVisible(true);
         if (!activateEmail.isValid() || !activateFirstName.isValid()
                 || !activateLastName.isValid()) {
             return;
@@ -168,6 +170,8 @@ public class LoginWindow extends Window implements Button.ClickListener {
     }
 
     private void doSignIn() {
+        signInEmail.setValidationVisible(true);
+        signInActivationCode.setValidationVisible(true);
         if (!signInEmail.isValid() || !signInActivationCode.isValid()) {
             return;
         }
