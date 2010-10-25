@@ -10,11 +10,6 @@
 	margin-top: 0px;	
 }
 
-.v-splitpanel-hsplitter,
-.v-splitpanel-hsplitter-locked {
-	width: 0;
-}
-
 /* Required if embedding in an HTML 4.0 Transitional page */
 /*
 .v-app input.v-textfield, 
@@ -24,6 +19,10 @@
 	height: 25px;	
 }*/
 
+.v-textfield-error {
+	background: #f99;
+	border-color: #f00;
+}
 
 .v-button-link:focus {
 	outline: none !important;	
