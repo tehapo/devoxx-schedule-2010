@@ -15,9 +15,11 @@ import com.vaadin.terminal.ExternalResource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.Link;
 import com.vaadin.ui.Panel;
+import com.vaadin.ui.VerticalLayout;
 
 /**
  * The main view of the application displaying navigation, calendar and details.
@@ -56,11 +58,9 @@ public class MainView extends HorizontalLayout implements EventClickHandler,
         toolbar.setStyleName("toolbar");
         toolbar.addComponent(new UserLayout(calendar));
         toolbar.addComponent(daySelector);
-        Link vaadinLink = new Link("",
-                new ExternalResource("http://vaadin.com"));
-        vaadinLink.setStyleName("vaadin");
-        vaadinLink.setWidth("250px");
-        toolbar.addComponent(vaadinLink);
+        Label placeHolder = new Label("");
+        placeHolder.setWidth("250px");
+        toolbar.addComponent(placeHolder);
         toolbar.setComponentAlignment(daySelector, Alignment.TOP_CENTER);
         toolbar.setExpandRatio(daySelector, 1.0f);
 
@@ -70,12 +70,18 @@ public class MainView extends HorizontalLayout implements EventClickHandler,
         calendarWrapper.addComponent(new FullScreenButton());
         calendarWrapper.addComponent(calendar);
 
-        Panel calendarPanel = new Panel();
+        Panel calendarPanel = new Panel(new VerticalLayout());
         ((Layout) calendarPanel.getContent()).setMargin(false);
         calendarPanel.setStyleName("calendar-panel");
         calendarPanel.setSizeFull();
         calendarPanel.addComponent(toolbar);
         calendarPanel.addComponent(calendarWrapper);
+        Link vaadinLink = new Link("",
+                new ExternalResource("http://vaadin.com"));
+        vaadinLink.setStyleName("vaadin");
+        calendarPanel.addComponent(vaadinLink);
+        ((VerticalLayout) calendarPanel.getContent()).setComponentAlignment(
+                vaadinLink, Alignment.BOTTOM_RIGHT);
         addComponent(calendarPanel);
 
         detailsPanel = new EventDetailsPanel();
