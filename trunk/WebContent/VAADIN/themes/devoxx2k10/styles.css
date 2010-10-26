@@ -29,6 +29,19 @@
 	border-color: #f00;
 }
 
+.v-link-vaadin a {
+	width: 94px;
+	height: 22px;
+	display: block;
+	background: url("img/vaadin-logo.png") transparent center center no-repeat;
+	float: right;
+	margin-right: 15px;
+	opacity: 0.4; 	
+}
+.v-link-vaadin a:hover {
+	opacity: 0.7;	
+}
+
 .v-button-link:focus {
 	outline: none !important;	
 }
