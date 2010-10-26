@@ -45,6 +45,7 @@ public class LoginWindow extends Window implements Button.ClickListener {
         setWidth("235px");
         setResizable(false);
         setContent(createLayout());
+        signInEmail.focus();
     }
 
     private Layout createLayout() {
@@ -115,12 +116,18 @@ public class LoginWindow extends Window implements Button.ClickListener {
     }
 
     public void buttonClick(ClickEvent event) {
-        if (event.getButton() == signInButton) {
-            doSignIn();
-        } else if (event.getButton() == activateButton) {
-            doActivate();
-        } else if (event.getButton() == showActivateButton) {
-            showActivateLayout();
+        try {
+            if (event.getButton() == signInButton) {
+                doSignIn();
+            } else if (event.getButton() == activateButton) {
+                doActivate();
+            } else if (event.getButton() == showActivateButton) {
+                showActivateLayout();
+            }
+        } catch (RestApiException e) {
+            logger.error(e.getMessage(), e);
+            getWindow().showNotification(e.getMessage(),
+                    Notification.TYPE_ERROR_MESSAGE);
         }
     }
 
@@ -129,6 +136,7 @@ public class LoginWindow extends Window implements Button.ClickListener {
         activateButton.setClickShortcut(KeyCode.ENTER);
         signInLayout.setVisible(false);
         signInButton.removeClickShortcut();
+        activateFirstName.focus();
     }
 
     private void hideActivateLayout() {
@@ -138,7 +146,7 @@ public class LoginWindow extends Window implements Button.ClickListener {
         signInButton.setClickShortcut(KeyCode.ENTER);
     }
 
-    private void doActivate() {
+    private void doActivate() throws RestApiException {
         activateEmail.setValidationVisible(true);
         activateFirstName.setValidationVisible(true);
         activateLastName.setValidationVisible(true);
@@ -149,27 +157,23 @@ public class LoginWindow extends Window implements Button.ClickListener {
 
         DevoxxScheduleApplication app = DevoxxScheduleApplication
                 .getCurrentInstance();
-        try {
-            // tell the backend to do the activation
-            app.getBackendFacade().activateMySchedule(
-                    (String) activateFirstName.getValue(),
-                    (String) activateLastName.getValue(),
-                    (String) activateEmail.getValue());
 
-            // hide the activation fields and show sign in fields again
-            hideActivateLayout();
+        // tell the backend to do the activation
+        app.getBackendFacade().activateMySchedule(
+                (String) activateFirstName.getValue(),
+                (String) activateLastName.getValue(),
+                (String) activateEmail.getValue());
 
-            // show further instructions and copy the e-mail to sign in field
-            activateDoneLabel.setVisible(true);
-            signInEmail.setValue(activateEmail.getValue());
-        } catch (RestApiException e) {
-            logger.error(e.getMessage(), e);
-            getWindow().showNotification(e.getMessage(),
-                    Notification.TYPE_ERROR_MESSAGE);
-        }
+        // hide the activation fields and show sign in fields again
+        hideActivateLayout();
+
+        // show further instructions and copy the e-mail to sign in field
+        activateDoneLabel.setVisible(true);
+        signInEmail.setValue(activateEmail.getValue());
+
     }
 
-    private void doSignIn() {
+    private void doSignIn() throws RestApiException {
         signInEmail.setValidationVisible(true);
         signInActivationCode.setValidationVisible(true);
         if (!signInEmail.isValid() || !signInActivationCode.isValid()) {
@@ -180,16 +184,24 @@ public class LoginWindow extends Window implements Button.ClickListener {
                 (String) signInEmail.getValue(),
                 (String) signInActivationCode.getValue());
 
-        // load the favourites for this user from the backend
         DevoxxScheduleApplication app = DevoxxScheduleApplication
                 .getCurrentInstance();
-        app.getBackendFacade().getScheduleForUser(newUser);
 
-        // set the new user instance as the logged in user
-        getApplication().setUser(newUser);
+        if (app.getBackendFacade().isValidUser(newUser)) {
+            // valid user -> load the favourites for this user from the backend
+            app.getBackendFacade().getScheduleForUser(newUser);
 
-        // close this modal window
-        close();
+            // set the new user instance as the logged in user
+            getApplication().setUser(newUser);
+
+            // close this modal window
+            close();
+        } else {
+            // invalid user
+            getWindow().showNotification(
+                    "Could not sign in. Check the e-mail and activation code.",
+                    Notification.TYPE_ERROR_MESSAGE);
+        }
     }
 
 }

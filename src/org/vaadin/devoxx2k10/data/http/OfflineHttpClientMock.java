@@ -69,6 +69,10 @@ public class OfflineHttpClientMock implements HttpClient {
 
     public int post(String urlString, String postData) throws IOException {
         logger.debug("POST [offline]: " + urlString + ", " + postData);
+        if (urlString
+                .startsWith("http://cfp.devoxx.com/rest/v1/events/users/validate")) {
+            return HttpURLConnection.HTTP_OK;
+        }
         return HttpURLConnection.HTTP_CREATED;
     }
 }

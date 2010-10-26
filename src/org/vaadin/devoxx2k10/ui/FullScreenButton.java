@@ -15,6 +15,7 @@ public class FullScreenButton extends Button {
 
     public FullScreenButton() {
         setStyleName("full-screen");
+        setDescription("Toggle full screen mode");
     }
 
 }

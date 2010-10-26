@@ -11,6 +11,8 @@ import org.vaadin.devoxx2k10.data.domain.MyScheduleUser;
 import org.vaadin.devoxx2k10.ui.calendar.DevoxxCalendarEvent;
 import org.vaadin.devoxx2k10.util.StringUtil;
 
+import com.vaadin.Application.UserChangeEvent;
+import com.vaadin.Application.UserChangeListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CustomLayout;
@@ -28,7 +30,8 @@ import com.vaadin.ui.themes.BaseTheme;
  * also functionality for adding and removing the given
  * {@link DevoxxPresentation} as a MySchedule favourite.
  */
-public class EventDetailsPanel extends Panel implements Button.ClickListener {
+public class EventDetailsPanel extends Panel implements Button.ClickListener,
+        UserChangeListener {
 
     private static final long serialVersionUID = -671137262550574991L;
 
@@ -51,6 +54,7 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener {
         initUi();
 
         setStyleName("event-details-panel");
+        DevoxxScheduleApplication.getCurrentInstance().addListener(this);
     }
 
     private void initUi() {
@@ -61,7 +65,7 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener {
         abstractLabel = new Label();
         trackLabel = new Label();
         addToFavouritesButton = new Button("I'm attending", this);
-        removeFromFavouritesButton = new Button("I'm not attending", this);
+        removeFromFavouritesButton = new Button("I'm attending", this);
         hideButton = new Button("Hide Event Details", this);
         hideButton.setStyleName(BaseTheme.BUTTON_LINK);
         speakers = new VerticalLayout();
@@ -242,6 +246,12 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener {
                 getWindow().showNotification(e.getMessage(),
                         Notification.TYPE_ERROR_MESSAGE);
             }
+        }
+    }
+
+    public void applicationUserChanged(UserChangeEvent event) {
+        if (this.event != null) {
+            updateFavouriteButtons();
         }
     }
 
