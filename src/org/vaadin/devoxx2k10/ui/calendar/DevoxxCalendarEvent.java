@@ -1,9 +1,11 @@
 package org.vaadin.devoxx2k10.ui.calendar;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.vaadin.devoxx2k10.data.domain.DevoxxPresentation;
+import org.vaadin.devoxx2k10.util.StringUtil;
 
 import com.vaadin.addon.calendar.event.BasicEvent;
 
@@ -13,6 +15,25 @@ public class DevoxxCalendarEvent extends BasicEvent {
 
     private DevoxxPresentation devoxxEvent;
     private Set<String> additionalStyles = new HashSet<String>();
+    private String speakers;
+
+    @Override
+    public Date getStart() {
+        return devoxxEvent.getFromTime();
+    }
+
+    @Override
+    public Date getEnd() {
+        return devoxxEvent.getToTime();
+    }
+
+    @Override
+    public String getCaption() {
+        if (speakers == null) {
+            speakers = StringUtil.getSpeakersString(devoxxEvent);
+        }
+        return devoxxEvent.getTitle() + " " + speakers;
+    }
 
     public DevoxxPresentation getDevoxxEvent() {
         return devoxxEvent;
