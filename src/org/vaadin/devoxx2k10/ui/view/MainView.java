@@ -11,11 +11,12 @@ import com.vaadin.addon.calendar.ui.CalendarComponentEvents.EventClick;
 import com.vaadin.addon.calendar.ui.CalendarComponentEvents.EventClickHandler;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.terminal.ExternalResource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
+import com.vaadin.ui.Link;
 import com.vaadin.ui.Panel;
 
 /**
@@ -55,9 +56,11 @@ public class MainView extends HorizontalLayout implements EventClickHandler,
         toolbar.setStyleName("toolbar");
         toolbar.addComponent(new UserLayout(calendar));
         toolbar.addComponent(daySelector);
-        Label placeHolder = new Label("");
-        placeHolder.setWidth("250px");
-        toolbar.addComponent(placeHolder);
+        Link vaadinLink = new Link("",
+                new ExternalResource("http://vaadin.com"));
+        vaadinLink.setStyleName("vaadin");
+        vaadinLink.setWidth("250px");
+        toolbar.addComponent(vaadinLink);
         toolbar.setComponentAlignment(daySelector, Alignment.TOP_CENTER);
         toolbar.setExpandRatio(daySelector, 1.0f);
 
