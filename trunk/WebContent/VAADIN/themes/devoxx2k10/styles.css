@@ -8,6 +8,7 @@
 .v-view {
 	border-top: none;
 	margin-top: 0px;	
+	overflow: hidden;
 }
 
 /* Required if embedding in an HTML 4.0 Transitional page */
@@ -18,6 +19,10 @@
 .v-window textarea.v-textarea {
 	height: 25px;	
 }*/
+
+.v-Notification {
+	font-size: 12px;	
+}
 
 .v-textfield-error {
 	background: #f99;
@@ -69,9 +74,11 @@
 	outline: none;	
 }
 
+/* Full screen button */
 .v-button-full-screen,
 .v-button-full-screen:focus {
-	float: left;
+	position: absolute;
+	z-index: 999;
 	margin-left: 10px;
 	height: 20px;
 	width: 21px;
@@ -86,6 +93,49 @@
 }
 .v-button-full-screen .v-button-wrap {
 	display: none;	
+}
+
+/* Calendar mode button */
+.v-button-calendar-mode,
+.v-button-calendar-mode:focus {
+	background: url("img/calendar-mode-button-bg.png") #706f6d top left repeat-x;
+	border-color: #232221;
+	padding: 0;
+}
+.v-button-calendar-mode .v-button-wrap {
+	padding: 1px 10px 0 9px;
+}
+.v-button-calendar-mode .v-button-wrap .v-button-caption {
+	color: #1a1a18;
+	font-weight: bold;
+	padding-left: 15px;
+	background: url("img/calendar-mode-button-star.png") transparent center left no-repeat;
+	text-shadow: 0 1px 0px rgba(255, 255, 255, 0.25);
+}
+.v-button-calendar-mode.my-schedule,
+.v-button-calendar-mode.my-schedule:focus {
+	background: url("img/calendar-mode-button-bg-on.png") #b16a00 top left repeat-x;
+	border-color: #eebd75;
+	-moz-box-shadow: 0 0 6px #eebd75;
+	-webkit-box-shadow: 0 0 6px #eebd75;
+	box-shadow: 0 0 6px #eebd75;
+}
+.v-button-calendar-mode.my-schedule .v-button-wrap .v-button-caption {
+	color: #fff;
+	background: url("img/calendar-mode-button-star-on.png") transparent center left no-repeat;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.30);
+}
+
+/* Sign in */
+.v-button-sign-in-button {
+	background: url("img/sign-in-bg.png") #6d6c69 top left repeat-x;
+}
+.v-button-sign-in-button .v-button-wrap .v-button-caption {
+	padding-left: 14px;
+	color: #242221;
+	font-weight: bold;
+	text-shadow: 0 1px 0px rgba(255, 255, 255, 0.25);
+	background: url("img/sign-in-icon.png") transparent center left no-repeat !important;
 }
 
 .v-calendar-back, .v-calendar-next {
@@ -235,8 +285,12 @@
 }
 .v-calendar-my-schedule .v-calendar-event.attending {
 	opacity: 1.0;	
+	-moz-box-shadow: 0 0 4px #fff;
+	-webkit-box-shadow: 0 0 4px #fff;
+	box-shadow: 0 0 4px #fff;
 }
 
+/*-
 .v-csslayout-toolbar .v-checkbox {
 	color: #acaaa7;
 	font-size: 13px;
@@ -248,20 +302,55 @@
 }
 .v-csslayout-toolbar .v-checkbox label {
 	padding-left: 5px;
+}*/
+
+.toolbar {
+	padding-top: 10px;	
+}
+.user-layout {
+	padding-top: 2px;
+	padding-left: 15px;	
+}
+.user-layout .current-user,
+.user-layout .sign-out-button,
+.user-layout .calendar-mode {
+	float: left;	
+}
+.user-layout .current-user,
+.user-layout .sign-out-button {
+	margin-left: 15px;	
+}
+.user-layout .current-user,
+.user-layout .sign-out-button .v-button-caption {
+	color: #acaaa7;
+	text-decoration: none;
+	line-height: 19px;
+	font-weight: bold;
+	font-size: 13px;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+.user-layout .sign-out-button .v-button-caption  {
+	font-size: 11px;
+	line-height: 22px;
+}
+.user-layout .sign-out-button:hover .v-button-caption  {
+	color: #fff;	
 }
 
 /* Day Selector */
+
+
+
 .day-selector-field {
-	margin: 0px 20px 0px 31px;
-	width: auto !important;
-	height: auto !important;
+	width: 230px !important;
 }
+/*
 .day-selector-field,
 .day-selector-field .v-csslayout,
 .day-selector-field .v-csslayout-margin,
 .day-selector-field .v-csslayout-container {
 	float: left;
-}
+}*/
 .day-selector-field .v-csslayout-container,
 .day-selector-field .v-csslayout-margin {
 	-moz-border-radius: 4px;
@@ -316,7 +405,8 @@
 	font-weight: bold;	
 	text-shadow: 0 -1px 0px rgba(0, 0, 0, 0.4);
 }
-.day-selector-field .v-button-selected .v-button-caption {
+.day-selector-field .v-button-selected .v-button-caption,
+.day-selector-field .v-button:hover .v-button-caption {
 	color: #fff;	
 }
 
@@ -392,14 +482,14 @@
 	text-shadow: 0 2px 1px rgba(0, 0, 0, 0.5);
 }
 .event-details-panel .hide-button,
-.v-csslayout-toolbar,
+.toolbar,
 .login-window .v-window-contents {
 	background: url("img/toolbar-bg.png") #323130 top left repeat-x;
 }
-.event-details-panel .hide-button,
-.v-csslayout-toolbar {
+.event-details-panel .hide-button {
 	height: 33px;
 	padding-top: 10px;
+	cursor: pointer;
 }
 .event-details-panel .hide-button .v-button {
 	float: right;
@@ -416,6 +506,22 @@
 	background: url("img/sidebar-collapse.png") transparent center right no-repeat;
 	min-height: 17px;
 }
+.event-details-panel .hide-button:hover .v-button-caption {
+	color: #fff;	
+}
+.event-details-panel .attending-button .v-button-wrap,
+.event-details-panel .not-attending-button .v-button-wrap {
+	padding-left: 25px;
+	background: url("img/attending-button-star.png") no-repeat scroll 7px 2px transparent !important;
+}
+.event-details-panel .not-attending-button .v-button,
+.event-details-panel .not-attending-button .v-button:focus {
+	background: url("img/attending-button-down-bg.png") #2f2f2f top left repeat-x;
+}
+.event-details-panel .not-attending-button .v-button .v-button-caption {
+	color: #9d9c99;	
+}
+
 
 .speakers-layout {
 	background: #363634;
@@ -459,6 +565,9 @@
 
 .login-window .v-button:focus {
 	border-color: #8abfea;
+	-moz-box-shadow: 0 0 3px #8abfea;
+	-webkit-box-shadow: 0 0 3px #8abfea;
+	box-shadow: 0 0 3px #8abfea;
 }
 .login-window .v-button-link {
 	background: transparent;

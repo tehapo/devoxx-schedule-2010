@@ -18,6 +18,17 @@ public interface RestApiFacade {
 
     public void saveMySchedule(MyScheduleUser user) throws RestApiException;
 
+    /**
+     * Returns true if the given user's e-mail and activation code are valid for
+     * a user of MySchedule feature.
+     * 
+     * @param email
+     * @param activationCode
+     * @return
+     * @throws RestApiException
+     */
+    public boolean isValidUser(MyScheduleUser user) throws RestApiException;
+
     public void getScheduleForUser(MyScheduleUser user);
 
     public List<DevoxxPresentation> getFullSchedule();

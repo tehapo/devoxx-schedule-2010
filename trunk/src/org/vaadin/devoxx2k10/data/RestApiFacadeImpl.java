@@ -11,7 +11,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
@@ -48,6 +50,9 @@ public class RestApiFacadeImpl implements RestApiFacade, LazyLoadProvider {
 
     private static final String MY_SCHEDULE_ACTIVATE_URL = REST_API_BASE_URL
             + "/events/users/activate";
+
+    private static final String MY_SCHEDULE_VALIDATION_URL = REST_API_BASE_URL
+            + "/events/users/validate";
 
     public RestApiFacadeImpl() {
         // this(new OfflineHttpClientMock());
@@ -123,6 +128,31 @@ public class RestApiFacadeImpl implements RestApiFacade, LazyLoadProvider {
         }
     }
 
+    public boolean isValidUser(MyScheduleUser user) throws RestApiException {
+        try {
+            StringBuilder params = new StringBuilder();
+            params.append("email="
+                    + URLEncoder.encode(user.getEmail(), "utf-8"));
+            params.append('&');
+            params.append("code="
+                    + URLEncoder.encode(user.getActivationCode(), "utf-8"));
+
+            int response = httpClient.post(MY_SCHEDULE_VALIDATION_URL + "?"
+                    + params.toString(), "");
+            if (response == HttpURLConnection.HTTP_OK) {
+                return true;
+            } else if (response == HttpURLConnection.HTTP_CONFLICT) {
+                return false;
+            } else {
+                logger.error("Response code: " + response);
+                throw new RestApiException(
+                        "MySchedule validation failed. Please try again later.");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void getScheduleForUser(MyScheduleUser user) {
         if (user != null && user.getEmail() != null) {
             try {
@@ -131,7 +161,7 @@ public class RestApiFacadeImpl implements RestApiFacade, LazyLoadProvider {
 
                 if (response.getResponseCode() == HttpURLConnection.HTTP_NO_CONTENT) {
                     // user has no favourites yet
-                    user.setFavourites(new ArrayList<Integer>());
+                    user.setFavourites(new HashSet<Integer>());
                 } else if (response.getResponseCode() == HttpURLConnection.HTTP_OK) {
                     // parse the response
                     user.setFavourites(getScheduleIds(httpClient.get(
@@ -156,8 +186,8 @@ public class RestApiFacadeImpl implements RestApiFacade, LazyLoadProvider {
         }
     }
 
-    protected List<Integer> getScheduleIds(String scheduleJson) {
-        List<Integer> result = new ArrayList<Integer>();
+    protected Set<Integer> getScheduleIds(String scheduleJson) {
+        Set<Integer> result = new HashSet<Integer>();
         try {
             if (scheduleJson != null && scheduleJson.length() > 0) {
                 JSONArray jsonArray = new JSONArray(scheduleJson);
