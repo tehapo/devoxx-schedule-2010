@@ -34,6 +34,7 @@ public class MainView extends HorizontalLayout implements EventClickHandler,
     private EventDetailsPanel detailsPanel;
     private HorizontalLayout toolbar;
     private DaySelectorField daySelector;
+    private FullScreenButton fullScreenButton;
 
     public MainView() {
         initUi();
@@ -64,10 +65,11 @@ public class MainView extends HorizontalLayout implements EventClickHandler,
         toolbar.setComponentAlignment(daySelector, Alignment.TOP_CENTER);
         toolbar.setExpandRatio(daySelector, 1.0f);
 
+        fullScreenButton = new FullScreenButton(false);
         CssLayout calendarWrapper = new CssLayout();
         calendarWrapper.setMargin(true);
         calendarWrapper.setSizeFull();
-        calendarWrapper.addComponent(new FullScreenButton());
+        calendarWrapper.addComponent(fullScreenButton);
         calendarWrapper.addComponent(calendar);
 
         Panel calendarPanel = new Panel(new VerticalLayout());
@@ -106,6 +108,10 @@ public class MainView extends HorizontalLayout implements EventClickHandler,
             selectedEvent = devoxxCalEvent;
             devoxxCalEvent.addStyleName("selected");
 
+            if (!fullScreenButton.isFullScreen()) {
+                getWindow().scrollIntoView(toolbar);
+            }
+
             detailsPanel.setEvent(devoxxCalEvent);
         }
     }
@@ -113,4 +119,5 @@ public class MainView extends HorizontalLayout implements EventClickHandler,
     public void valueChange(ValueChangeEvent event) {
         calendar.setDate((Date) daySelector.getValue());
     }
+
 }

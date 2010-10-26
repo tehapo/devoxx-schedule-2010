@@ -1,5 +1,7 @@
 package org.vaadin.devoxx2k10.ui;
 
+import java.util.Map;
+
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ClientWidget;
 
@@ -13,9 +15,24 @@ public class FullScreenButton extends Button {
 
     private static final long serialVersionUID = -1110596384418541526L;
 
-    public FullScreenButton() {
+    private boolean fullScreen = false;
+
+    public FullScreenButton(boolean initialFullScreen) {
         setStyleName("full-screen");
         setDescription("Toggle full screen mode");
+        fullScreen = initialFullScreen;
+    }
+
+    @Override
+    public void changeVariables(Object source, Map<String, Object> variables) {
+        super.changeVariables(source, variables);
+        if (variables.containsKey("fullscreen")) {
+            fullScreen = (Boolean) variables.get("fullscreen");
+        }
+    }
+
+    public boolean isFullScreen() {
+        return fullScreen;
     }
 
 }

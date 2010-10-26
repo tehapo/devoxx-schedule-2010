@@ -7,6 +7,7 @@ import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.user.client.Window;
 import com.vaadin.terminal.gwt.client.ui.VButton;
 
 public class VFullScreenButton extends VButton {
@@ -15,18 +16,22 @@ public class VFullScreenButton extends VButton {
 
     @Override
     public void onClick(ClickEvent event) {
-        super.onClick(event);
-
         if (previousAppParent == null) {
             doFullScreen();
         } else {
             doRestore();
         }
+
+        super.onClick(event);
+    }
+
+    private Element getAppRootElement() {
+        String rootId = client.getConfiguration().getRootPanelId();
+        return Document.get().getElementById(rootId);
     }
 
     private void doFullScreen() {
-        String rootId = client.getConfiguration().getRootPanelId();
-        Element rootElement = Document.get().getElementById(rootId);
+        Element rootElement = getAppRootElement();
         BodyElement bodyElement = Document.get().getBody();
 
         if (!rootElement.getParentElement().equals(bodyElement)) {
@@ -36,18 +41,22 @@ public class VFullScreenButton extends VButton {
             bodyElement.appendChild(rootElement);
             setFullScreenStyle(rootElement);
 
+            client.updateVariable(id, "fullscreen", true, false);
             client.forceLayout();
+
+            // scroll to top to reveal the all of the application
+            Window.scrollTo(0, 0);
         }
     }
 
     private void doRestore() {
         if (previousAppParent != null) {
-            String rootId = client.getConfiguration().getRootPanelId();
-            Element rootElement = Document.get().getElementById(rootId);
+            Element rootElement = getAppRootElement();
             previousAppParent.appendChild(rootElement);
             setRestoredStyle(rootElement);
             previousAppParent = null;
 
+            client.updateVariable(id, "fullscreen", false, false);
             client.forceLayout();
         }
     }
