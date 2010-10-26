@@ -7,7 +7,6 @@ import org.apache.log4j.Logger;
 import org.vaadin.devoxx2k10.DevoxxScheduleApplication;
 import org.vaadin.devoxx2k10.data.RestApiFacade;
 import org.vaadin.devoxx2k10.data.domain.DevoxxPresentation;
-import org.vaadin.devoxx2k10.data.domain.DevoxxSpeaker;
 import org.vaadin.devoxx2k10.data.domain.MyScheduleUser;
 
 import com.vaadin.addon.calendar.event.BasicEventProvider;
@@ -58,11 +57,7 @@ public class DevoxxEventProvider extends BasicEventProvider {
 
         // wrap data from the model into CalendarEvents for UI
         for (DevoxxPresentation event : schedule) {
-            String caption = event.getTitle() + " " + getSpeakersString(event);
             DevoxxCalendarEvent calEvent = new DevoxxCalendarEvent();
-            calEvent.setStart(event.getFromTime());
-            calEvent.setEnd(event.getToTime());
-            calEvent.setCaption(caption);
             calEvent.setStyleName(event.getKind().name().toLowerCase());
             calEvent.addStyleName("at-"
                     + event.getRoom().toLowerCase().replaceAll(" ", ""));
@@ -80,21 +75,6 @@ public class DevoxxEventProvider extends BasicEventProvider {
 
     private static boolean isShortEvent(DevoxxPresentation event) {
         return event.getToTime().getTime() - event.getFromTime().getTime() < SHORT_EVENT_THRESHOLD_MS;
-    }
-
-    private String getSpeakersString(DevoxxPresentation event) {
-        StringBuilder speakers = new StringBuilder();
-        if (!event.getSpeakers().isEmpty()) {
-            speakers.append('(');
-            for (DevoxxSpeaker speaker : event.getSpeakers()) {
-                if (speakers.length() > 1) {
-                    speakers.append(", ");
-                }
-                speakers.append(speaker.getName());
-            }
-            speakers.append(')');
-        }
-        return speakers.toString();
     }
 
 }
