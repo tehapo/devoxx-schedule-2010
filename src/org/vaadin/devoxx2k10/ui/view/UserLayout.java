@@ -27,7 +27,7 @@ public class UserLayout extends CssLayout implements ClickListener,
 
     public UserLayout(Calendar calendar) {
         setStyleName("user-layout");
-        setWidth("250px");
+        setWidth("260px");
 
         this.calendar = calendar;
         currentUserLabel = new Label("");

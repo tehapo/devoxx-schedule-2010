@@ -32,7 +32,7 @@ public class DaySelectorField extends CustomField implements
 
     public DaySelectorField(Date firstDay, Date lastDay) {
         layout = new CssLayout();
-        setWidth("");
+        setWidth("260px");
         setCompositionRoot(layout);
         setStyleName("day-selector-field");
         addListener(this);
