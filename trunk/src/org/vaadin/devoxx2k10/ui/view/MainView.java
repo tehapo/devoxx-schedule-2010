@@ -1,5 +1,6 @@
 package org.vaadin.devoxx2k10.ui.view;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import org.vaadin.devoxx2k10.ui.FullScreenButton;
@@ -35,6 +36,7 @@ public class MainView extends HorizontalLayout implements EventClickHandler,
     private HorizontalLayout toolbar;
     private DaySelectorField daySelector;
     private FullScreenButton fullScreenButton;
+    private Label dayLabel;
 
     public MainView() {
         initUi();
@@ -43,6 +45,9 @@ public class MainView extends HorizontalLayout implements EventClickHandler,
     private void initUi() {
         setWidth("100%");
         setHeight("100%");
+
+        dayLabel = new Label();
+        dayLabel.setStyleName("selected-day");
 
         calendar = new DevoxxCalendar();
         calendar.setHandler(this);
@@ -70,6 +75,7 @@ public class MainView extends HorizontalLayout implements EventClickHandler,
         calendarWrapper.setMargin(true);
         calendarWrapper.setSizeFull();
         calendarWrapper.addComponent(fullScreenButton);
+        calendarWrapper.addComponent(dayLabel);
         calendarWrapper.addComponent(calendar);
 
         Panel calendarPanel = new Panel(new VerticalLayout());
@@ -119,6 +125,27 @@ public class MainView extends HorizontalLayout implements EventClickHandler,
 
     public void valueChange(ValueChangeEvent event) {
         calendar.setDate((Date) daySelector.getValue());
+        dayLabel.setValue(getLabelForDate((Date) daySelector.getValue()));
+    }
+
+    private String getLabelForDate(Date value) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(value);
+
+        switch (cal.get(Calendar.DAY_OF_WEEK)) {
+        case Calendar.MONDAY:
+            return "University day 1";
+        case Calendar.TUESDAY:
+            return "University day 2";
+        case Calendar.WEDNESDAY:
+            return "Conference day 1";
+        case Calendar.THURSDAY:
+            return "Conference day 2";
+        case Calendar.FRIDAY:
+            return "Conference day 3";
+        }
+
+        return "";
     }
 
 }
