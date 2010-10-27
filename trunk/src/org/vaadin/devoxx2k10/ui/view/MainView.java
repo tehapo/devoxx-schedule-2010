@@ -80,6 +80,7 @@ public class MainView extends HorizontalLayout implements EventClickHandler,
         calendarPanel.addComponent(calendarWrapper);
         Link vaadinLink = new Link("",
                 new ExternalResource("http://vaadin.com"));
+        vaadinLink.setHeight("45px");
         vaadinLink.setStyleName("vaadin");
         calendarPanel.addComponent(vaadinLink);
         ((VerticalLayout) calendarPanel.getContent()).setComponentAlignment(
