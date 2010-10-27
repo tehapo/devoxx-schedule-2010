@@ -74,6 +74,13 @@ public class DevoxxPresentationImpl implements DevoxxPresentation, LazyLoadable 
         return room;
     }
 
+    public String getRoomExtraInfo() {
+        if (kind == DevoxxPresentationKind.KEYNOTE) {
+            return "(Overflow in rooms 5 and 4)";
+        }
+        return "";
+    }
+
     public String getTitle() {
         return title;
     }

@@ -21,6 +21,8 @@ public interface DevoxxPresentation {
 
     public String getRoom();
 
+    public String getRoomExtraInfo();
+
     public String getTitle();
 
     public List<DevoxxSpeaker> getSpeakers();
