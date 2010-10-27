@@ -46,6 +46,7 @@ public class LoginWindow extends Window implements Button.ClickListener {
         setResizable(false);
         setContent(createLayout());
         signInEmail.focus();
+        setCloseShortcut(KeyCode.ESCAPE);
     }
 
     private Layout createLayout() {
