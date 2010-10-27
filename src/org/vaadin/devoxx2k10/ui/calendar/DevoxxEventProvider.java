@@ -1,5 +1,7 @@
 package org.vaadin.devoxx2k10.ui.calendar;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -56,9 +58,13 @@ public class DevoxxEventProvider extends BasicEventProvider {
         List<DevoxxPresentation> schedule = facade.getFullSchedule();
 
         // wrap data from the model into CalendarEvents for UI
+        DateFormat df = new SimpleDateFormat("EEE");
         for (DevoxxPresentation event : schedule) {
+
             DevoxxCalendarEvent calEvent = new DevoxxCalendarEvent();
             calEvent.setStyleName(event.getKind().name().toLowerCase());
+            calEvent.addStyleName("day-"
+                    + df.format(event.getFromTime()).toLowerCase());
             calEvent.addStyleName("at-"
                     + event.getRoom().toLowerCase().replaceAll(" ", ""));
             if (isShortEvent(event)) {

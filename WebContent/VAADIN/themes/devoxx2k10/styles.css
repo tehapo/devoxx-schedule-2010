@@ -289,6 +289,11 @@
 .v-theme-devoxx2k10 .at-bof1 .v-calendar-event-caption { background-image: url("img/bof1.png"); }
 .v-theme-devoxx2k10 .at-bof2 .v-calendar-event-caption { background-image: url("img/bof2.png"); }
 .v-theme-devoxx2k10 .v-calendar-event-keynote .v-calendar-event-caption { background-image: url("img/devoxx.png"); }
+.v-theme-devoxx2k10 .v-calendar-event-registration.day-mon .v-calendar-event-caption { background-image: url("img/java-mon.png"); }
+.v-theme-devoxx2k10 .v-calendar-event-breakfast.day-tue .v-calendar-event-caption { background-image: url("img/java-tue.png"); }
+.v-theme-devoxx2k10 .v-calendar-event-registration.day-wed .v-calendar-event-caption { background-image: url("img/java-wed.png"); }
+.v-theme-devoxx2k10 .v-calendar-event-registration.day-thu .v-calendar-event-caption { background-image: url("img/java-thu.png"); }
+.v-theme-devoxx2k10 .v-calendar-event-breakfast.day-fri .v-calendar-event-caption { background-image: url("img/java-fri.png"); }
 
 .v-theme-devoxx2k10 .selected.at-room4 .v-calendar-event-caption { background-image: url("img/room4-inv.png"); }
 .v-theme-devoxx2k10 .selected.at-room5 .v-calendar-event-caption { background-image: url("img/room5-inv.png"); }
