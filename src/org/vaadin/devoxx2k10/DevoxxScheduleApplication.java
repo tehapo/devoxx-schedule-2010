@@ -3,9 +3,12 @@ package org.vaadin.devoxx2k10;
 import org.vaadin.devoxx2k10.data.CachingRestApiFacade;
 import org.vaadin.devoxx2k10.data.RestApiFacade;
 import org.vaadin.devoxx2k10.ui.view.MainView;
+import org.vaadin.devoxx2k10.ui.view.UnsupportedBrowserWindow;
 
 import com.vaadin.Application;
 import com.vaadin.service.ApplicationContext.TransactionListener;
+import com.vaadin.terminal.gwt.server.WebApplicationContext;
+import com.vaadin.terminal.gwt.server.WebBrowser;
 import com.vaadin.ui.Window;
 
 /**
@@ -56,6 +59,26 @@ public class DevoxxScheduleApplication extends Application implements
 
         MainView mainView = new MainView();
         mainWindow.setContent(mainView);
+
+        checkBrowserSupport(mainWindow);
+    }
+
+    private void checkBrowserSupport(Window mainWindow) {
+        if (getContext() instanceof WebApplicationContext) {
+            WebBrowser browser = ((WebApplicationContext) getContext())
+                    .getBrowser();
+            if (!isSupportedBrowser(browser)) {
+                mainWindow.addWindow(new UnsupportedBrowserWindow(
+                        "http://devoxx.com"));
+            }
+        }
+    }
+
+    private boolean isSupportedBrowser(WebBrowser browser) {
+        if (browser.isIE() && browser.getBrowserMajorVersion() <= 6) {
+            return false;
+        }
+        return true;
     }
 
     /**
