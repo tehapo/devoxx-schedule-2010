@@ -162,7 +162,7 @@
 	background: url("img/calendar-bg.png") #494846 top left;
 	-moz-box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.6);
 	-webkit-box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.6);
-	-moz-box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.6);
+	box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.6);
 }
 .v-theme-devoxx2k10 .v-calendar,
 .v-panel-content-calendar-panel > div,
@@ -170,6 +170,11 @@
 	background: transparent;
 }
 
+.v-theme-devoxx2k10 .v-calendar-event {
+	-moz-box-shadow: 0 1px 2px #2d2c2b;
+	-webkit-box-shadow: 0 1px 2px #2d2c2b;
+	box-shadow: 0 1px 2px #2d2c2b;
+}
 .v-theme-devoxx2k10 .v-calendar-event-caption {
 	left: 0;
 	top: 0;
