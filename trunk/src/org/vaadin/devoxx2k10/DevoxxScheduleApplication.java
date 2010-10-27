@@ -47,6 +47,11 @@ public class DevoxxScheduleApplication extends Application implements
     }
 
     @Override
+    public String getVersion() {
+        return VersionInformation.getVersion();
+    }
+
+    @Override
     public void init() {
         currentApplication.set(this);
         getContext().addTransactionListener(this);
