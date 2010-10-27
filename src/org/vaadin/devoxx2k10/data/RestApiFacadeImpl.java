@@ -137,8 +137,8 @@ public class RestApiFacadeImpl implements RestApiFacade, LazyLoadProvider {
             params.append("code="
                     + URLEncoder.encode(user.getActivationCode(), "utf-8"));
 
-            int response = httpClient.post(MY_SCHEDULE_VALIDATION_URL + "?"
-                    + params.toString(), "");
+            int response = httpClient.post(MY_SCHEDULE_VALIDATION_URL,
+                    params.toString());
             if (response == HttpURLConnection.HTTP_OK) {
                 return true;
             } else if (response == HttpURLConnection.HTTP_CONFLICT) {
