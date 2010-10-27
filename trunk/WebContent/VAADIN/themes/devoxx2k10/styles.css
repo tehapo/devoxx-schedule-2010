@@ -600,3 +600,7 @@
 .login-window .v-button-link {
 	background: transparent;
 }
+
+.v-ie6 .v-button .v-button-caption {
+	color: #000;	
+}
