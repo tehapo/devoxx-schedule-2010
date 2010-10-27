@@ -110,7 +110,8 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener,
     private void updateEventDetails() {
         DevoxxPresentation presentation = event.getDevoxxEvent();
 
-        roomLabel.setValue(presentation.getRoom());
+        roomLabel.setValue(presentation.getRoom() + " "
+                + presentation.getRoomExtraInfo());
         timeLabel.setValue(getEventTimeLabel(presentation));
         titleLabel.setValue(presentation.getTitle());
         abstractLabel.setValue(presentation.getSummary());
