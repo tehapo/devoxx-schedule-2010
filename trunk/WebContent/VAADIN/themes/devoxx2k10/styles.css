@@ -322,20 +322,6 @@
 	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 }
 
-/*-
-.v-csslayout-toolbar .v-checkbox {
-	color: #acaaa7;
-	font-size: 13px;
-	margin-left: 57px;
-}
-.v-csslayout-toolbar .v-checkbox input,
-.v-csslayout-toolbar .v-checkbox label {
-	cursor: pointer;	
-}
-.v-csslayout-toolbar .v-checkbox label {
-	padding-left: 5px;
-}*/
-
 .toolbar {
 	padding-top: 10px;	
 }
@@ -370,13 +356,6 @@
 }
 
 /* Day Selector */
-/*
-.day-selector-field,
-.day-selector-field .v-csslayout,
-.day-selector-field .v-csslayout-margin,
-.day-selector-field .v-csslayout-container {
-	float: left;
-}*/
 .day-selector-field .v-csslayout-container,
 .day-selector-field .v-csslayout-margin {
 	-moz-border-radius: 4px;
