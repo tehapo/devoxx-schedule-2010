@@ -32,6 +32,10 @@ body.v-full-screen {
 	border-color: #f00;
 }
 
+.v-app .v-view .v-label {
+	line-height: 18px;	
+}
+
 .v-link-vaadin a {
 	width: 263px;
 	height: 26px;
@@ -494,9 +498,12 @@ body.v-full-screen {
 	font-size: 14px;
 	line-height: 1.1em;
 }
-.event-details .time,
-.event-details .track {
+.event-details .time div,
+.event-details .track div {
 	color: #9b9892 !important;
+}
+.event-details .abstract div {
+	color: #b5b2ad !important	
 }
 .event-details .title .v-label {
 	color: #fff !important;
