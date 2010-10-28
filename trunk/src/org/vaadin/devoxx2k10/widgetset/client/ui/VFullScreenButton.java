@@ -71,6 +71,8 @@ public class VFullScreenButton extends VButton {
         Document.get().getBody().getStyle().setWidth(100, Unit.PCT);
         Document.get().getBody().getStyle().setHeight(100, Unit.PCT);
         Document.get().getBody().getStyle().setOverflow(Overflow.HIDDEN);
+        Document.get().getBody().addClassName("v-full-screen");
+
     }
 
     private void setRestoredStyle(Element rootElement) {
@@ -83,5 +85,6 @@ public class VFullScreenButton extends VButton {
         Document.get().getBody().getStyle().clearWidth();
         Document.get().getBody().getStyle().clearHeight();
         Document.get().getBody().getStyle().clearOverflow();
+        Document.get().getBody().removeClassName("v-full-screen");
     }
 }

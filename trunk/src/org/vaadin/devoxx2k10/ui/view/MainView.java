@@ -61,7 +61,7 @@ public class MainView extends HorizontalLayout implements EventClickHandler,
         toolbar = new HorizontalLayout();
         toolbar.setWidth("100%");
         toolbar.setHeight("33px");
-        toolbar.setStyleName("toolbar");
+        toolbar.setStyleName("v-toolbar");
         toolbar.addComponent(new UserLayout(calendar));
         toolbar.addComponent(daySelector);
         Label placeHolder = new Label("");

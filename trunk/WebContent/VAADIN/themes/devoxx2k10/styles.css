@@ -1,8 +1,12 @@
 @import url(../reindeer/styles.css);
 
+body.v-full-screen {
+	overflow: hidden !important;	
+}
+
 .v-app {
 	background: #292a29;
-	font-family: Helvetica, sans-serif;	
+	font-family: Helvetica, sans-serif !important;
 }
 
 .v-view {
@@ -11,14 +15,13 @@
 	overflow: hidden;
 }
 
-/* Required if embedding in an HTML 4.0 Transitional page */
-/*
-.v-app input.v-textfield, 
-.v-window input.v-textfield, 
-.v-app textarea.v-textarea, 
-.v-window textarea.v-textarea {
+/* Required only when embedding in an HTML 4.0 Transitional page */
+#atb-document .v-app input.v-textfield, 
+#atb-document .v-window input.v-textfield, 
+#atb-document .v-app textarea.v-textarea, 
+#atb-document .v-window textarea.v-textarea {
 	height: 25px;	
-}*/
+}
 
 .v-Notification {
 	font-size: 12px;	
@@ -66,8 +69,9 @@
 	padding: 1px 12px 0 9px;	
 }
 .v-button-caption {
-	color: #cbc7c0;
-	font-size: 12px;
+	color: #cbc7c0 !important;
+	line-height: 16px !important;
+	font-size: 12px !important;
 	font-weight: normal;
 	text-shadow: 0 -1px 0px rgba(0, 0, 0, 0.33);
 }
@@ -118,7 +122,7 @@
 	padding: 1px 10px 0 9px;
 }
 .v-button-calendar-mode .v-button-wrap .v-button-caption {
-	color: #1a1a18;
+	color: #1a1a18 !important;
 	font-weight: bold;
 	padding-left: 15px;
 	background: url("img/calendar-mode-button-star.png") transparent center left no-repeat;
@@ -133,7 +137,7 @@
 	box-shadow: 0 0 6px #eebd75;
 }
 .v-button-calendar-mode.my-schedule .v-button-wrap .v-button-caption {
-	color: #fff;
+	color: #fff !important;
 	background: url("img/calendar-mode-button-star-on.png") transparent center left no-repeat;
 	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.30);
 }
@@ -144,7 +148,7 @@
 }
 .v-button-sign-in-button .v-button-wrap .v-button-caption {
 	padding-left: 14px;
-	color: #242221;
+	color: #242221 !important;
 	font-weight: bold;
 	text-shadow: 0 1px 0px rgba(255, 255, 255, 0.25);
 	background: url("img/sign-in-icon.png") transparent center left no-repeat !important;
@@ -194,6 +198,7 @@
 	box-sizing: border-box;	
 }
 .v-theme-devoxx2k10 .v-calendar-event-caption span {
+	color: #fff;
 	text-shadow: 0 1px 0px rgba(0, 0, 0, 0.5);
 }
 .v-theme-devoxx2k10 .v-calendar-event-content {
@@ -201,7 +206,8 @@
 	border: none;
 	margin: 1px;
 }
-.v-theme-devoxx2k10 .v-calendar-time {
+.v-theme-devoxx2k10 .v-calendar-time,
+.v-theme-devoxx2k10 .v-calendar-time span {
 	font-size: 12px;
 	color: #8a8885;
 	text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.4);
@@ -227,6 +233,7 @@
 }
 .v-theme-devoxx2k10 .v-calendar-event-caption {
 	color: #fff;
+	line-height: 13px;
 }
 .v-calendar-event-talk .v-calendar-event-content {
 	background: url("img/talk-gradient.png") top left repeat-x #76756c;
@@ -241,13 +248,16 @@
 .v-calendar .selected .v-calendar-event-content {
 	background: #efefe6;
 }
-.v-calendar .selected  .v-calendar-event-caption span {
-	text-shadow: none;	
-}
-.v-calendar .selected .v-calendar-event-caption {
+.v-calendar .selected .v-calendar-event-caption,
+.v-calendar .selected .v-calendar-event-caption span {
 	font-weight: bold;
 	color: #2f2e2d;
+}
+.v-calendar .selected .v-calendar-event-caption {
 	text-shadow: 0 1px 0px rgba(255, 255, 255, 0.4);
+}
+.v-calendar .selected  .v-calendar-event-caption span {
+	text-shadow: none;	
 }
 
 .v-calendar-event .v-calendar-event-resizebottom,
@@ -264,8 +274,8 @@
 }
 
 .v-label-selected-day {
-	font-size: 14px;
-	color: #fff;
+	font-size: 14px !important;
+	color: #fff !important;
 	text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.4);
 	text-align: center;
 	padding-bottom: 10px;	
@@ -329,7 +339,7 @@
 	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 }
 
-.toolbar {
+.v-toolbar {
 	padding-top: 10px;	
 }
 .user-layout {
@@ -347,7 +357,7 @@
 }
 .user-layout .current-user,
 .user-layout .sign-out-button .v-button-caption {
-	color: #acaaa7;
+	color: #acaaa7 !important;
 	text-decoration: none;
 	line-height: 19px;
 	font-weight: bold;
@@ -355,11 +365,11 @@
 	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
 }
 .user-layout .sign-out-button .v-button-caption  {
-	font-size: 11px;
-	line-height: 22px;
+	font-size: 11px !important;
+	line-height: 22px !important;
 }
 .user-layout .sign-out-button:hover .v-button-caption  {
-	color: #fff;	
+	color: #fff !important;	
 }
 
 /* Day Selector */
@@ -421,7 +431,7 @@
 }
 .day-selector-field .v-button-selected .v-button-caption,
 .day-selector-field .v-button:hover .v-button-caption {
-	color: #fff;	
+	color: #fff !important;	
 }
 
 
@@ -471,7 +481,7 @@
 /* Details */
 .event-details,
 .login-window .v-window-contents {
-	color: #b5b2ad;
+	color: #b5b2ad !important;
 	padding: 15px 20px;
 }
 .event-details .room .v-label,
@@ -486,17 +496,17 @@
 }
 .event-details .time,
 .event-details .track {
-	color: #9b9892;
+	color: #9b9892 !important;
 }
-.event-details .title {
-	color: #fff;
-	font-size: 16px;
+.event-details .title .v-label {
+	color: #fff !important;
+	font-size: 16px !important;
 	font-weight: bold;
 	margin: 15px 0;	
 	text-shadow: 0 2px 1px rgba(0, 0, 0, 0.5);
 }
 .event-details-panel .hide-button,
-.toolbar,
+.v-toolbar,
 .login-window .v-window-contents {
 	background: url("img/toolbar-bg.png") #323130 top left repeat-x;
 }
@@ -511,9 +521,9 @@
 }
 .event-details-panel .hide-button .v-button-caption {
 	display: block;
-	color: #acaaa7;
+	color: #acaaa7 !important;
 	font-weight: bold;
-	font-size: 13px;
+	font-size: 13px !important;
 	text-decoration: none;
 	padding-right: 28px;
 	padding-top: 5px;
@@ -521,7 +531,7 @@
 	min-height: 17px;
 }
 .event-details-panel .hide-button:hover .v-button-caption {
-	color: #fff;	
+	color: #fff !important;	
 }
 .event-details-panel .attending-button .v-button-wrap,
 .event-details-panel .not-attending-button .v-button-wrap {
@@ -551,8 +561,8 @@
 .speakers-layout .v-button-caption {
 	text-decoration: none;
 	font-weight: bold;
-	font-size: 13px;
-	color: #f08800;	
+	font-size: 13px !important;
+	color: #f08800 !important;	
 }
 
 .speaker-details .v-button .v-button-caption {
