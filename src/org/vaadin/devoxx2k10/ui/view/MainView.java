@@ -3,6 +3,7 @@ package org.vaadin.devoxx2k10.ui.view;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.vaadin.devoxx2k10.DevoxxScheduleApplication;
 import org.vaadin.devoxx2k10.ui.FullScreenButton;
 import org.vaadin.devoxx2k10.ui.calendar.DevoxxCalendar;
 import org.vaadin.devoxx2k10.ui.calendar.DevoxxCalendarEvent;
@@ -13,6 +14,8 @@ import com.vaadin.addon.calendar.ui.CalendarComponentEvents.EventClickHandler;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.terminal.ExternalResource;
+import com.vaadin.terminal.gwt.server.WebApplicationContext;
+import com.vaadin.terminal.gwt.server.WebBrowser;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
@@ -71,6 +74,7 @@ public class MainView extends HorizontalLayout implements EventClickHandler,
         toolbar.setExpandRatio(daySelector, 1.0f);
 
         fullScreenButton = new FullScreenButton(false);
+        fullScreenButton.setVisible(!iOSUserAgent());
         CssLayout calendarWrapper = new CssLayout();
         calendarWrapper.setMargin(true);
         calendarWrapper.setSizeFull();
@@ -99,6 +103,20 @@ public class MainView extends HorizontalLayout implements EventClickHandler,
 
         // make the calendar expand to use all available space
         setExpandRatio(calendarPanel, 1f);
+    }
+
+    private boolean iOSUserAgent() {
+        if (DevoxxScheduleApplication.getCurrentInstance().getContext() instanceof WebApplicationContext) {
+            WebBrowser browser = ((WebApplicationContext) DevoxxScheduleApplication
+                    .getCurrentInstance().getContext()).getBrowser();
+            String userAgent = browser.getBrowserApplication();
+
+            if (userAgent.contains("iPod") || userAgent.contains("iPhone")
+                    || userAgent.contains("iPad")) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void eventClick(EventClick event) {
