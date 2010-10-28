@@ -14,6 +14,11 @@
 	
 	<taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask" classpath="${build.lib.dir}/xmltask.jar"/>
 	
+	<target name="clean">
+		<echo>Cleaning the dist directory.</echo>
+		<delete dir="dist" />	
+	</target>
+	
 	<target name="compile-server-side">
 		<echo>Compiling server-side code to ${server-side.dest.dir}.</echo>
 		<mkdir dir="${server-side.dest.dir}"/>
@@ -53,7 +58,7 @@
 		</java>
 	</target>
 	
-	<target name="package-war" depends="compile-server-side, compile-client-side">
+	<target name="package-war" depends="clean, compile-server-side, compile-client-side">
 		<echo>Packaging WAR to ${dist.dir}.</echo>
 		<mkdir dir="${dist.dir}/WebContent"/>
 		<mkdir dir="${dist.dir}/WebContent/WEB-INF/classes"/>
