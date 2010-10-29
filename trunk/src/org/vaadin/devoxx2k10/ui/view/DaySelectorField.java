@@ -30,7 +30,8 @@ public class DaySelectorField extends CustomField implements
     private UriFragmentUtility uriFragment;
     private Map<String, Button> uriFragmentToButtonMap = new HashMap<String, Button>();
 
-    public DaySelectorField(Date firstDay, Date lastDay) {
+    public DaySelectorField(Date firstDay, Date lastDay,
+            UriFragmentUtility uriFragment) {
         layout = new CssLayout();
         setWidth("260px");
         setCompositionRoot(layout);
@@ -60,9 +61,10 @@ public class DaySelectorField extends CustomField implements
         }
         dayButton.addStyleName("last");
 
-        uriFragment = new UriFragmentUtility();
-        uriFragment.addListener(this);
-        layout.addComponent(uriFragment);
+        if (uriFragment != null) {
+            uriFragment.addListener(this);
+            this.uriFragment = uriFragment;
+        }
     }
 
     @Override
@@ -75,10 +77,21 @@ public class DaySelectorField extends CustomField implements
 
             if (dayEquals((Date) button.getData(), (Date) getValue())) {
                 button.addStyleName("selected");
-                uriFragment.setFragment(fragment);
+                if (uriFragment != null) {
+                    uriFragment.setFragment(fragment, false);
+                }
             } else {
                 button.removeStyleName("selected");
             }
+        }
+    }
+
+    @Override
+    public void setValue(Object newValue) throws ReadOnlyException,
+            ConversionException {
+        if (newValue instanceof Date
+                && !dayEquals((Date) getValue(), (Date) newValue)) {
+            super.setValue(newValue);
         }
     }
 
@@ -90,6 +103,10 @@ public class DaySelectorField extends CustomField implements
      * @return true if the dates represent the same day.
      */
     private boolean dayEquals(Date first, Date second) {
+        if (first == null || second == null) {
+            return false;
+        }
+
         Calendar firstCal = Calendar.getInstance();
         firstCal.setTime(first);
         Calendar secondCal = Calendar.getInstance();

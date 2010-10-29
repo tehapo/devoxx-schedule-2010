@@ -22,16 +22,26 @@ public class DevoxxEventProvider extends BasicEventProvider {
     private static final long SHORT_EVENT_THRESHOLD_MS = 1000 * 60 * 30;
 
     public List<CalendarEvent> getEvents(Date startDate, Date endDate) {
-        if (!eventsLoaded) {
-            loadEventsFromBackend();
-            eventsLoaded = true;
-        }
+        loadEventsFromBackendIfNeeded();
 
         List<CalendarEvent> result = super.getEvents(startDate, endDate);
         logger.debug("Returning " + result.size() + " events for " + startDate
                 + " - " + endDate);
 
         return result;
+    }
+
+    public CalendarEvent getEvent(int id) {
+        loadEventsFromBackendIfNeeded();
+
+        for (CalendarEvent event : eventList) {
+            if (event instanceof DevoxxCalendarEvent
+                    && ((DevoxxCalendarEvent) event).getDevoxxEvent().getId() == id) {
+                return event;
+            }
+        }
+
+        return null;
     }
 
     public void refreshAttendingStyles() {
@@ -50,7 +60,12 @@ public class DevoxxEventProvider extends BasicEventProvider {
         }
     }
 
-    private void loadEventsFromBackend() {
+    private void loadEventsFromBackendIfNeeded() {
+        if (eventsLoaded) {
+            // already loaded -> do nothing
+            return;
+        }
+
         RestApiFacade facade = DevoxxScheduleApplication.getCurrentInstance()
                 .getBackendFacade();
         List<DevoxxPresentation> schedule = facade.getFullSchedule();
@@ -68,6 +83,7 @@ public class DevoxxEventProvider extends BasicEventProvider {
             calEvent.addListener(this);
             super.addEvent(calEvent);
         }
+        eventsLoaded = true;
 
         logger.debug("Fetched schedule from backend (total " + schedule.size()
                 + " events).");
