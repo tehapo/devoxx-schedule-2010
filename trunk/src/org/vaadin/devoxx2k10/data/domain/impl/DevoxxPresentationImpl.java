@@ -1,8 +1,10 @@
-package org.vaadin.devoxx2k10.data;
+package org.vaadin.devoxx2k10.data.domain.impl;
 
 import java.util.Date;
 import java.util.List;
 
+import org.vaadin.devoxx2k10.data.LazyLoad;
+import org.vaadin.devoxx2k10.data.LazyLoadable;
 import org.vaadin.devoxx2k10.data.domain.DevoxxPresentation;
 import org.vaadin.devoxx2k10.data.domain.DevoxxPresentationKind;
 import org.vaadin.devoxx2k10.data.domain.DevoxxSpeaker;
@@ -98,7 +100,7 @@ public class DevoxxPresentationImpl implements DevoxxPresentation, LazyLoadable 
         return summary;
     }
 
-    public void setSummary(String summary) {
+    public void setSummary(final String summary) {
         this.summary = summary;
     }
 
@@ -107,7 +109,7 @@ public class DevoxxPresentationImpl implements DevoxxPresentation, LazyLoadable 
         return track;
     }
 
-    public void setTrack(String track) {
+    public void setTrack(final String track) {
         this.track = track;
     }
 
@@ -116,8 +118,7 @@ public class DevoxxPresentationImpl implements DevoxxPresentation, LazyLoadable 
         return experience;
     }
 
-    public void setExperience(String experience) {
+    public void setExperience(final String experience) {
         this.experience = experience;
     }
-
 }

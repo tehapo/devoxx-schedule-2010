@@ -30,21 +30,19 @@ public class DaySelectorField extends CustomField implements
     private UriFragmentUtility uriFragment;
     private Map<String, Button> uriFragmentToButtonMap = new HashMap<String, Button>();
 
-    public DaySelectorField(Date firstDay, Date lastDay,
-            UriFragmentUtility uriFragment) {
+    public DaySelectorField(final Date firstDay, final Date lastDay, final UriFragmentUtility uriFragment) {
         layout = new CssLayout();
         setWidth("260px");
         setCompositionRoot(layout);
         setStyleName("day-selector-field");
         addListener(this);
 
-        Calendar javaCalendar = Calendar.getInstance();
+        final Calendar javaCalendar = Calendar.getInstance();
         javaCalendar.setTime(firstDay);
 
         Button dayButton = null;
         while (javaCalendar.getTime().compareTo(lastDay) <= 0) {
-            String dayName = javaCalendar.getDisplayName(Calendar.DAY_OF_WEEK,
-                    Calendar.SHORT, Locale.US);
+            final String dayName = javaCalendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.US);
 
             boolean first = (dayButton == null);
             dayButton = new Button(dayName, (Button.ClickListener) this);
@@ -68,12 +66,11 @@ public class DaySelectorField extends CustomField implements
     }
 
     @Override
-    public void valueChange(com.vaadin.data.Property.ValueChangeEvent event) {
+    public void valueChange(final com.vaadin.data.Property.ValueChangeEvent event) {
         // set the style name for selected
-        for (Map.Entry<String, Button> entry : uriFragmentToButtonMap
-                .entrySet()) {
-            String fragment = entry.getKey();
-            Button button = entry.getValue();
+        for (final Map.Entry<String, Button> entry : uriFragmentToButtonMap.entrySet()) {
+            final String fragment = entry.getKey();
+            final Button button = entry.getValue();
 
             if (dayEquals((Date) button.getData(), (Date) getValue())) {
                 button.addStyleName("selected");
@@ -87,10 +84,8 @@ public class DaySelectorField extends CustomField implements
     }
 
     @Override
-    public void setValue(Object newValue) throws ReadOnlyException,
-            ConversionException {
-        if (newValue instanceof Date
-                && !dayEquals((Date) getValue(), (Date) newValue)) {
+    public void setValue(final Object newValue) throws ReadOnlyException, ConversionException {
+        if (newValue instanceof Date && !dayEquals((Date) getValue(), (Date) newValue)) {
             super.setValue(newValue);
         }
     }
@@ -102,19 +97,18 @@ public class DaySelectorField extends CustomField implements
      * @param second
      * @return true if the dates represent the same day.
      */
-    private boolean dayEquals(Date first, Date second) {
+    private boolean dayEquals(final Date first, final Date second) {
         if (first == null || second == null) {
             return false;
         }
 
-        Calendar firstCal = Calendar.getInstance();
+        final Calendar firstCal = Calendar.getInstance();
         firstCal.setTime(first);
-        Calendar secondCal = Calendar.getInstance();
+        final Calendar secondCal = Calendar.getInstance();
         secondCal.setTime(second);
 
-        return firstCal.get(Calendar.DAY_OF_YEAR) == secondCal
-                .get(Calendar.DAY_OF_YEAR)
-                && firstCal.get(Calendar.YEAR) == secondCal.get(Calendar.YEAR);
+        return firstCal.get(Calendar.DAY_OF_YEAR) == secondCal .get(Calendar.DAY_OF_YEAR) &&
+               firstCal.get(Calendar.YEAR) == secondCal.get(Calendar.YEAR);
 
     }
 
@@ -123,18 +117,19 @@ public class DaySelectorField extends CustomField implements
         return Date.class;
     }
 
-    public void buttonClick(ClickEvent event) {
-        Date clickedValue = (Date) event.getButton().getData();
+    @Override
+    public void buttonClick(final ClickEvent event) {
+        final Date clickedValue = (Date) event.getButton().getData();
         setValue(clickedValue);
     }
 
-    public void fragmentChanged(FragmentChangedEvent source) {
+    @Override
+    public void fragmentChanged(final FragmentChangedEvent source) {
         // URI fragment changed -> see if there is a corresponding Button and
         // select that Button's value.
-        String fragment = source.getUriFragmentUtility().getFragment();
+        final String fragment = source.getUriFragmentUtility().getFragment();
         if (uriFragmentToButtonMap.containsKey(fragment)) {
             setValue(uriFragmentToButtonMap.get(fragment).getData());
         }
     }
-
 }

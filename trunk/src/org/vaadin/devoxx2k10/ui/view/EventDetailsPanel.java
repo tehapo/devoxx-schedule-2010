@@ -30,8 +30,7 @@ import com.vaadin.ui.themes.BaseTheme;
  * also functionality for adding and removing the given
  * {@link DevoxxPresentation} as a MySchedule favourite.
  */
-public class EventDetailsPanel extends Panel implements Button.ClickListener,
-        UserChangeListener {
+public class EventDetailsPanel extends Panel implements Button.ClickListener, UserChangeListener {
 
     private static final long serialVersionUID = -671137262550574991L;
 
@@ -96,7 +95,7 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener,
      * 
      * @param devoxxEvent
      */
-    public void setEvent(DevoxxCalendarEvent devoxxEvent) {
+    public void setEvent(final DevoxxCalendarEvent devoxxEvent) {
         event = devoxxEvent;
         updateEventDetails();
     }
@@ -108,25 +107,22 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener,
      * @see #updateFavouriteButtons()
      */
     private void updateEventDetails() {
-        DevoxxPresentation presentation = event.getDevoxxEvent();
+        final DevoxxPresentation presentation = event.getDevoxxEvent();
 
-        roomLabel.setValue(presentation.getRoom() + " "
-                + presentation.getRoomExtraInfo());
+        roomLabel.setValue(presentation.getRoom() + " " + presentation.getRoomExtraInfo());
         timeLabel.setValue(getEventTimeLabel(presentation));
         titleLabel.setValue(presentation.getTitle());
         abstractLabel.setValue(presentation.getSummary());
 
-        if (presentation.getTrack() != null
-                && presentation.getExperience() != null) {
-            trackLabel.setValue(presentation.getTrack() + " ("
-                    + presentation.getExperience() + ")");
+        if (presentation.getTrack() != null && presentation.getExperience() != null) {
+            trackLabel.setValue(presentation.getTrack() + " (" + presentation.getExperience() + ")");
             trackLabel.setVisible(true);
         } else {
             trackLabel.setVisible(false);
         }
 
         speakers.removeAllComponents();
-        for (DevoxxSpeaker speaker : presentation.getSpeakers()) {
+        for (final DevoxxSpeaker speaker : presentation.getSpeakers()) {
             speakers.addComponent(new SpeakerDetails(speaker));
         }
         speakers.setVisible(!presentation.getSpeakers().isEmpty());
@@ -141,9 +137,9 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener,
      * @param presentation
      * @return
      */
-    private String getEventTimeLabel(DevoxxPresentation presentation) {
-        SimpleDateFormat dateFormatFrom = new SimpleDateFormat("EEEEE, HH:mm");
-        SimpleDateFormat dateFormatTo = new SimpleDateFormat("HH:mm");
+    private String getEventTimeLabel(final DevoxxPresentation presentation) {
+        final SimpleDateFormat dateFormatFrom = new SimpleDateFormat("EEEEE, HH:mm");
+        final SimpleDateFormat dateFormatTo = new SimpleDateFormat("HH:mm");
 
         return dateFormatFrom.format(presentation.getFromTime()) + " - "
                 + dateFormatTo.format(presentation.getToTime()) + " ("
@@ -158,14 +154,14 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener,
      * @see #updateEventDetails()
      */
     private void updateFavouriteButtons() {
-        DevoxxPresentation presentation = event.getDevoxxEvent();
+        final DevoxxPresentation presentation = event.getDevoxxEvent();
 
         addToFavouritesButton.setData(event);
         addToFavouritesButton.setVisible(true);
         removeFromFavouritesButton.setData(event);
         removeFromFavouritesButton.setVisible(false);
 
-        MyScheduleUser user = (MyScheduleUser) getApplication().getUser();
+        final MyScheduleUser user = (MyScheduleUser) getApplication().getUser();
         if (event.getDevoxxEvent().getId() > 0) {
             if (user != null && user.hasFavourited(presentation)) {
                 // Show the remove button instead of add button.
@@ -183,12 +179,10 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener,
         if (event.getButton() == hideButton) {
             // hide this panel
             setVisible(false);
-        } else if (event.getButton() == addToFavouritesButton
-                || event.getButton() == removeFromFavouritesButton) {
+        } else if (event.getButton() == addToFavouritesButton || event.getButton() == removeFromFavouritesButton) {
 
             // we're adding or removing a favourite
-            final DevoxxCalendarEvent calEvent = (DevoxxCalendarEvent) event
-                    .getButton().getData();
+            final DevoxxCalendarEvent calEvent = (DevoxxCalendarEvent) event.getButton().getData();
 
             if (getLoggedInUser() != null) {
                 handleAddOrRemoveClick(event.getButton(), calEvent);
@@ -210,17 +204,15 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener,
     }
 
     private MyScheduleUser getLoggedInUser() {
-        MyScheduleUser user = (MyScheduleUser) DevoxxScheduleApplication
-                .getCurrentInstance().getUser();
+        final MyScheduleUser user = (MyScheduleUser) DevoxxScheduleApplication.getCurrentInstance().getUser();
         if (user != null && user.getActivationCode() != null) {
             return user;
         }
         return null;
     }
 
-    private void handleAddOrRemoveClick(Button clickedButton,
-            DevoxxCalendarEvent calEvent) {
-        MyScheduleUser user = getLoggedInUser();
+    private void handleAddOrRemoveClick(final Button clickedButton, final DevoxxCalendarEvent calEvent) {
+        final MyScheduleUser user = getLoggedInUser();
         if (user != null) {
             boolean addToFavourites = true;
             if (clickedButton == removeFromFavouritesButton) {
@@ -233,8 +225,7 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener,
                     user.removeFavourite(event.getDevoxxEvent());
                 }
 
-                RestApiFacade facade = DevoxxScheduleApplication
-                        .getCurrentInstance().getBackendFacade();
+                final RestApiFacade facade = DevoxxScheduleApplication.getCurrentInstance().getBackendFacade();
                 facade.saveMySchedule(user);
 
                 if (addToFavourites) {
@@ -244,13 +235,12 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener,
                 }
                 updateFavouriteButtons();
             } catch (RestApiException e) {
-                getWindow().showNotification(e.getMessage(),
-                        Notification.TYPE_ERROR_MESSAGE);
+                getWindow().showNotification(e.getMessage(), Notification.TYPE_ERROR_MESSAGE);
             }
         }
     }
 
-    public void applicationUserChanged(UserChangeEvent event) {
+    public void applicationUserChanged(final UserChangeEvent event) {
         if (this.event != null) {
             updateFavouriteButtons();
         }

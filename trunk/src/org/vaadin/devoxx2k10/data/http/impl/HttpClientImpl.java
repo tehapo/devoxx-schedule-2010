@@ -1,4 +1,4 @@
-package org.vaadin.devoxx2k10.data.http;
+package org.vaadin.devoxx2k10.data.http.impl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,6 +8,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import org.apache.log4j.Logger;
+import org.vaadin.devoxx2k10.data.http.HttpClient;
+import org.vaadin.devoxx2k10.data.http.HttpResponse;
 
 /**
  * A very simple HttpClient implementation.
@@ -26,18 +28,24 @@ public class HttpClientImpl implements HttpClient {
      * @return
      * @throws IOException
      */
-    public HttpResponse get(String urlString) throws IOException {
-        logger.debug("HTTP GET: " + urlString);
-        HttpURLConnection urlConnection = openURLConnection(urlString);
+    @Override
+    public HttpResponse get(final String urlString) throws IOException {
+        if (logger.isDebugEnabled()) {
+            logger.debug("HTTP GET: " + urlString);
+        }
+
+        final HttpURLConnection urlConnection = openURLConnection(urlString);
 
         try {
-            int responseCode = urlConnection.getResponseCode();
-            logger.debug("Response code: " + responseCode);
+            final int responseCode = urlConnection.getResponseCode();
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(
-                    urlConnection.getInputStream(), "utf-8"));
+            if (logger.isDebugEnabled()) {
+                logger.debug("Response code: " + responseCode);
+            }
+
+            final BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "utf-8"));
             try {
-                StringBuilder result = new StringBuilder();
+                final StringBuilder result = new StringBuilder();
                 String line;
                 while ((line = in.readLine()) != null) {
                     result.append(line);
@@ -60,22 +68,27 @@ public class HttpClientImpl implements HttpClient {
      * @return response code
      * @throws IOException
      */
-    public int post(String urlString, String postData) throws IOException {
-        logger.debug("HTTP POST: " + urlString);
+    @Override
+    public int post(final String urlString, final String postData) throws IOException {
+        if (logger.isDebugEnabled()) {
+            logger.debug("HTTP POST: " + urlString);
+        }
 
-        HttpURLConnection urlConnection = openURLConnection(urlString);
+        final HttpURLConnection urlConnection = openURLConnection(urlString);
         urlConnection.setRequestProperty("Content-Type", POST_CONTENT_TYPE);
         urlConnection.setDoOutput(true);
 
         try {
-            OutputStreamWriter writer = new OutputStreamWriter(
-                    urlConnection.getOutputStream());
+            final OutputStreamWriter writer = new OutputStreamWriter(urlConnection.getOutputStream());
             try {
                 writer.write(postData);
                 writer.flush();
 
                 int responseCode = urlConnection.getResponseCode();
-                logger.debug("Response code: " + responseCode);
+
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Response code: " + responseCode);
+                }
                 return responseCode;
             } finally {
                 writer.close();
@@ -85,13 +98,10 @@ public class HttpClientImpl implements HttpClient {
         }
     }
 
-    private HttpURLConnection openURLConnection(String urlString)
-            throws IOException {
-        URL url = new URL(urlString);
-        HttpURLConnection urlConnection = (HttpURLConnection) url
-                .openConnection();
+    private HttpURLConnection openURLConnection(final String urlString) throws IOException {
+        final URL url = new URL(urlString);
+        final HttpURLConnection urlConnection = (HttpURLConnection) url .openConnection();
         urlConnection.setRequestProperty("User-Agent", USER_AGENT);
         return urlConnection;
     }
-
 }

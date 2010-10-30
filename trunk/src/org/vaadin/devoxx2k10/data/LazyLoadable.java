@@ -14,6 +14,5 @@ public interface LazyLoadable {
      * 
      * @return
      */
-    public String getLazyLoadingUri();
-
+    String getLazyLoadingUri();
 }

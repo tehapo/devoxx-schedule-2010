@@ -14,8 +14,7 @@ import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.themes.BaseTheme;
 
-public class UserLayout extends CssLayout implements ClickListener,
-        UserChangeListener, UserFavouritesChangedListener {
+public class UserLayout extends CssLayout implements ClickListener, UserChangeListener, UserFavouritesChangedListener {
 
     private static final long serialVersionUID = 7016536111338741020L;
 
@@ -25,7 +24,7 @@ public class UserLayout extends CssLayout implements ClickListener,
     private Button calendarMode;
     private final Calendar calendar;
 
-    public UserLayout(Calendar calendar) {
+    public UserLayout(final Calendar calendar) {
         setStyleName("user-layout");
         setWidth("260px");
 
@@ -53,18 +52,19 @@ public class UserLayout extends CssLayout implements ClickListener,
         updateComponentVisibility();
     }
 
-    public void buttonClick(ClickEvent event) {
+    @Override
+    public void buttonClick(final ClickEvent event) {
         if (event.getButton() == signInButton) {
             getWindow().addWindow(new LoginWindow());
         } else if (event.getButton() == signOutButton) {
             getApplication().setUser(null);
         } else if (event.getButton() == calendarMode) {
-            boolean currentMode = (Boolean) calendarMode.getData();
+            final boolean currentMode = (Boolean) calendarMode.getData();
             setMyScheduleMode(!currentMode);
         }
     }
 
-    private void setMyScheduleMode(boolean active) {
+    private void setMyScheduleMode(final boolean active) {
         if (active) {
             calendar.addStyleName("my-schedule");
             calendarMode.addStyleName("my-schedule");
@@ -77,7 +77,7 @@ public class UserLayout extends CssLayout implements ClickListener,
     }
 
     private void updateFavouriteCount() {
-        Object user = DevoxxScheduleApplication.getCurrentInstance().getUser();
+        final Object user = DevoxxScheduleApplication.getCurrentInstance().getUser();
         int favouriteCount = 0;
         if (user != null && user instanceof MyScheduleUser) {
             favouriteCount = ((MyScheduleUser) user).getFavourites().size();
@@ -87,19 +87,17 @@ public class UserLayout extends CssLayout implements ClickListener,
     }
 
     private void updateComponentVisibility() {
-        boolean userLoggedIn = DevoxxScheduleApplication.getCurrentInstance()
-                .getUser() != null;
+        final boolean userLoggedIn = DevoxxScheduleApplication.getCurrentInstance().getUser() != null;
         calendarMode.setVisible(userLoggedIn);
         currentUserLabel.setVisible(userLoggedIn);
         signInButton.setVisible(!userLoggedIn);
         signOutButton.setVisible(userLoggedIn);
     }
 
-    public void applicationUserChanged(UserChangeEvent event) {
-        if (getApplication().getUser() != null
-                && getApplication().getUser() instanceof MyScheduleUser) {
-            MyScheduleUser newUser = (MyScheduleUser) getApplication()
-                    .getUser();
+    @Override
+    public void applicationUserChanged(final UserChangeEvent event) {
+        if (getApplication().getUser() != null && getApplication().getUser() instanceof MyScheduleUser) {
+            final MyScheduleUser newUser = (MyScheduleUser) getApplication().getUser();
             String label = newUser.getEmail();
             if (label.length() > 20) {
                 label = label.substring(0, 17) + "..";
@@ -112,7 +110,8 @@ public class UserLayout extends CssLayout implements ClickListener,
         updateFavouriteCount();
     }
 
-    public void favouritesChanged(MyScheduleUser user) {
+    @Override
+    public void favouritesChanged(final MyScheduleUser user) {
         updateFavouriteCount();
     }
 }

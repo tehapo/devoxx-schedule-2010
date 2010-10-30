@@ -19,5 +19,4 @@ public @interface LazyLoad {
      * @return
      */
     String value();
-
 }

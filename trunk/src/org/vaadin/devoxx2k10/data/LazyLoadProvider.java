@@ -6,8 +6,7 @@ public interface LazyLoadProvider {
      * Uses reflection to fill all fields of given LazyLoadable that are
      * decorated with the LazyLoad annotation.
      * 
-     * @param lazy
+     * @param lazyLoadable
      */
-    public void lazyLoadFields(LazyLoadable lazyLoadable);
-
+    void lazyLoadFields(LazyLoadable lazyLoadable);
 }

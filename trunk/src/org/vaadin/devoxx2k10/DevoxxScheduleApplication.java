@@ -16,13 +16,12 @@ import com.vaadin.ui.Window;
  * Calendar add-on for the main display and the Devoxx REST interface as the
  * data source for the schedule data.
  * 
- * @see http://www.devoxx.com
- * @see http://www.vaadin.com
- * @see http://www.devoxx.com/display/Devoxx2K10/Schedule+REST+interface
- * @see http://vaadin.com/addon/vaadin-calendar
+ * @link http://www.devoxx.com
+ * @link http://www.vaadin.com
+ * @link http://www.devoxx.com/display/Devoxx2K10/Schedule+REST+interface
+ * @link http://vaadin.com/addon/vaadin-calendar
  */
-public class DevoxxScheduleApplication extends Application implements
-        TransactionListener {
+public class DevoxxScheduleApplication extends Application implements TransactionListener {
 
     private static final long serialVersionUID = 1167695727109405960L;
 
@@ -37,8 +36,7 @@ public class DevoxxScheduleApplication extends Application implements
     static {
         systemMessages = new CustomizedSystemMessages();
 
-        // Disable session expired notification -> just restart the application
-        // if the session expires.
+        // Disable session expired notification -> just restart the application if the session expires.
         systemMessages.setSessionExpiredNotificationEnabled(false);
     }
 
@@ -58,32 +56,28 @@ public class DevoxxScheduleApplication extends Application implements
 
         backendFacade = new CachingRestApiFacade();
 
-        Window mainWindow = new Window("Devoxx 2010 Schedule");
+        final Window mainWindow = new Window("Devoxx 2010 Schedule");
         setMainWindow(mainWindow);
         setTheme("devoxx2k10");
 
-        MainView mainView = new MainView();
+        final MainView mainView = new MainView();
         mainWindow.setContent(mainView);
 
         checkBrowserSupport(mainWindow);
     }
 
-    private void checkBrowserSupport(Window mainWindow) {
+    private void checkBrowserSupport(final Window mainWindow) {
         if (getContext() instanceof WebApplicationContext) {
-            WebBrowser browser = ((WebApplicationContext) getContext())
-                    .getBrowser();
+            final WebBrowser browser = ((WebApplicationContext) getContext()).getBrowser();
+
             if (!isSupportedBrowser(browser)) {
-                mainWindow.addWindow(new UnsupportedBrowserWindow(
-                        "http://devoxx.com"));
+                mainWindow.addWindow(new UnsupportedBrowserWindow("http://devoxx.com"));
             }
         }
     }
 
-    private boolean isSupportedBrowser(WebBrowser browser) {
-        if (browser.isIE() && browser.getBrowserMajorVersion() <= 6) {
-            return false;
-        }
-        return true;
+    private boolean isSupportedBrowser(final WebBrowser browser) {
+        return !(browser.isIE() && browser.getBrowserMajorVersion() <= 6);
     }
 
     /**
@@ -106,18 +100,17 @@ public class DevoxxScheduleApplication extends Application implements
         return currentApplication.get();
     }
 
-    public void transactionStart(Application application, Object transactionData) {
+    public void transactionStart(final Application application, final Object transactionData) {
         if (application == this) {
             // set the ThreadLocal value
             currentApplication.set(this);
         }
     }
 
-    public void transactionEnd(Application application, Object transactionData) {
+    public void transactionEnd(final Application application, final Object transactionData) {
         if (application == this) {
             // remove the ThreadLocal value
             currentApplication.remove();
         }
     }
-
 }

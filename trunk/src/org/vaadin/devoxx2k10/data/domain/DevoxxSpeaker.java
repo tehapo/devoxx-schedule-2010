@@ -2,12 +2,11 @@ package org.vaadin.devoxx2k10.data.domain;
 
 public interface DevoxxSpeaker {
 
-    public String getName();
+    int getId();
 
-    public int getId();
+    String getName();
 
-    public String getImageUri();
+    String getImageUri();
 
-    public String getBio();
-
+    String getBio();
 }
