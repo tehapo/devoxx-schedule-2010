@@ -17,14 +17,14 @@ public class FullScreenButton extends Button {
 
     private boolean fullScreen = false;
 
-    public FullScreenButton(boolean initialFullScreen) {
+    public FullScreenButton(final boolean initialFullScreen) {
         setStyleName("full-screen");
         setDescription("Toggle full screen mode");
         fullScreen = initialFullScreen;
     }
 
     @Override
-    public void changeVariables(Object source, Map<String, Object> variables) {
+    public void changeVariables(final Object source, final Map<String, Object> variables) {
         super.changeVariables(source, variables);
         if (variables.containsKey("fullscreen")) {
             fullScreen = (Boolean) variables.get("fullscreen");

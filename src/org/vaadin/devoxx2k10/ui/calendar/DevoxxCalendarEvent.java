@@ -39,7 +39,7 @@ public class DevoxxCalendarEvent extends BasicEvent {
         return devoxxEvent;
     }
 
-    public void setDevoxxEvent(DevoxxPresentation devoxxEvent) {
+    public void setDevoxxEvent(final DevoxxPresentation devoxxEvent) {
         this.devoxxEvent = devoxxEvent;
     }
 
@@ -48,7 +48,7 @@ public class DevoxxCalendarEvent extends BasicEvent {
      */
     @Override
     public String getStyleName() {
-        StringBuilder sb = new StringBuilder();
+        final  StringBuilder sb = new StringBuilder(100);
         sb.append(super.getStyleName());
         for (String styleName : additionalStyles) {
             sb.append(" ");
@@ -57,14 +57,14 @@ public class DevoxxCalendarEvent extends BasicEvent {
         return sb.toString();
     }
 
-    public void addStyleName(String styleName) {
+    public void addStyleName(final String styleName) {
         boolean added = additionalStyles.add(styleName);
         if (added) {
             fireEventChange();
         }
     }
 
-    public void removeStyleName(String styleName) {
+    public void removeStyleName(final String styleName) {
         boolean removed = additionalStyles.remove(styleName);
         if (removed) {
             fireEventChange();

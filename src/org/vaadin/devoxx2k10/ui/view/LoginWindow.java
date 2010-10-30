@@ -52,13 +52,13 @@ public class LoginWindow extends Window implements Button.ClickListener {
     private Layout createLayout() {
 
         // create all required fields
-        activateInstructionsLabel = new Label(
-                "Activate MySchedule by providing your name and e-mail address. After activation you'll receive an activation code to the given e-mail address.");
+        activateInstructionsLabel =
+                new Label("Activate MySchedule by providing your name and e-mail address. " +
+                          "After activation you'll receive an activation code to the given e-mail address.");
         activateFirstName = createTextField("First Name");
         activateLastName = createTextField("Last Name");
         activateEmail = createTextField("E-mail");
-        activateEmail.addValidator(new EmailValidator(
-                "Not a valid e-mail address"));
+        activateEmail.addValidator(new EmailValidator("Not a valid e-mail address"));
         activateButton = new Button("Activate", this);
         activateDoneLabel = new Label(
                 "<strong>Activation code sent!</strong> Check your inbox and copy the code to the field below and you're ready to go.",
@@ -66,19 +66,16 @@ public class LoginWindow extends Window implements Button.ClickListener {
         activateDoneLabel.setVisible(false);
 
         signInEmail = createTextField("E-mail");
-        signInEmail.addValidator(new EmailValidator(
-                "Not a valid e-mail address"));
+        signInEmail.addValidator(new EmailValidator("Not a valid e-mail address"));
         signInActivationCode = createTextField("Activation Code");
         signInButton = new Button("Sign In", this);
         signInButton.setClickShortcut(KeyCode.ENTER);
-        signInInstructionsLabel = new Label(
-                "Sign in by providing your e-mail address and activation code.");
-        showActivateButton = new Button("Don't yet have an activation code?",
-                this);
+        signInInstructionsLabel = new Label("Sign in by providing your e-mail address and activation code.");
+        showActivateButton = new Button("Don't yet have an activation code?",this);
         showActivateButton.setStyleName(BaseTheme.BUTTON_LINK);
 
         // add the created fields to a Layout
-        Layout layout = new VerticalLayout();
+        final Layout layout = new VerticalLayout();
 
         signInLayout = new VerticalLayout();
         signInLayout.setSpacing(true);
@@ -107,8 +104,8 @@ public class LoginWindow extends Window implements Button.ClickListener {
         return layout;
     }
 
-    private TextField createTextField(String caption) {
-        TextField field = new TextField(caption);
+    private TextField createTextField(final String caption) {
+        final TextField field = new TextField(caption);
         field.setValidationVisible(false);
         field.setRequired(true);
         field.setRequiredError("Required field");
@@ -116,7 +113,7 @@ public class LoginWindow extends Window implements Button.ClickListener {
         return field;
     }
 
-    public void buttonClick(ClickEvent event) {
+    public void buttonClick(final ClickEvent event) {
         try {
             if (event.getButton() == signInButton) {
                 doSignIn();
@@ -127,8 +124,7 @@ public class LoginWindow extends Window implements Button.ClickListener {
             }
         } catch (RestApiException e) {
             logger.error(e.getMessage(), e);
-            getWindow().showNotification(e.getMessage(),
-                    Notification.TYPE_ERROR_MESSAGE);
+            getWindow().showNotification(e.getMessage(), Notification.TYPE_ERROR_MESSAGE);
         }
     }
 
@@ -151,13 +147,11 @@ public class LoginWindow extends Window implements Button.ClickListener {
         activateEmail.setValidationVisible(true);
         activateFirstName.setValidationVisible(true);
         activateLastName.setValidationVisible(true);
-        if (!activateEmail.isValid() || !activateFirstName.isValid()
-                || !activateLastName.isValid()) {
+        if (!activateEmail.isValid() || !activateFirstName.isValid() || !activateLastName.isValid()) {
             return;
         }
 
-        DevoxxScheduleApplication app = DevoxxScheduleApplication
-                .getCurrentInstance();
+        final DevoxxScheduleApplication app = DevoxxScheduleApplication.getCurrentInstance();
 
         // tell the backend to do the activation
         app.getBackendFacade().activateMySchedule(
@@ -171,7 +165,6 @@ public class LoginWindow extends Window implements Button.ClickListener {
         // show further instructions and copy the e-mail to sign in field
         activateDoneLabel.setVisible(true);
         signInEmail.setValue(activateEmail.getValue());
-
     }
 
     private void doSignIn() throws RestApiException {
@@ -181,12 +174,10 @@ public class LoginWindow extends Window implements Button.ClickListener {
             return;
         }
 
-        MyScheduleUser newUser = new MyScheduleUser(
-                (String) signInEmail.getValue(),
-                (String) signInActivationCode.getValue());
+        final MyScheduleUser newUser = new MyScheduleUser((String) signInEmail.getValue(),
+                                                          (String) signInActivationCode.getValue());
 
-        DevoxxScheduleApplication app = DevoxxScheduleApplication
-                .getCurrentInstance();
+        final DevoxxScheduleApplication app = DevoxxScheduleApplication.getCurrentInstance();
 
         if (app.getBackendFacade().isValidUser(newUser)) {
             // valid user -> load the favourites for this user from the backend
@@ -204,5 +195,4 @@ public class LoginWindow extends Window implements Button.ClickListener {
                     Notification.TYPE_ERROR_MESSAGE);
         }
     }
-
 }

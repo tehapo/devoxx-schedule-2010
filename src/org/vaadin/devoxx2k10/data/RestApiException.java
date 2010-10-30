@@ -8,11 +8,11 @@ public class RestApiException extends Exception {
         super();
     }
 
-    public RestApiException(String message) {
+    public RestApiException(final String message) {
         super(message);
     }
 
-    public RestApiException(Throwable cause) {
+    public RestApiException(final Throwable cause) {
         super(cause);
     }
 }

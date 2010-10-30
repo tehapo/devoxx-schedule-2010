@@ -1,12 +1,14 @@
-package org.vaadin.devoxx2k10.data;
+package org.vaadin.devoxx2k10.data.domain.impl;
 
+import org.vaadin.devoxx2k10.data.LazyLoad;
+import org.vaadin.devoxx2k10.data.LazyLoadable;
 import org.vaadin.devoxx2k10.data.domain.DevoxxSpeaker;
 
 /**
  * DevoxxSpeaker implementation that uses lazy loading for certain details.
  * 
- * @see LazyLoadable
- * @see LazyLoada
+ * @see org.vaadin.devoxx2k10.data.LazyLoadable
+ * @see org.vaadin.devoxx2k10.data.LazyLoad
  */
 public final class DevoxxSpeakerImpl implements DevoxxSpeaker, LazyLoadable {
 
@@ -17,7 +19,7 @@ public final class DevoxxSpeakerImpl implements DevoxxSpeaker, LazyLoadable {
     private volatile String imageUri;
     private volatile String bio;
 
-    public DevoxxSpeakerImpl(String name, String speakerUri) {
+    public DevoxxSpeakerImpl(final String name, final String speakerUri) {
         this.name = name;
         this.speakerUri = speakerUri;
     }
@@ -27,7 +29,7 @@ public final class DevoxxSpeakerImpl implements DevoxxSpeaker, LazyLoadable {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(final int id) {
         this.id = id;
     }
 
@@ -40,7 +42,7 @@ public final class DevoxxSpeakerImpl implements DevoxxSpeaker, LazyLoadable {
         return imageUri;
     }
 
-    public void setImageUri(String imageUri) {
+    public void setImageUri(final String imageUri) {
         this.imageUri = imageUri;
     }
 
@@ -49,7 +51,7 @@ public final class DevoxxSpeakerImpl implements DevoxxSpeaker, LazyLoadable {
         return bio;
     }
 
-    public void setBio(String bio) {
+    public void setBio(final String bio) {
         this.bio = bio;
     }
 

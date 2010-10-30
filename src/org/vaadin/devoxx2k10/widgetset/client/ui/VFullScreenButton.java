@@ -15,7 +15,7 @@ public class VFullScreenButton extends VButton {
     private Element previousAppParent;
 
     @Override
-    public void onClick(ClickEvent event) {
+    public void onClick(final ClickEvent event) {
         if (previousAppParent == null) {
             doFullScreen();
         } else {
@@ -31,8 +31,8 @@ public class VFullScreenButton extends VButton {
     }
 
     private void doFullScreen() {
-        Element rootElement = getAppRootElement();
-        BodyElement bodyElement = Document.get().getBody();
+        final Element rootElement = getAppRootElement();
+        final BodyElement bodyElement = Document.get().getBody();
 
         if (!rootElement.getParentElement().equals(bodyElement)) {
             // Detach the application from possible container div and store
@@ -51,7 +51,7 @@ public class VFullScreenButton extends VButton {
 
     private void doRestore() {
         if (previousAppParent != null) {
-            Element rootElement = getAppRootElement();
+            final Element rootElement = getAppRootElement();
             previousAppParent.appendChild(rootElement);
             setRestoredStyle(rootElement);
             previousAppParent = null;
@@ -61,7 +61,7 @@ public class VFullScreenButton extends VButton {
         }
     }
 
-    private void setFullScreenStyle(Element rootElement) {
+    private void setFullScreenStyle(final Element rootElement) {
         rootElement.getStyle().setPosition(Position.ABSOLUTE);
         rootElement.getStyle().setTop(0, Unit.PX);
         rootElement.getStyle().setLeft(0, Unit.PX);
@@ -75,7 +75,7 @@ public class VFullScreenButton extends VButton {
 
     }
 
-    private void setRestoredStyle(Element rootElement) {
+    private void setRestoredStyle(final Element rootElement) {
         rootElement.getStyle().clearPosition();
         rootElement.getStyle().clearTop();
         rootElement.getStyle().clearLeft();

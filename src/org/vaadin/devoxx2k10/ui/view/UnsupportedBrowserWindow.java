@@ -21,7 +21,7 @@ public class UnsupportedBrowserWindow extends Window implements ClickListener {
     private Button cancel;
     private final String retreatUrl;
 
-    public UnsupportedBrowserWindow(String retreatUrl) {
+    public UnsupportedBrowserWindow(final String retreatUrl) {
         super("Warning");
         this.retreatUrl = retreatUrl;
 
@@ -35,7 +35,7 @@ public class UnsupportedBrowserWindow extends Window implements ClickListener {
                 "You're using an unsupported browser. "
                         + "This means that the application might not function or display correctly."));
 
-        HorizontalLayout buttonLayout = new HorizontalLayout();
+        final HorizontalLayout buttonLayout = new HorizontalLayout();
         buttonLayout.setSpacing(true);
         buttonLayout.addComponent(cancel);
         buttonLayout.addComponent(ok);
@@ -43,7 +43,8 @@ public class UnsupportedBrowserWindow extends Window implements ClickListener {
 
     }
 
-    public void buttonClick(ClickEvent event) {
+    @Override
+    public void buttonClick(final ClickEvent event) {
         if (event.getButton() == ok) {
             // simply close this window and let the application run
             close();

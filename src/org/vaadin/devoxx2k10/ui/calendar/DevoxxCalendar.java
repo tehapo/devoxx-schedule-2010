@@ -26,8 +26,8 @@ public class DevoxxCalendar extends Calendar implements UserChangeListener {
     public static final Date DEVOXX_LAST_DAY;
 
     static {
-        java.util.Calendar cal = java.util.Calendar.getInstance();
-        cal.set(2010, 10, 15, 00, 00);
+        final java.util.Calendar cal = java.util.Calendar.getInstance();
+        cal.set(2010, 10, 15, 0, 0);
         DEVOXX_FIRST_DAY = cal.getTime();
         cal.set(2010, 10, 19, 23, 59);
         DEVOXX_LAST_DAY = cal.getTime();
@@ -56,7 +56,7 @@ public class DevoxxCalendar extends Calendar implements UserChangeListener {
      * 
      * @param date
      */
-    public void setDate(Date date) {
+    public void setDate(final Date date) {
         if (isDuringDevoxx(date)) {
             setStartDate(date);
             setEndDate(date);
@@ -77,19 +77,18 @@ public class DevoxxCalendar extends Calendar implements UserChangeListener {
         return defaultDate;
     }
 
-    private static boolean isDuringDevoxx(Date date) {
-        if (date != null) {
-            return date.compareTo(DEVOXX_FIRST_DAY) >= 0
-                    && date.compareTo(DEVOXX_LAST_DAY) <= 0;
-        }
-        return false;
+    private static boolean isDuringDevoxx(final Date date) {
+        return date != null && date.compareTo(DEVOXX_FIRST_DAY) >= 0 && date.compareTo(DEVOXX_LAST_DAY) <= 0;
     }
 
-    public void applicationUserChanged(UserChangeEvent event) {
-        logger.debug("User has changed, requesting repaint of the Calendar");
+    @Override
+    public void applicationUserChanged(final UserChangeEvent event) {
+        if (logger.isDebugEnabled()) {
+            logger.debug("User has changed, requesting repaint of the Calendar");
+        }
+
         if (getEventProvider() instanceof DevoxxEventProvider) {
             ((DevoxxEventProvider) getEventProvider()).refreshAttendingStyles();
         }
     }
-
 }

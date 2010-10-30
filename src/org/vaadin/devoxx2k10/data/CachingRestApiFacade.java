@@ -19,11 +19,14 @@ public class CachingRestApiFacade extends RestApiFacadeImpl {
 
     static {
         // Start a timer for clearing the cache periodically.
-        Timer cacheClearTimer = new Timer();
+        final Timer cacheClearTimer = new Timer();
+
         cacheClearTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                logger.info("Clearing cached schedule data.");
+                if (logger.isInfoEnabled()) {
+                    logger.info("Clearing cached schedule data.");
+                }
                 scheduleCache.clear();
             }
         }, CACHE_EXPIRATION_IN_MS, CACHE_EXPIRATION_IN_MS);
@@ -33,10 +36,13 @@ public class CachingRestApiFacade extends RestApiFacadeImpl {
         super();
     }
 
-    public CachingRestApiFacade(HttpClient jsonProvider) {
+    public CachingRestApiFacade(final HttpClient jsonProvider) {
         super(jsonProvider);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<DevoxxPresentation> getFullSchedule() {
         // Note that with some unlucky timing, two threads might
@@ -45,6 +51,7 @@ public class CachingRestApiFacade extends RestApiFacadeImpl {
         // using Futures instead of the resulting List directly.
 
         List<DevoxxPresentation> scheduleData = scheduleCache.get("schedule");
+
         if (scheduleData == null) {
             // cache miss
             scheduleData = super.getFullSchedule();
@@ -52,5 +59,4 @@ public class CachingRestApiFacade extends RestApiFacadeImpl {
         }
         return scheduleData;
     }
-
 }

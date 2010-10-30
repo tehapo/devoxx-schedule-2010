@@ -5,32 +5,31 @@ import java.util.List;
 
 public interface DevoxxPresentation {
 
-    public String getType();
+    String getType();
 
-    public DevoxxPresentationKind getKind();
+    DevoxxPresentationKind getKind();
 
-    public boolean isPartnerSlot();
+    boolean isPartnerSlot();
 
-    public int getId();
+    int getId();
 
-    public Date getFromTime();
+    Date getFromTime();
 
-    public Date getToTime();
+    Date getToTime();
 
-    public String getCode();
+    String getCode();
 
-    public String getRoom();
+    String getRoom();
 
-    public String getRoomExtraInfo();
+    String getRoomExtraInfo();
 
-    public String getTitle();
+    String getTitle();
 
-    public List<DevoxxSpeaker> getSpeakers();
+    List<DevoxxSpeaker> getSpeakers();
 
-    public String getSummary();
+    String getSummary();
 
-    public String getTrack();
+    String getTrack();
 
-    public String getExperience();
-
+    String getExperience();
 }

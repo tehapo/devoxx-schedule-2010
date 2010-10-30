@@ -13,17 +13,15 @@ public class StringUtil {
      * @param event
      * @return
      */
-    public static String getEventDuration(DevoxxPresentation event) {
+    public static String getEventDuration(final DevoxxPresentation event) {
         String duration;
         long durationInMinutes = (event.getToTime().getTime() - event
                 .getFromTime().getTime()) / 1000 / 60;
         if (durationInMinutes >= 60) {
-            long durationInFullHours = (durationInMinutes / 60);
+            final long durationInFullHours = (durationInMinutes / 60);
             duration = durationInFullHours + "h";
             if (durationInMinutes % 60 != 0) {
-                duration += " "
-                        + (durationInMinutes - 60 * durationInFullHours)
-                        + "min";
+                duration += " " + (durationInMinutes - 60 * durationInFullHours) + "min";
             }
         } else {
             duration = durationInMinutes + "min";
@@ -40,11 +38,11 @@ public class StringUtil {
      * @return the speakers of the event as a String in parenthesis separated
      *         with a comma or an empty String.
      */
-    public static String getSpeakersString(DevoxxPresentation event) {
-        StringBuilder speakers = new StringBuilder();
+    public static String getSpeakersString(final DevoxxPresentation event) {
+        final StringBuilder speakers = new StringBuilder(100);
         if (!event.getSpeakers().isEmpty()) {
             speakers.append('(');
-            for (DevoxxSpeaker speaker : event.getSpeakers()) {
+            for (final DevoxxSpeaker speaker : event.getSpeakers()) {
                 if (speakers.length() > 1) {
                     speakers.append(", ");
                 }
@@ -54,5 +52,4 @@ public class StringUtil {
         }
         return speakers.toString();
     }
-
 }

@@ -21,22 +21,24 @@ public class DevoxxEventProvider extends BasicEventProvider {
 
     private static final long SHORT_EVENT_THRESHOLD_MS = 1000 * 60 * 30;
 
-    public List<CalendarEvent> getEvents(Date startDate, Date endDate) {
+    public List<CalendarEvent> getEvents(final Date startDate, final Date endDate) {
         loadEventsFromBackendIfNeeded();
 
-        List<CalendarEvent> result = super.getEvents(startDate, endDate);
-        logger.debug("Returning " + result.size() + " events for " + startDate
-                + " - " + endDate);
+        final List<CalendarEvent> result = super.getEvents(startDate, endDate);
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("Returning " + result.size() + " events for " + startDate + " - " + endDate);
+        }
 
         return result;
     }
 
-    public CalendarEvent getEvent(int id) {
+    public CalendarEvent getEvent(final int id) {
         loadEventsFromBackendIfNeeded();
 
-        for (CalendarEvent event : eventList) {
-            if (event instanceof DevoxxCalendarEvent
-                    && ((DevoxxCalendarEvent) event).getDevoxxEvent().getId() == id) {
+        for (final CalendarEvent event : eventList) {
+            if (event instanceof DevoxxCalendarEvent &&
+                ((DevoxxCalendarEvent) event).getDevoxxEvent().getId() == id) {
                 return event;
             }
         }
@@ -45,13 +47,12 @@ public class DevoxxEventProvider extends BasicEventProvider {
     }
 
     public void refreshAttendingStyles() {
-        MyScheduleUser user = (MyScheduleUser) DevoxxScheduleApplication
-                .getCurrentInstance().getUser();
-        for (CalendarEvent event : eventList) {
+        final MyScheduleUser user = (MyScheduleUser) DevoxxScheduleApplication.getCurrentInstance().getUser();
+
+        for (final CalendarEvent event : eventList) {
             if (event instanceof DevoxxCalendarEvent) {
-                DevoxxCalendarEvent devoxxEvent = (DevoxxCalendarEvent) event;
-                if (user != null
-                        && user.hasFavourited(devoxxEvent.getDevoxxEvent())) {
+                final DevoxxCalendarEvent devoxxEvent = (DevoxxCalendarEvent) event;
+                if (user != null && user.hasFavourited(devoxxEvent.getDevoxxEvent())) {
                     devoxxEvent.addStyleName("attending");
                 } else {
                     devoxxEvent.removeStyleName("attending");
@@ -66,16 +67,14 @@ public class DevoxxEventProvider extends BasicEventProvider {
             return;
         }
 
-        RestApiFacade facade = DevoxxScheduleApplication.getCurrentInstance()
-                .getBackendFacade();
-        List<DevoxxPresentation> schedule = facade.getFullSchedule();
+        final RestApiFacade facade = DevoxxScheduleApplication.getCurrentInstance().getBackendFacade();
+        final List<DevoxxPresentation> schedule = facade.getFullSchedule();
 
         // wrap data from the model into CalendarEvents for UI
-        for (DevoxxPresentation event : schedule) {
-            DevoxxCalendarEvent calEvent = new DevoxxCalendarEvent();
+        for (final DevoxxPresentation event : schedule) {
+            final DevoxxCalendarEvent calEvent = new DevoxxCalendarEvent();
             calEvent.setStyleName(event.getKind().name().toLowerCase());
-            calEvent.addStyleName("at-"
-                    + event.getRoom().toLowerCase().replaceAll(" ", ""));
+            calEvent.addStyleName("at-"+ event.getRoom().toLowerCase().replaceAll(" ", ""));
             if (isShortEvent(event)) {
                 calEvent.addStyleName("short-event");
             }
@@ -85,12 +84,12 @@ public class DevoxxEventProvider extends BasicEventProvider {
         }
         eventsLoaded = true;
 
-        logger.debug("Fetched schedule from backend (total " + schedule.size()
-                + " events).");
+        if (logger.isDebugEnabled()) {
+            logger.debug("Fetched schedule from backend (total " + schedule.size() + " events).");
+        }
     }
 
-    private static boolean isShortEvent(DevoxxPresentation event) {
+    private static boolean isShortEvent(final DevoxxPresentation event) {
         return event.getToTime().getTime() - event.getFromTime().getTime() < SHORT_EVENT_THRESHOLD_MS;
     }
-
 }

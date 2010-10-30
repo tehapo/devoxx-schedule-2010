@@ -7,8 +7,8 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.vaadin.devoxx2k10.data.DevoxxPresentationComparator;
-import org.vaadin.devoxx2k10.data.DevoxxPresentationImpl;
+import org.vaadin.devoxx2k10.data.domain.impl.DevoxxPresentationComparator;
+import org.vaadin.devoxx2k10.data.domain.impl.DevoxxPresentationImpl;
 import org.vaadin.devoxx2k10.data.domain.DevoxxPresentation;
 import org.vaadin.devoxx2k10.data.domain.DevoxxPresentationKind;
 

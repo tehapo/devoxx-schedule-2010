@@ -15,7 +15,7 @@ public class MyScheduleUser {
     private Set<Integer> favourites;
     private List<UserFavouritesChangedListener> listeners = new LinkedList<UserFavouritesChangedListener>();
 
-    public MyScheduleUser(String email, String activationCode) {
+    public MyScheduleUser(final String email, final String activationCode) {
         this.email = email;
         this.activationCode = activationCode;
     }
@@ -24,7 +24,7 @@ public class MyScheduleUser {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(final String email) {
         this.email = email;
     }
 
@@ -32,7 +32,7 @@ public class MyScheduleUser {
         return activationCode;
     }
 
-    public void setActivationCode(String activationCode) {
+    public void setActivationCode(final String activationCode) {
         this.activationCode = activationCode;
     }
 
@@ -40,11 +40,11 @@ public class MyScheduleUser {
         return favourites;
     }
 
-    public void setFavourites(Set<Integer> favourites) {
+    public void setFavourites(final Set<Integer> favourites) {
         this.favourites = favourites;
     }
 
-    public void addFavourite(DevoxxPresentation presentation) {
+    public void addFavourite(final DevoxxPresentation presentation) {
         if (favourites == null) {
             favourites = new HashSet<Integer>();
         }
@@ -54,7 +54,7 @@ public class MyScheduleUser {
         }
     }
 
-    public void removeFavourite(DevoxxPresentation presentation) {
+    public void removeFavourite(final DevoxxPresentation presentation) {
         if (favourites != null) {
             // Must cast to Integer to avoid calling remove by index.
             boolean removed = favourites.remove((Integer) presentation.getId());
@@ -64,20 +64,17 @@ public class MyScheduleUser {
         }
     }
 
-    public boolean hasFavourited(DevoxxPresentation presentation) {
-        if (favourites != null) {
-            return favourites.contains(presentation.getId());
-        }
-        return false;
+    public boolean hasFavourited(final DevoxxPresentation presentation) {
+        return favourites != null && favourites.contains(presentation.getId());
     }
 
-    public void addListener(UserFavouritesChangedListener listener) {
+    public void addListener(final UserFavouritesChangedListener listener) {
         if (!listeners.contains(listener)) {
             listeners.add(listener);
         }
     }
 
-    public void removeListener(UserFavouritesChangedListener listener) {
+    public void removeListener(final UserFavouritesChangedListener listener) {
         listeners.remove(listener);
     }
 
@@ -97,7 +94,6 @@ public class MyScheduleUser {
          * 
          * @param user
          */
-        public void favouritesChanged(MyScheduleUser user);
-
+        void favouritesChanged(MyScheduleUser user);
     }
 }

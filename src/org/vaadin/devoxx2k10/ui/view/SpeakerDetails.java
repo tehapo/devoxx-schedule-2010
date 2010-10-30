@@ -14,17 +14,17 @@ public class SpeakerDetails extends CssLayout implements Button.ClickListener {
 
     private Label detailsLabel;
 
-    public SpeakerDetails(DevoxxSpeaker speaker) {
+    public SpeakerDetails(final DevoxxSpeaker speaker) {
         setStyleName("speaker-details");
 
-        Button speakerButton = new Button(speaker.getName(), this);
+        final Button speakerButton = new Button(speaker.getName(), this);
         speakerButton.setData(speaker);
         speakerButton.setStyleName(BaseTheme.BUTTON_LINK);
         addComponent(speakerButton);
     }
 
-    public void buttonClick(ClickEvent event) {
-        DevoxxSpeaker speaker = (DevoxxSpeaker) event.getButton().getData();
+    public void buttonClick(final ClickEvent event) {
+        final DevoxxSpeaker speaker = (DevoxxSpeaker) event.getButton().getData();
 
         if (detailsLabel == null) {
             // opened for the first time

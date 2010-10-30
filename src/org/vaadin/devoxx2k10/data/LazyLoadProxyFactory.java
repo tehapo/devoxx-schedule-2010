@@ -20,8 +20,7 @@ public class LazyLoadProxyFactory {
      * @return
      */
     @SuppressWarnings("unchecked")
-    public static <V extends LazyLoadable> V getProxy(V lazyLoadable,
-            LazyLoadProvider lazyLoadProvider) {
+    public static <V extends LazyLoadable> V getProxy(final V lazyLoadable, final LazyLoadProvider lazyLoadProvider) {
         return (V) Proxy.newProxyInstance(lazyLoadable.getClass()
                 .getClassLoader(), lazyLoadable.getClass().getInterfaces(),
                 new LazyLoadProxy(lazyLoadable, lazyLoadProvider));
@@ -33,16 +32,14 @@ public class LazyLoadProxyFactory {
         private final LazyLoadProvider lazyLoadProvider;
         private volatile boolean lazyLoaded;
 
-        public LazyLoadProxy(LazyLoadable lazyLoadable, LazyLoadProvider lazyLoadProvider) {
+        public LazyLoadProxy(final LazyLoadable lazyLoadable, final LazyLoadProvider lazyLoadProvider) {
             this.lazyLoadable = lazyLoadable;
             this.lazyLoadProvider = lazyLoadProvider;
         }
 
-        public Object invoke(Object proxy, Method method, Object[] args)
-                throws Throwable {
+        public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
 
-            Method actualMethod = lazyLoadable.getClass().getMethod(
-                    method.getName(), method.getParameterTypes());
+            final Method actualMethod = lazyLoadable.getClass().getMethod(method.getName(), method.getParameterTypes());
             if (!lazyLoaded && actualMethod.isAnnotationPresent(LazyLoad.class)) {
                 lazyLoadProvider.lazyLoadFields(lazyLoadable);
                 lazyLoaded = true;
@@ -50,5 +47,4 @@ public class LazyLoadProxyFactory {
             return method.invoke(lazyLoadable, args);
         }
     }
-
 }
