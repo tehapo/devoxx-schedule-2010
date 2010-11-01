@@ -12,8 +12,8 @@ import org.vaadin.devoxx2k10.data.http.OfflineHttpClientMock;
 
 public class TestRestApiFacade {
 
-    private HttpClient jsonProvider;
-    private CachingRestApiFacade devoxxFacade;
+    private final HttpClient jsonProvider;
+    private final CachingRestApiFacade devoxxFacade;
 
     public TestRestApiFacade() {
         jsonProvider = new OfflineHttpClientMock();
@@ -22,30 +22,31 @@ public class TestRestApiFacade {
 
     @Test
     public void testFullSchedule() {
-        List<DevoxxPresentation> schedule = devoxxFacade.getFullSchedule();
+        final List<DevoxxPresentation> schedule = devoxxFacade.getFullSchedule();
         Assert.assertEquals(164, schedule.size());
     }
 
     @Test
     public void testSpeaker() {
-        List<DevoxxPresentation> schedule = devoxxFacade.getFullSchedule();
-        DevoxxPresentation event = schedule.get(2);
-        DevoxxSpeaker speaker = event.getSpeakers().get(0);
+        final List<DevoxxPresentation> schedule = devoxxFacade.getFullSchedule();
+        final DevoxxPresentation event = schedule.get(2);
+        final DevoxxSpeaker speaker = event.getSpeakers().get(0);
         Assert.assertEquals(56, speaker.getId());
-        Assert.assertEquals(
-                "http://cfp.devoxx.com/static/images/56/thumbnail.gif",
-                speaker.getImageUri());
-        Assert.assertEquals("Martijn Dashorst is a senior software engineer",
-                speaker.getBio().substring(0, 46));
+        Assert.assertEquals("http://cfp.devoxx.com/static/images/56/thumbnail.gif", speaker.getImageUri());
+        Assert.assertEquals("Martijn Dashorst is a senior software engineer", speaker.getBio().substring(0, 46));
     }
 
     @Test
     public void testPresentationDetails() {
-        List<DevoxxPresentation> schedule = devoxxFacade.getFullSchedule();
-        DevoxxPresentation event = schedule.get(2);
+        final List<DevoxxPresentation> schedule = devoxxFacade.getFullSchedule();
+        final DevoxxPresentation event = schedule.get(2);
         Assert.assertEquals("SENIOR", event.getExperience());
-        Assert.assertEquals(
-                "Aspect-Oriented Programming (AOP) complements Object-Oriented Programming (OOP)",
-                event.getSummary().substring(0, 79));
+        Assert.assertEquals("During this keynote you'll get an overview", event.getSummary().substring(0, 42));
+        Assert.assertEquals(5, event.getTags().size());
+        Assert.assertTrue(event.getTags().contains("javase"));
+        Assert.assertTrue(event.getTags().contains("Java7"));
+        Assert.assertTrue(event.getTags().contains("Java8"));
+        Assert.assertTrue(event.getTags().contains("modules"));
+        Assert.assertTrue(event.getTags().contains("closures"));
     }
 }

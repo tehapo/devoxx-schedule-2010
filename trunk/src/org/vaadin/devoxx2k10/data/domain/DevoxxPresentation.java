@@ -2,6 +2,7 @@ package org.vaadin.devoxx2k10.data.domain;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 public interface DevoxxPresentation {
 
@@ -32,4 +33,6 @@ public interface DevoxxPresentation {
     String getTrack();
 
     String getExperience();
+
+    Set<String> getTags();
 }

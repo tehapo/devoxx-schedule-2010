@@ -27,8 +27,8 @@ import org.vaadin.devoxx2k10.data.domain.impl.DevoxxPresentationComparator;
 import org.vaadin.devoxx2k10.data.domain.impl.DevoxxPresentationImpl;
 import org.vaadin.devoxx2k10.data.domain.impl.DevoxxSpeakerImpl;
 import org.vaadin.devoxx2k10.data.http.HttpClient;
-import org.vaadin.devoxx2k10.data.http.impl.HttpClientImpl;
 import org.vaadin.devoxx2k10.data.http.HttpResponse;
+import org.vaadin.devoxx2k10.data.http.impl.HttpClientImpl;
 
 /**
  * Facade for the Devoxx REST API.
@@ -73,9 +73,8 @@ public class RestApiFacadeImpl implements RestApiFacade, LazyLoadProvider {
      * {@inheritDoc}
      */
     @Override
-    public void activateMySchedule(final String firstName,
-                                   final String lastName,
-                                   final String email) throws RestApiException {
+    public void activateMySchedule(final String firstName, final String lastName, final String email)
+            throws RestApiException {
         try {
             final StringBuilder params = new StringBuilder(100);
             params.append("firstName=").append(URLEncoder.encode(firstName, UTF_8));
@@ -84,13 +83,13 @@ public class RestApiFacadeImpl implements RestApiFacade, LazyLoadProvider {
             params.append('&');
             params.append("email=").append(URLEncoder.encode(email, UTF_8));
 
-            final int response = httpClient.post(MY_SCHEDULE_ACTIVATE_URL,params.toString());
+            final int response = httpClient.post(MY_SCHEDULE_ACTIVATE_URL, params.toString());
 
             if (response != HttpURLConnection.HTTP_CREATED) {
                 logger.error("Response code: " + response);
                 throw new RestApiException("MySchedule activation failed. Please try again later.");
             }
-        } catch (IOException e) {
+        } catch (final IOException e) {
             logger.error(e.getMessage());
             throw new RestApiException("MySchedule activation failed. Please try again later.");
         }
@@ -129,7 +128,7 @@ public class RestApiFacadeImpl implements RestApiFacade, LazyLoadProvider {
                 }
                 throw new RestApiException("Adding to MySchedule failed. Please try again later.");
             }
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -154,7 +153,7 @@ public class RestApiFacadeImpl implements RestApiFacade, LazyLoadProvider {
                 logger.error("Response code: " + response);
                 throw new RestApiException("MySchedule validation failed. Please try again later.");
             }
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -166,7 +165,7 @@ public class RestApiFacadeImpl implements RestApiFacade, LazyLoadProvider {
     public void getScheduleForUser(final MyScheduleUser user) {
         if (user != null && user.getEmail() != null) {
             try {
-                final HttpResponse response = httpClient.get(SCHEDULE_URL + "/"+ user.getEmail());
+                final HttpResponse response = httpClient.get(SCHEDULE_URL + "/" + user.getEmail());
 
                 if (response.getResponseCode() == HttpURLConnection.HTTP_NO_CONTENT) {
                     // user has no favourites yet
@@ -178,10 +177,10 @@ public class RestApiFacadeImpl implements RestApiFacade, LazyLoadProvider {
 
                 if (logger.isDebugEnabled()) {
                     if (user.getFavourites() != null) {
-                        logger.debug("Retrieved " + user.getFavourites().size()+ " favourites for user " + user.getEmail());
+                        logger.debug("Retrieved " + user.getFavourites().size() + " favourites for user " + user.getEmail());
                     }
                 }
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -194,7 +193,7 @@ public class RestApiFacadeImpl implements RestApiFacade, LazyLoadProvider {
     public List<DevoxxPresentation> getFullSchedule() {
         try {
             return getScheduleData(httpClient.get(SCHEDULE_URL).getResponse());
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -211,7 +210,7 @@ public class RestApiFacadeImpl implements RestApiFacade, LazyLoadProvider {
                     }
                 }
             }
-        } catch (JSONException e) {
+        } catch (final JSONException e) {
             throw new RuntimeException(e);
         }
 
@@ -228,7 +227,7 @@ public class RestApiFacadeImpl implements RestApiFacade, LazyLoadProvider {
                     result.add(parsePresentation(json));
                 }
             }
-        } catch (JSONException e) {
+        } catch (final JSONException e) {
             throw new RuntimeException(e);
         }
 
@@ -249,8 +248,8 @@ public class RestApiFacadeImpl implements RestApiFacade, LazyLoadProvider {
         final DateFormat df = new SimpleDateFormat(DEVOXX_JSON_DATE_PATTERN);
 
         try {
-            final DevoxxPresentationKind kind =
-                    DevoxxPresentationKind.valueOf(json.getString("kind").toUpperCase().replaceAll(" ", "_"));
+            final DevoxxPresentationKind kind = DevoxxPresentationKind.valueOf(json.getString("kind").toUpperCase()
+                    .replaceAll(" ", "_"));
 
             int id = 0;
             final Date fromTime = df.parse(json.getString("fromTime"));
@@ -289,13 +288,12 @@ public class RestApiFacadeImpl implements RestApiFacade, LazyLoadProvider {
                 }
             }
 
-            final DevoxxPresentationImpl event = new DevoxxPresentationImpl(id,
-                    fromTime, toTime, code, type, kind, title, speakers, room,
-                    partnerSlot, presentationUri);
+            final DevoxxPresentationImpl event = new DevoxxPresentationImpl(id, fromTime, toTime, code, type, kind, title,
+                    speakers, room, partnerSlot, presentationUri);
 
             // wrap the presentation inside a lazy loading proxy
             return LazyLoadProxyFactory.getProxy(event, this);
-        } catch (ParseException e) {
+        } catch (final ParseException e) {
             throw new JSONException(e);
         }
     }
@@ -325,11 +323,27 @@ public class RestApiFacadeImpl implements RestApiFacade, LazyLoadProvider {
                     try {
                         // find a setter for the value
                         setterMethod = lazy.getClass().getMethod("set" + method.getName().substring(3), returnType);
-                        final String jsonField = method.getAnnotation(LazyLoad.class).value();
+                        String jsonField = method.getAnnotation(LazyLoad.class).value();
+                        String jsonSubField = null;
+                        if (jsonField.contains("/")) {
+                            final String temp = jsonField;
+                            jsonField = temp.substring(0, temp.indexOf("/"));
+                            jsonSubField = temp.substring(temp.indexOf("/") + 1);
+                        }
 
                         Object value = null;
                         if (jsonData.has(jsonField)) {
-                            if (returnType.equals(int.class)) {
+                            if (returnType.equals(Set.class) && jsonSubField != null) {
+                                final JSONArray array = jsonData.getJSONArray(jsonField);
+                                final Set<String> result = new HashSet<String>(array.length());
+                                for (int i = 0; i < array.length(); i++) {
+                                    final JSONObject jsonObj = (JSONObject) array.get(i);
+                                    if (jsonObj.has(jsonSubField)) {
+                                        result.add(jsonObj.getString(jsonSubField));
+                                    }
+                                }
+                                value = result;
+                            } else if (returnType.equals(int.class)) {
                                 value = jsonData.getInt(jsonField);
                             } else {
                                 // assume String
@@ -341,20 +355,20 @@ public class RestApiFacadeImpl implements RestApiFacade, LazyLoadProvider {
 
                         // call the setter
                         setterMethod.invoke(lazy, value);
-                    } catch (NoSuchMethodException e) {
+                    } catch (final NoSuchMethodException e) {
                         logger.error("No matching setter found for getter: " + method.getName());
-                    } catch (IllegalArgumentException e) {
+                    } catch (final IllegalArgumentException e) {
                         logger.error("Illegal argument for setter " + setterMethod.getName() + ": " + e.getMessage());
-                    } catch (IllegalAccessException e) {
+                    } catch (final IllegalAccessException e) {
                         logger.error("Illegal access to setter " + setterMethod.getName() + ": " + e.getMessage());
-                    } catch (InvocationTargetException e) {
+                    } catch (final InvocationTargetException e) {
                         logger.error("Couldn't invoke setter " + setterMethod.getName() + ": " + e.getMessage());
                     }
                 }
             }
-        } catch (JSONException e) {
+        } catch (final JSONException e) {
             throw new RuntimeException(e);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new RuntimeException(e);
         }
     }
