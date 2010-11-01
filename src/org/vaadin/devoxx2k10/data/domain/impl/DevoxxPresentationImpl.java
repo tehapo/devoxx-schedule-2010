@@ -2,6 +2,7 @@ package org.vaadin.devoxx2k10.data.domain.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.vaadin.devoxx2k10.data.LazyLoad;
 import org.vaadin.devoxx2k10.data.LazyLoadable;
@@ -26,11 +27,11 @@ public class DevoxxPresentationImpl implements DevoxxPresentation, LazyLoadable 
     private volatile String summary;
     private volatile String track;
     private volatile String experience;
+    private volatile Set<String> tags;
 
-    public DevoxxPresentationImpl(int id, Date fromTime, Date toTime,
-            String code, String type, DevoxxPresentationKind kind,
-            String title, List<DevoxxSpeaker> speakers, String room,
-            boolean partnerSlot, String presentationUri) {
+    public DevoxxPresentationImpl(final int id, final Date fromTime, final Date toTime, final String code,
+            final String type, final DevoxxPresentationKind kind, final String title, final List<DevoxxSpeaker> speakers,
+            final String room, final boolean partnerSlot, final String presentationUri) {
         this.id = id;
         this.fromTime = fromTime;
         this.toTime = toTime;
@@ -120,5 +121,14 @@ public class DevoxxPresentationImpl implements DevoxxPresentation, LazyLoadable 
 
     public void setExperience(final String experience) {
         this.experience = experience;
+    }
+
+    @LazyLoad("tags/name")
+    public Set<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(final Set<String> tags) {
+        this.tags = tags;
     }
 }
