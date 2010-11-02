@@ -18,10 +18,10 @@ public class UserLayout extends CssLayout implements ClickListener, UserChangeLi
 
     private static final long serialVersionUID = 7016536111338741020L;
 
-    private Button signInButton;
-    private Button signOutButton;
-    private Label currentUserLabel;
-    private Button calendarMode;
+    private final Button signInButton;
+    private final Button signOutButton;
+    private final Label currentUserLabel;
+    private final Button calendarMode;
     private final Calendar calendar;
 
     public UserLayout(final Calendar calendar) {
@@ -57,7 +57,7 @@ public class UserLayout extends CssLayout implements ClickListener, UserChangeLi
         if (event.getButton() == signInButton) {
             getWindow().addWindow(new LoginWindow());
         } else if (event.getButton() == signOutButton) {
-            getApplication().setUser(null);
+            DevoxxScheduleApplication.getCurrentInstance().doSignOut();
         } else if (event.getButton() == calendarMode) {
             final boolean currentMode = (Boolean) calendarMode.getData();
             setMyScheduleMode(!currentMode);

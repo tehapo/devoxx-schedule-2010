@@ -3,12 +3,12 @@ package org.vaadin.devoxx2k10.ui.view;
 import org.apache.log4j.Logger;
 import org.vaadin.devoxx2k10.DevoxxScheduleApplication;
 import org.vaadin.devoxx2k10.data.RestApiException;
-import org.vaadin.devoxx2k10.data.domain.MyScheduleUser;
 
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.TextField;
@@ -20,7 +20,7 @@ public class LoginWindow extends Window implements Button.ClickListener {
 
     private static final long serialVersionUID = 5020323273015528048L;
 
-    private Logger logger = Logger.getLogger(getClass());
+    private final Logger logger = Logger.getLogger(getClass());
 
     private TextField activateFirstName;
     private TextField activateLastName;
@@ -34,6 +34,7 @@ public class LoginWindow extends Window implements Button.ClickListener {
     private TextField signInActivationCode;
     private Button signInButton;
     private Label signInInstructionsLabel;
+    private CheckBox signInStoreCookie;
 
     private VerticalLayout activateLayout;
     private VerticalLayout signInLayout;
@@ -52,9 +53,8 @@ public class LoginWindow extends Window implements Button.ClickListener {
     private Layout createLayout() {
 
         // create all required fields
-        activateInstructionsLabel =
-                new Label("Activate MySchedule by providing your name and e-mail address. " +
-                          "After activation you'll receive an activation code to the given e-mail address.");
+        activateInstructionsLabel = new Label("Activate MySchedule by providing your name and e-mail address. "
+                + "After activation you'll receive an activation code to the given e-mail address.");
         activateFirstName = createTextField("First Name");
         activateLastName = createTextField("Last Name");
         activateEmail = createTextField("E-mail");
@@ -71,7 +71,9 @@ public class LoginWindow extends Window implements Button.ClickListener {
         signInButton = new Button("Sign In", this);
         signInButton.setClickShortcut(KeyCode.ENTER);
         signInInstructionsLabel = new Label("Sign in by providing your e-mail address and activation code.");
-        showActivateButton = new Button("Don't yet have an activation code?",this);
+        signInStoreCookie = new CheckBox("Remember me");
+        signInStoreCookie.setValue(true);
+        showActivateButton = new Button("Don't yet have an activation code?", this);
         showActivateButton.setStyleName(BaseTheme.BUTTON_LINK);
 
         // add the created fields to a Layout
@@ -85,6 +87,7 @@ public class LoginWindow extends Window implements Button.ClickListener {
         signInLayout.addComponent(signInInstructionsLabel);
         signInLayout.addComponent(signInEmail);
         signInLayout.addComponent(signInActivationCode);
+        signInLayout.addComponent(signInStoreCookie);
         signInLayout.addComponent(signInButton);
         signInLayout.addComponent(showActivateButton);
         layout.addComponent(signInLayout);
@@ -122,7 +125,7 @@ public class LoginWindow extends Window implements Button.ClickListener {
             } else if (event.getButton() == showActivateButton) {
                 showActivateLayout();
             }
-        } catch (RestApiException e) {
+        } catch (final RestApiException e) {
             logger.error(e.getMessage(), e);
             getWindow().showNotification(e.getMessage(), Notification.TYPE_ERROR_MESSAGE);
         }
@@ -154,10 +157,8 @@ public class LoginWindow extends Window implements Button.ClickListener {
         final DevoxxScheduleApplication app = DevoxxScheduleApplication.getCurrentInstance();
 
         // tell the backend to do the activation
-        app.getBackendFacade().activateMySchedule(
-                (String) activateFirstName.getValue(),
-                (String) activateLastName.getValue(),
-                (String) activateEmail.getValue());
+        app.getBackendFacade().activateMySchedule((String) activateFirstName.getValue(),
+                (String) activateLastName.getValue(), (String) activateEmail.getValue());
 
         // hide the activation fields and show sign in fields again
         hideActivateLayout();
@@ -174,24 +175,19 @@ public class LoginWindow extends Window implements Button.ClickListener {
             return;
         }
 
-        final MyScheduleUser newUser = new MyScheduleUser((String) signInEmail.getValue(),
-                                                          (String) signInActivationCode.getValue());
-
         final DevoxxScheduleApplication app = DevoxxScheduleApplication.getCurrentInstance();
 
-        if (app.getBackendFacade().isValidUser(newUser)) {
-            // valid user -> load the favourites for this user from the backend
-            app.getBackendFacade().getScheduleForUser(newUser);
-
-            // set the new user instance as the logged in user
-            getApplication().setUser(newUser);
+        if (app.doSignIn((String) signInEmail.getValue(), (String) signInActivationCode.getValue())) {
+            // store cookie if remember me was checked
+            if (signInStoreCookie.booleanValue()) {
+                app.storeUserCookie();
+            }
 
             // close this modal window
             close();
         } else {
             // invalid user
-            getWindow().showNotification(
-                    "Could not sign in. Check the e-mail and activation code.",
+            getWindow().showNotification("Could not sign in. Check the e-mail and activation code.",
                     Notification.TYPE_ERROR_MESSAGE);
         }
     }
