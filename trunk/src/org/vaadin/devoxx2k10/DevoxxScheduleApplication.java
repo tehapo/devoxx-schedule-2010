@@ -77,6 +77,7 @@ public class DevoxxScheduleApplication extends Application implements Transactio
 
         final MainView mainView = new MainView();
         mainWindow.setContent(mainView);
+        mainWindow.addURIHandler(mainView);
 
         checkBrowserSupport(mainWindow);
 

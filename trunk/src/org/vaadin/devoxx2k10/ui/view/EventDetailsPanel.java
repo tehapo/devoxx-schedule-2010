@@ -2,6 +2,7 @@ package org.vaadin.devoxx2k10.ui.view;
 
 import java.text.SimpleDateFormat;
 
+import org.vaadin.addthis.AddThis;
 import org.vaadin.devoxx2k10.DevoxxScheduleApplication;
 import org.vaadin.devoxx2k10.data.RestApiException;
 import org.vaadin.devoxx2k10.data.RestApiFacade;
@@ -46,6 +47,7 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener, Us
     private Button hideButton;
     private Label trackLabel;
     private VerticalLayout speakers;
+    private AddThis addThis;
 
     public EventDetailsPanel() {
         setWidth("310px");
@@ -71,6 +73,11 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener, Us
         speakers.setMargin(true);
         speakers.setSpacing(true);
         speakers.setStyleName("speakers-layout");
+        addThis = new AddThis();
+        addThis.addButton("twitter");
+        addThis.addButton("facebook");
+        addThis.addButton("google");
+        addThis.addButton("mailto");
 
         // add to the layout
         layout = new CustomLayout("event-details");
@@ -84,6 +91,7 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener, Us
         layout.addComponent(hideButton, "hide-button");
         layout.addComponent(trackLabel, "track");
         layout.addComponent(speakers, "speakers");
+        layout.addComponent(addThis, "add-this");
 
         if (event != null) {
             updateEventDetails();
@@ -127,6 +135,14 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener, Us
         }
         speakers.setVisible(!presentation.getSpeakers().isEmpty());
 
+        if (presentation.getId() > 0) {
+            addThis.setVisible(true);
+            addThis.setUrl(getApplication().getURL() + "presentation/" + presentation.getId());
+            addThis.setTitle(presentation.getTitle());
+        } else {
+            addThis.setVisible(false);
+        }
+
         updateFavouriteButtons();
     }
 
@@ -141,9 +157,8 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener, Us
         final SimpleDateFormat dateFormatFrom = new SimpleDateFormat("EEEEE, HH:mm");
         final SimpleDateFormat dateFormatTo = new SimpleDateFormat("HH:mm");
 
-        return dateFormatFrom.format(presentation.getFromTime()) + " - "
-                + dateFormatTo.format(presentation.getToTime()) + " ("
-                + StringUtil.getEventDuration(presentation) + ")";
+        return dateFormatFrom.format(presentation.getFromTime()) + " - " + dateFormatTo.format(presentation.getToTime())
+                + " (" + StringUtil.getEventDuration(presentation) + ")";
     }
 
     /**
@@ -188,13 +203,13 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener, Us
                 handleAddOrRemoveClick(event.getButton(), calEvent);
             } else {
                 // display login window
-                Window loginWindow = new LoginWindow();
+                final Window loginWindow = new LoginWindow();
                 getWindow().addWindow(loginWindow);
 
                 loginWindow.addListener(new CloseListener() {
                     private static final long serialVersionUID = -513395997260118984L;
 
-                    public void windowClose(CloseEvent e) {
+                    public void windowClose(final CloseEvent e) {
                         // try again after the window is closed
                         handleAddOrRemoveClick(event.getButton(), calEvent);
                     }
@@ -234,7 +249,7 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener, Us
                     event.removeStyleName("attending");
                 }
                 updateFavouriteButtons();
-            } catch (RestApiException e) {
+            } catch (final RestApiException e) {
                 getWindow().showNotification(e.getMessage(), Notification.TYPE_ERROR_MESSAGE);
             }
         }

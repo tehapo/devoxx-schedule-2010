@@ -1,5 +1,6 @@
 package org.vaadin.devoxx2k10.ui.view;
 
+import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -14,6 +15,8 @@ import com.vaadin.addon.calendar.ui.CalendarComponentEvents.EventClick;
 import com.vaadin.addon.calendar.ui.CalendarComponentEvents.EventClickHandler;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.terminal.DownloadStream;
+import com.vaadin.terminal.URIHandler;
 import com.vaadin.terminal.gwt.server.WebApplicationContext;
 import com.vaadin.terminal.gwt.server.WebBrowser;
 import com.vaadin.ui.Alignment;
@@ -23,14 +26,12 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.UriFragmentUtility;
-import com.vaadin.ui.UriFragmentUtility.FragmentChangedEvent;
-import com.vaadin.ui.UriFragmentUtility.FragmentChangedListener;
 import com.vaadin.ui.VerticalLayout;
 
 /**
  * The main view of the application displaying navigation, calendar and details.
  */
-public class MainView extends HorizontalLayout implements EventClickHandler, ValueChangeListener, FragmentChangedListener {
+public class MainView extends HorizontalLayout implements EventClickHandler, ValueChangeListener, URIHandler {
 
     private static final long serialVersionUID = 7622207451668068454L;
 
@@ -59,7 +60,6 @@ public class MainView extends HorizontalLayout implements EventClickHandler, Val
         calendar.setDate(DevoxxCalendar.getDefaultDate());
 
         uriFragment = new UriFragmentUtility();
-        uriFragment.addListener(this);
         addComponent(uriFragment);
 
         daySelector = new DaySelectorField(DevoxxCalendar.DEVOXX_FIRST_DAY, DevoxxCalendar.DEVOXX_LAST_DAY, uriFragment);
@@ -139,14 +139,6 @@ public class MainView extends HorizontalLayout implements EventClickHandler, Val
                 getWindow().scrollIntoView(toolbar);
             }
 
-            // Set the URI fragment for deep linking to a single event or remove
-            // the URI fragment.
-            if (devoxxCalEvent.getDevoxxEvent().getId() > 0) {
-                uriFragment.setFragment(Integer.toString(devoxxCalEvent.getDevoxxEvent().getId()), false);
-            } else {
-                uriFragment.setFragment("", false);
-            }
-
             detailsPanel.setEvent(devoxxCalEvent);
         }
     }
@@ -178,20 +170,21 @@ public class MainView extends HorizontalLayout implements EventClickHandler, Val
     }
 
     @Override
-    public void fragmentChanged(final FragmentChangedEvent source) {
-        final String fragment = source.getUriFragmentUtility().getFragment();
-        try {
-            // try to parse the fragment as id
-            final int id = Integer.valueOf(fragment);
-            final DevoxxCalendarEvent event = (DevoxxCalendarEvent) ((DevoxxEventProvider) calendar.getEventProvider())
-                    .getEvent(id);
-            if (event != null) {
-                // select correct date and event
-                daySelector.setValue(event.getDevoxxEvent().getFromTime());
-                selectCalendarEvent(event);
+    public DownloadStream handleURI(final URL context, final String relativeUri) {
+        if (relativeUri.startsWith("presentation/")) {
+            try {
+                final int id = Integer.valueOf(relativeUri.split("/")[1]);
+                final DevoxxCalendarEvent event = (DevoxxCalendarEvent) ((DevoxxEventProvider) calendar.getEventProvider())
+                        .getEvent(id);
+                if (event != null) {
+                    // select correct date and event
+                    daySelector.setValue(event.getDevoxxEvent().getFromTime());
+                    selectCalendarEvent(event);
+                }
+            } catch (final NumberFormatException e) {
+                // the id was not an integer -> simply ignore
             }
-        } catch (final NumberFormatException e) {
-            // the fragment was not an integer -> simply ignore
         }
+        return null;
     }
 }
