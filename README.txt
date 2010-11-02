@@ -39,6 +39,10 @@ CustomField
  - CustomField add-on for Vaadin
  - http://vaadin.com/addon/customfield
 
+BrowserCookies
+ - BrowserCookies add-on for Vaadin
+ - http://vaadin.com/addon/browsercookies
+
 Apache log4j
  - Logging service
  - http://logging.apache.org/log4j/

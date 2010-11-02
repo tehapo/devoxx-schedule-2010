@@ -1,7 +1,13 @@
 package org.vaadin.devoxx2k10;
 
+import java.util.Date;
+
+import org.apache.log4j.Logger;
+import org.vaadin.browsercookies.BrowserCookies;
 import org.vaadin.devoxx2k10.data.CachingRestApiFacade;
+import org.vaadin.devoxx2k10.data.RestApiException;
 import org.vaadin.devoxx2k10.data.RestApiFacade;
+import org.vaadin.devoxx2k10.data.domain.MyScheduleUser;
 import org.vaadin.devoxx2k10.ui.view.MainView;
 import org.vaadin.devoxx2k10.ui.view.UnsupportedBrowserWindow;
 
@@ -21,7 +27,13 @@ import com.vaadin.ui.Window;
  * @link http://www.devoxx.com/display/Devoxx2K10/Schedule+REST+interface
  * @link http://vaadin.com/addon/vaadin-calendar
  */
-public class DevoxxScheduleApplication extends Application implements TransactionListener {
+public class DevoxxScheduleApplication extends Application implements TransactionListener, BrowserCookies.UpdateListener {
+
+    private static final String COOKIE_FIELD_SEPARATOR = ",";
+    private static final long COOKIE_EXPIRATION_IN_MILLIS = 365 * 24 * 60 * 60 * 1000L;
+
+    private static final Logger logger = Logger.getLogger(DevoxxScheduleApplication.class);
+    public static final String MY_SCHEDULE_USER_COOKIE = "MyScheduleUser";
 
     private static final long serialVersionUID = 1167695727109405960L;
 
@@ -33,10 +45,13 @@ public class DevoxxScheduleApplication extends Application implements Transactio
 
     private transient RestApiFacade backendFacade;
 
+    private BrowserCookies cookies;
+
     static {
         systemMessages = new CustomizedSystemMessages();
 
-        // Disable session expired notification -> just restart the application if the session expires.
+        // Disable session expired notification -> just restart the application
+        // if the session expires.
         systemMessages.setSessionExpiredNotificationEnabled(false);
     }
 
@@ -64,6 +79,40 @@ public class DevoxxScheduleApplication extends Application implements Transactio
         mainWindow.setContent(mainView);
 
         checkBrowserSupport(mainWindow);
+
+        cookies = new BrowserCookies(true);
+        cookies.addListener(this);
+        mainWindow.addComponent(cookies);
+    }
+
+    public void storeUserCookie() {
+        if (getUser() != null && getUser() instanceof MyScheduleUser) {
+            final MyScheduleUser user = (MyScheduleUser) getUser();
+            final String cookieData = user.getEmail() + COOKIE_FIELD_SEPARATOR + user.getActivationCode();
+            final Date cookieExpiration = new Date(System.currentTimeMillis() + COOKIE_EXPIRATION_IN_MILLIS);
+
+            cookies.setCookie(MY_SCHEDULE_USER_COOKIE, cookieData, cookieExpiration);
+        }
+    }
+
+    public void doSignOut() {
+        setUser(null);
+        cookies.setCookie(MY_SCHEDULE_USER_COOKIE, "-", new Date(1));
+    }
+
+    @Override
+    public void cookiesUpdated(final BrowserCookies browserCookies) {
+        final String myScheduleUser = browserCookies.getCookie(MY_SCHEDULE_USER_COOKIE);
+        if (myScheduleUser != null && DevoxxScheduleApplication.getCurrentInstance().getUser() == null) {
+            final String[] userData = myScheduleUser.split(COOKIE_FIELD_SEPARATOR);
+            if (userData.length == 2) {
+                try {
+                    doSignIn(userData[0], userData[1]);
+                } catch (final RestApiException e) {
+                    logger.error("Sign in from cookie data failed: " + e.getMessage(), e);
+                }
+            }
+        }
     }
 
     private void checkBrowserSupport(final Window mainWindow) {
@@ -78,6 +127,25 @@ public class DevoxxScheduleApplication extends Application implements Transactio
 
     private boolean isSupportedBrowser(final WebBrowser browser) {
         return !(browser.isIE() && browser.getBrowserMajorVersion() <= 6);
+    }
+
+    public boolean doSignIn(final String email, final String activationCode) throws RestApiException {
+        if (email == null || activationCode == null) {
+            return false;
+        }
+
+        final MyScheduleUser newUser = new MyScheduleUser(email, activationCode);
+
+        if (getBackendFacade().isValidUser(newUser)) {
+            // valid user -> load the favourites for this user from the backend
+            getBackendFacade().getScheduleForUser(newUser);
+
+            // set the new user instance as the logged in user
+            setUser(newUser);
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -113,4 +181,5 @@ public class DevoxxScheduleApplication extends Application implements Transactio
             currentApplication.remove();
         }
     }
+
 }

@@ -22,4 +22,6 @@
     <inherits name="com.vaadin.addon.calendar.gwt.CalendarWidgetset" />
     
     
+
+    <inherits name="org.vaadin.browsercookies.widgetset.BrowserCookiesApplicationWidgetset" />
 </module>
