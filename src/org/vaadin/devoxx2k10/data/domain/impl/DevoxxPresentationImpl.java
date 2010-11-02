@@ -131,4 +131,22 @@ public class DevoxxPresentationImpl implements DevoxxPresentation, LazyLoadable 
     public void setTags(final Set<String> tags) {
         this.tags = tags;
     }
+
+    @Override
+    public int hashCode() {
+        return Integer.valueOf(id).hashCode();
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof DevoxxPresentation)) {
+            return false;
+        }
+        final DevoxxPresentation other = (DevoxxPresentation) obj;
+        return id == other.getId();
+    }
 }

@@ -575,6 +575,22 @@ body.v-full-screen {
 .event-details .add-this {
 	margin-top: 10px;
 }
+.event-details .tags {
+	margin-top: 10px;	
+}
+.event-details .tags .v-label,
+.event-details .tags .v-button {
+	float: left;	
+}
+.event-details .tags .v-label {
+	margin-right: 3px;	
+}
+
+.related-talks {
+	float: left;
+	clear: both;
+	margin: 10px 0;
+}
 
 .speakers-layout {
 	background: #363634;
@@ -587,13 +603,20 @@ body.v-full-screen {
 	box-shadow: inset 0 1px 3px #222;	
 }
 
-.speakers-layout .v-button-caption {
+.speakers-layout .v-button-caption,
+.related-talks .v-button-caption {
 	text-decoration: none;
 	font-weight: bold;
 	font-size: 13px !important;
 	color: #f08800 !important;	
 }
 
+.related-talks .v-button .v-button-caption {
+	white-space: normal;
+	padding: 0 0 5px 10px;
+	display: block;
+}
+	
 .speaker-details .v-button .v-button-caption {
 	padding-left: 10px;
 	background: url("img/arrow-right.png") center left no-repeat;
