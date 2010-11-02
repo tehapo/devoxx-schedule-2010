@@ -14,7 +14,7 @@ import org.vaadin.devoxx2k10.data.domain.MyScheduleUser;
 public interface RestApiFacade {
 
     /**
-     *
+     * 
      * @param firstName
      * @param lastName
      * @param email
@@ -23,7 +23,7 @@ public interface RestApiFacade {
     void activateMySchedule(String firstName, String lastName, String email) throws RestApiException;
 
     /**
-     *
+     * 
      * @param user
      * @throws RestApiException
      */
@@ -40,14 +40,21 @@ public interface RestApiFacade {
     boolean isValidUser(MyScheduleUser user) throws RestApiException;
 
     /**
-     *
+     * 
      * @param user
      */
     void getScheduleForUser(MyScheduleUser user);
 
     /**
-     *
+     * 
      * @return
      */
     List<DevoxxPresentation> getFullSchedule();
+
+    /**
+     * Search for {@link DevoxxPresentation}s containing the given tag.
+     * 
+     * @return List of DevoxxPresentations containing the given tag.
+     */
+    List<DevoxxPresentation> search(String tag);
 }

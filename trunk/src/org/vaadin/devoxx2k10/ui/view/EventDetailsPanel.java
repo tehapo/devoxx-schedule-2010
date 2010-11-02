@@ -16,6 +16,7 @@ import com.vaadin.Application.UserChangeEvent;
 import com.vaadin.Application.UserChangeListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
@@ -48,17 +49,19 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener, Us
     private Label trackLabel;
     private VerticalLayout speakers;
     private AddThis addThis;
+    private CssLayout tags;
+    private RelatedTalksLayout relatedTalks;
 
-    public EventDetailsPanel() {
+    public EventDetailsPanel(final MainView mainView) {
         setWidth("310px");
         setHeight("100%");
-        initUi();
+        initUi(mainView);
 
         setStyleName("event-details-panel");
         DevoxxScheduleApplication.getCurrentInstance().addListener(this);
     }
 
-    private void initUi() {
+    private void initUi(final MainView mainView) {
         // create components
         roomLabel = new Label();
         timeLabel = new Label();
@@ -78,6 +81,8 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener, Us
         addThis.addButton("facebook");
         addThis.addButton("google");
         addThis.addButton("mailto");
+        tags = new CssLayout();
+        relatedTalks = new RelatedTalksLayout(mainView);
 
         // add to the layout
         layout = new CustomLayout("event-details");
@@ -92,6 +97,7 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener, Us
         layout.addComponent(trackLabel, "track");
         layout.addComponent(speakers, "speakers");
         layout.addComponent(addThis, "add-this");
+        layout.addComponent(tags, "tags");
 
         if (event != null) {
             updateEventDetails();
@@ -142,6 +148,26 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener, Us
         } else {
             addThis.setVisible(false);
         }
+
+        tags.removeAllComponents();
+        final Label keywordsLabel = new Label("Keywords: ");
+        keywordsLabel.setSizeUndefined();
+        tags.addComponent(keywordsLabel);
+        boolean first = true;
+        for (final String tag : presentation.getTags()) {
+            if (!first) {
+                final Label comma = new Label(", ");
+                comma.setSizeUndefined();
+                tags.addComponent(comma);
+            }
+            first = false;
+            final Button tagButton = new Button(tag, this);
+            tagButton.setData(tag);
+            tagButton.setStyleName(BaseTheme.BUTTON_LINK);
+            tags.addComponent(tagButton);
+        }
+        relatedTalks.setVisible(false);
+        tags.addComponent(relatedTalks);
 
         updateFavouriteButtons();
     }
@@ -215,6 +241,11 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener, Us
                     }
                 });
             }
+        } else if (event.getButton().getData() instanceof String) {
+            // assume a tag button
+            final String tag = (String) event.getButton().getData();
+            relatedTalks.setTag(tag, this.event.getDevoxxEvent());
+            relatedTalks.setVisible(true);
         }
     }
 

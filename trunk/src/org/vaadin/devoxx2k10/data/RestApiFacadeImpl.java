@@ -55,6 +55,8 @@ public class RestApiFacadeImpl implements RestApiFacade, LazyLoadProvider {
 
     private static final String MY_SCHEDULE_VALIDATION_URL = REST_API_BASE_URL + "/events/users/validate";
 
+    private static final String SEARCH_URL = REST_API_BASE_URL + "/events/" + DEVOXX_EVENT_ID + "/presentations/search";
+
     private static final String UTF_8 = "utf-8";
 
     public RestApiFacadeImpl() {
@@ -193,6 +195,30 @@ public class RestApiFacadeImpl implements RestApiFacade, LazyLoadProvider {
     public List<DevoxxPresentation> getFullSchedule() {
         try {
             return getScheduleData(httpClient.get(SCHEDULE_URL).getResponse());
+        } catch (final IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<DevoxxPresentation> search(final String tag) {
+        String searchJson;
+        try {
+            searchJson = httpClient.get(SEARCH_URL + "?tags=" + tag).getResponse();
+            final Set<Integer> ids = getScheduleIds(searchJson);
+            final List<DevoxxPresentation> result = new ArrayList<DevoxxPresentation>(ids.size());
+
+            // Use the full schedule to reuse DevoxxPresentation instances
+            // possibly already created.
+            for (final DevoxxPresentation presentation : getFullSchedule()) {
+                if (ids.contains(presentation.getId())) {
+                    result.add(presentation);
+                }
+            }
+            return result;
         } catch (final IOException e) {
             throw new RuntimeException(e);
         }

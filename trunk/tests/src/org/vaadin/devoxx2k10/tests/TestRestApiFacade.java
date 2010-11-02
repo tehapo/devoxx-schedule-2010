@@ -49,4 +49,10 @@ public class TestRestApiFacade {
         Assert.assertTrue(event.getTags().contains("modules"));
         Assert.assertTrue(event.getTags().contains("closures"));
     }
+
+    @Test
+    public void testPresentationSearch() {
+        final List<DevoxxPresentation> result = devoxxFacade.search("Java7");
+        Assert.assertEquals(2, result.size());
+    }
 }

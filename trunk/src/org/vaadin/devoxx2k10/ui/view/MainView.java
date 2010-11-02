@@ -96,7 +96,7 @@ public class MainView extends HorizontalLayout implements EventClickHandler, Val
         calendarPanel.addComponent(new FooterLinksLayout());
         addComponent(calendarPanel);
 
-        detailsPanel = new EventDetailsPanel();
+        detailsPanel = new EventDetailsPanel(this);
         addComponent(detailsPanel);
         detailsPanel.setVisible(false); // hide at first
 
@@ -169,18 +169,22 @@ public class MainView extends HorizontalLayout implements EventClickHandler, Val
         return "";
     }
 
+    public void selectPresentationWithId(final int id) {
+        final DevoxxCalendarEvent event = (DevoxxCalendarEvent) ((DevoxxEventProvider) calendar.getEventProvider())
+                .getEvent(id);
+        if (event != null) {
+            // select correct date and event
+            daySelector.setValue(event.getDevoxxEvent().getFromTime());
+            selectCalendarEvent(event);
+        }
+    }
+
     @Override
     public DownloadStream handleURI(final URL context, final String relativeUri) {
         if (relativeUri.startsWith("presentation/")) {
             try {
                 final int id = Integer.valueOf(relativeUri.split("/")[1]);
-                final DevoxxCalendarEvent event = (DevoxxCalendarEvent) ((DevoxxEventProvider) calendar.getEventProvider())
-                        .getEvent(id);
-                if (event != null) {
-                    // select correct date and event
-                    daySelector.setValue(event.getDevoxxEvent().getFromTime());
-                    selectCalendarEvent(event);
-                }
+                selectPresentationWithId(id);
             } catch (final NumberFormatException e) {
                 // the id was not an integer -> simply ignore
             }

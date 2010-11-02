@@ -59,4 +59,23 @@ public class CachingRestApiFacade extends RestApiFacadeImpl {
         }
         return scheduleData;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<DevoxxPresentation> search(final String tag) {
+        // Note that with some unlucky timing, two threads might
+        // call the super version of this method. In case of this
+        // application this is not a problem. Could be solved by
+        // using Futures instead of the resulting List directly.
+
+        List<DevoxxPresentation> scheduleData = scheduleCache.get("search-" + tag);
+        if (scheduleData == null) {
+            // cache miss
+            scheduleData = super.search(tag);
+            scheduleCache.put("search-" + tag, scheduleData);
+        }
+        return scheduleData;
+    }
 }
