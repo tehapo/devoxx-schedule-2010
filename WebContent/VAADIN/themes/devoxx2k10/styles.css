@@ -36,16 +36,36 @@ body.v-full-screen {
 	line-height: 18px;	
 }
 
-.v-link-vaadin a {
+/* Footer links */
+.footer-links,
+.footer-links .v-link-project {
+	float: left;	
+}
+.footer-links .v-link-project {
+	margin: 6px 0 0 65px;
+	font-size: 14px;	
+}
+.footer-links .v-link-project a span {
+	color: #f08800 !important;
+	font-weight: bold;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.30);
+	text-decoration: none;
+}
+.footer-links .v-link-vaadin {
+	float: right;	
+}
+.footer-links .v-link-vaadin a {
 	width: 263px;
 	height: 26px;
 	display: block;
 	background: url("img/vaadin-logo.png") transparent center center no-repeat;
 	margin-right: 20px;
-	opacity: 0.7; 	
 }
-.v-link-vaadin a:hover {
-	opacity: 1;	
+.footer-links .v-link a {
+	opacity: 0.7; 		
+}
+.footer-links .v-link a:hover {
+	opacity: 1;
 }
 
 .v-button-link:focus {
