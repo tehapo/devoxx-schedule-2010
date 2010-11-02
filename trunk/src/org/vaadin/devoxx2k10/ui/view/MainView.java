@@ -14,7 +14,6 @@ import com.vaadin.addon.calendar.ui.CalendarComponentEvents.EventClick;
 import com.vaadin.addon.calendar.ui.CalendarComponentEvents.EventClickHandler;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.terminal.ExternalResource;
 import com.vaadin.terminal.gwt.server.WebApplicationContext;
 import com.vaadin.terminal.gwt.server.WebBrowser;
 import com.vaadin.ui.Alignment;
@@ -22,7 +21,6 @@ import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
-import com.vaadin.ui.Link;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.UriFragmentUtility;
 import com.vaadin.ui.UriFragmentUtility.FragmentChangedEvent;
@@ -32,8 +30,7 @@ import com.vaadin.ui.VerticalLayout;
 /**
  * The main view of the application displaying navigation, calendar and details.
  */
-public class MainView extends HorizontalLayout
-        implements EventClickHandler, ValueChangeListener, FragmentChangedListener {
+public class MainView extends HorizontalLayout implements EventClickHandler, ValueChangeListener, FragmentChangedListener {
 
     private static final long serialVersionUID = 7622207451668068454L;
 
@@ -65,7 +62,7 @@ public class MainView extends HorizontalLayout
         uriFragment.addListener(this);
         addComponent(uriFragment);
 
-        daySelector = new DaySelectorField(DevoxxCalendar.DEVOXX_FIRST_DAY,DevoxxCalendar.DEVOXX_LAST_DAY, uriFragment);
+        daySelector = new DaySelectorField(DevoxxCalendar.DEVOXX_FIRST_DAY, DevoxxCalendar.DEVOXX_LAST_DAY, uriFragment);
         daySelector.addListener(this);
         daySelector.setValue(DevoxxCalendar.getDefaultDate());
 
@@ -75,7 +72,7 @@ public class MainView extends HorizontalLayout
         toolbar.setStyleName("v-toolbar");
         toolbar.addComponent(new UserLayout(calendar));
         toolbar.addComponent(daySelector);
-        Label placeHolder = new Label("");
+        final Label placeHolder = new Label("");
         placeHolder.setWidth("250px");
         toolbar.addComponent(placeHolder);
         toolbar.setComponentAlignment(daySelector, Alignment.TOP_CENTER);
@@ -96,11 +93,7 @@ public class MainView extends HorizontalLayout
         calendarPanel.setSizeFull();
         calendarPanel.addComponent(toolbar);
         calendarPanel.addComponent(calendarWrapper);
-        final Link vaadinLink = new Link("", new ExternalResource("http://vaadin.com"));
-        vaadinLink.setHeight("45px");
-        vaadinLink.setStyleName("vaadin");
-        calendarPanel.addComponent(vaadinLink);
-        ((VerticalLayout) calendarPanel.getContent()).setComponentAlignment(vaadinLink, Alignment.BOTTOM_RIGHT);
+        calendarPanel.addComponent(new FooterLinksLayout());
         addComponent(calendarPanel);
 
         detailsPanel = new EventDetailsPanel();
@@ -113,9 +106,9 @@ public class MainView extends HorizontalLayout
 
     private boolean iOSUserAgent() {
         if (DevoxxScheduleApplication.getCurrentInstance().getContext() instanceof WebApplicationContext) {
-            WebBrowser browser = ((WebApplicationContext) DevoxxScheduleApplication
-                    .getCurrentInstance().getContext()).getBrowser();
-            String userAgent = browser.getBrowserApplication();
+            final WebBrowser browser = ((WebApplicationContext) DevoxxScheduleApplication.getCurrentInstance().getContext())
+                    .getBrowser();
+            final String userAgent = browser.getBrowserApplication();
 
             if (userAgent.contains("iPod") || userAgent.contains("iPhone") || userAgent.contains("iPad")) {
                 return true;
@@ -190,14 +183,14 @@ public class MainView extends HorizontalLayout
         try {
             // try to parse the fragment as id
             final int id = Integer.valueOf(fragment);
-            final DevoxxCalendarEvent event =
-                    (DevoxxCalendarEvent) ((DevoxxEventProvider) calendar.getEventProvider()).getEvent(id);
+            final DevoxxCalendarEvent event = (DevoxxCalendarEvent) ((DevoxxEventProvider) calendar.getEventProvider())
+                    .getEvent(id);
             if (event != null) {
                 // select correct date and event
                 daySelector.setValue(event.getDevoxxEvent().getFromTime());
                 selectCalendarEvent(event);
             }
-        } catch (NumberFormatException e) {
+        } catch (final NumberFormatException e) {
             // the fragment was not an integer -> simply ignore
         }
     }
