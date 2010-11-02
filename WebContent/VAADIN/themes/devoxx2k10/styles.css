@@ -572,7 +572,9 @@ body.v-full-screen {
 .event-details-panel .not-attending-button .v-button .v-button-caption {
 	color: #9d9c99;	
 }
-
+.event-details .add-this {
+	margin-top: 10px;
+}
 
 .speakers-layout {
 	background: #363634;

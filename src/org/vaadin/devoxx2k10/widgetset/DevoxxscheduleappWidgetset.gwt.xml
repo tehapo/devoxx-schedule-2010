@@ -24,4 +24,6 @@
     
 
     <inherits name="org.vaadin.browsercookies.widgetset.BrowserCookiesApplicationWidgetset" />
+
+    <inherits name="org.vaadin.addthis.AddthisWidgetset" />
 </module>
