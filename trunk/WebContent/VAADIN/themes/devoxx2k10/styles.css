@@ -33,7 +33,8 @@ body.v-full-screen {
 }
 
 .v-app .v-view .v-label {
-	line-height: 18px;	
+	line-height: 18px;
+    color: #B5B2AD;
 }
 
 /* Footer links */
