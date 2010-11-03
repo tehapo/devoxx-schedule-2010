@@ -207,6 +207,12 @@ body.v-full-screen {
 	background: transparent;
 }
 
+.v-theme-devoxx2k10 .v-calendar-current-time {
+	background-color: #e18007;
+	-moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);	
+}
 .v-theme-devoxx2k10 .v-calendar-event {
 	-moz-box-shadow: 0 1px 2px #2d2c2b;
 	-webkit-box-shadow: 0 1px 2px #2d2c2b;
