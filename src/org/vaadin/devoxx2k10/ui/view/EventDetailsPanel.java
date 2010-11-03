@@ -51,6 +51,7 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener, Us
     private AddThis addThis;
     private CssLayout tags;
     private RelatedTalksLayout relatedTalks;
+    private Button selectedTagButton;
 
     public EventDetailsPanel(final MainView mainView) {
         setWidth("310px");
@@ -165,19 +166,15 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener, Us
 
     private void updateTags(final DevoxxPresentation presentation) {
         final Label keywordsLabel = new Label("Keywords: ");
+        keywordsLabel.setStyleName("keywords");
         keywordsLabel.setSizeUndefined();
         tags.addComponent(keywordsLabel);
-        boolean first = true;
+
         for (final String tag : presentation.getTags()) {
-            if (!first) {
-                final Label comma = new Label(", ");
-                comma.setSizeUndefined();
-                tags.addComponent(comma);
-            }
-            first = false;
             final Button tagButton = new Button(tag, this);
             tagButton.setData(tag);
             tagButton.setStyleName(BaseTheme.BUTTON_LINK);
+            tagButton.addStyleName("tag");
             tags.addComponent(tagButton);
         }
         relatedTalks.setVisible(false);
@@ -255,9 +252,17 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener, Us
             }
         } else if (event.getButton().getData() instanceof String) {
             // assume a tag button
-            final String tag = (String) event.getButton().getData();
-            relatedTalks.setTag(tag, this.event.getDevoxxEvent());
-            relatedTalks.setVisible(true);
+            if (event.getButton() != selectedTagButton) {
+                final String tag = (String) event.getButton().getData();
+                relatedTalks.setTag(tag, this.event.getDevoxxEvent());
+                relatedTalks.setVisible(true);
+
+                if (selectedTagButton != null) {
+                    selectedTagButton.removeStyleName("selected");
+                }
+                selectedTagButton = event.getButton();
+                selectedTagButton.addStyleName("selected");
+            }
         }
     }
 
