@@ -114,7 +114,7 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener, Us
             return;
         }
 
-        if (!devoxxEvent.getDevoxxEvent().equals(event.getDevoxxEvent())) {
+        if (!devoxxEvent.equals(event)) {
             event = devoxxEvent;
             updateEventDetails();
         }
