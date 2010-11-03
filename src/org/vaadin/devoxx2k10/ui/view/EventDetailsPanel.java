@@ -150,6 +150,14 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener, Us
         }
 
         tags.removeAllComponents();
+        if (presentation.getTags() != null && !presentation.getTags().isEmpty()) {
+            updateTags(presentation);
+        }
+
+        updateFavouriteButtons();
+    }
+
+    private void updateTags(final DevoxxPresentation presentation) {
         final Label keywordsLabel = new Label("Keywords: ");
         keywordsLabel.setSizeUndefined();
         tags.addComponent(keywordsLabel);
@@ -168,8 +176,6 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener, Us
         }
         relatedTalks.setVisible(false);
         tags.addComponent(relatedTalks);
-
-        updateFavouriteButtons();
     }
 
     /**
