@@ -118,9 +118,11 @@ public class MainView extends HorizontalLayout implements EventClickHandler, Val
     }
 
     @Override
-    public void eventClick(final EventClick event) {
-        final CalendarEvent calEvent = event.getCalendarEvent();
-        selectCalendarEvent(calEvent);
+    public void eventClick(final EventClick eventClick) {
+        if (!eventClick.getCalendarEvent().equals(selectedEvent)) {
+            final CalendarEvent calEvent = eventClick.getCalendarEvent();
+            selectCalendarEvent(calEvent);
+        }
     }
 
     private void selectCalendarEvent(final CalendarEvent calEvent) {

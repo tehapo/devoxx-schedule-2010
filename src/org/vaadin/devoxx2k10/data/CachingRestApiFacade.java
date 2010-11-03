@@ -1,5 +1,6 @@
 package org.vaadin.devoxx2k10.data;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -54,7 +55,7 @@ public class CachingRestApiFacade extends RestApiFacadeImpl {
 
         if (scheduleData == null) {
             // cache miss
-            scheduleData = super.getFullSchedule();
+            scheduleData = Collections.unmodifiableList(super.getFullSchedule());
             scheduleCache.put("schedule", scheduleData);
         }
         return scheduleData;
@@ -73,7 +74,7 @@ public class CachingRestApiFacade extends RestApiFacadeImpl {
         List<DevoxxPresentation> scheduleData = scheduleCache.get("search-" + tag);
         if (scheduleData == null) {
             // cache miss
-            scheduleData = super.search(tag);
+            scheduleData = Collections.unmodifiableList(super.search(tag));
             scheduleCache.put("search-" + tag, scheduleData);
         }
         return scheduleData;

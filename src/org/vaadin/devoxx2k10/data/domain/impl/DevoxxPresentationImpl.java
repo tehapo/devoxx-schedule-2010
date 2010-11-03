@@ -134,7 +134,20 @@ public class DevoxxPresentationImpl implements DevoxxPresentation, LazyLoadable 
 
     @Override
     public int hashCode() {
-        return Integer.valueOf(id).hashCode();
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((code == null) ? 0 : code.hashCode());
+        result = prime * result + ((fromTime == null) ? 0 : fromTime.hashCode());
+        result = prime * result + id;
+        result = prime * result + ((kind == null) ? 0 : kind.hashCode());
+        result = prime * result + (partnerSlot ? 1231 : 1237);
+        result = prime * result + ((presentationUri == null) ? 0 : presentationUri.hashCode());
+        result = prime * result + ((room == null) ? 0 : room.hashCode());
+        result = prime * result + ((speakers == null) ? 0 : speakers.hashCode());
+        result = prime * result + ((title == null) ? 0 : title.hashCode());
+        result = prime * result + ((toTime == null) ? 0 : toTime.hashCode());
+        result = prime * result + ((type == null) ? 0 : type.hashCode());
+        return result;
     }
 
     @Override
@@ -143,10 +156,70 @@ public class DevoxxPresentationImpl implements DevoxxPresentation, LazyLoadable 
             return true;
         if (obj == null)
             return false;
-        if (!(obj instanceof DevoxxPresentation)) {
+        if (!(obj instanceof DevoxxPresentation))
             return false;
-        }
+
         final DevoxxPresentation other = (DevoxxPresentation) obj;
-        return id == other.getId();
+
+        // Can't use only the id since some "presentations" (breakfast,
+        // registration, etc). don't have an id (always id == 0).
+        if (id != other.getId())
+            return false;
+
+        if (fromTime == null) {
+            if (other.getFromTime() != null)
+                return false;
+        } else if (!fromTime.equals(other.getFromTime()))
+            return false;
+
+        if (code == null) {
+            if (other.getCode() != null)
+                return false;
+        } else if (!code.equals(other.getCode()))
+            return false;
+
+        if (kind != other.getKind())
+            return false;
+
+        if (partnerSlot != other.isPartnerSlot())
+            return false;
+
+        else if (room == null) {
+            if (other.getRoom() != null)
+                return false;
+        } else if (!room.equals(other.getRoom()))
+            return false;
+
+        if (speakers == null) {
+            if (other.getSpeakers() != null)
+                return false;
+        } else if (!speakers.equals(other.getSpeakers()))
+            return false;
+
+        if (title == null) {
+            if (other.getTitle() != null)
+                return false;
+        } else if (!title.equals(other.getTitle()))
+            return false;
+
+        if (toTime == null) {
+            if (other.getToTime() != null)
+                return false;
+        } else if (!toTime.equals(other.getToTime()))
+            return false;
+
+        if (type == null) {
+            if (other.getType() != null)
+                return false;
+        } else if (!type.equals(other.getType()))
+            return false;
+
+        return true;
     }
+
+    @Override
+    public String toString() {
+        return "[id: " + id + ", " + title + "]";
+    }
+
 }

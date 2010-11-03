@@ -12,25 +12,21 @@ import org.vaadin.devoxx2k10.data.domain.DevoxxSpeaker;
  */
 public final class DevoxxSpeakerImpl implements DevoxxSpeaker, LazyLoadable {
 
+    private final int id;
     private final String name;
     private final String speakerUri;
 
-    private volatile int id;
     private volatile String imageUri;
     private volatile String bio;
 
-    public DevoxxSpeakerImpl(final String name, final String speakerUri) {
+    public DevoxxSpeakerImpl(final int id, final String name, final String speakerUri) {
+        this.id = id;
         this.name = name;
         this.speakerUri = speakerUri;
     }
 
-    @LazyLoad("id")
     public int getId() {
         return id;
-    }
-
-    public void setId(final int id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -59,4 +55,32 @@ public final class DevoxxSpeakerImpl implements DevoxxSpeaker, LazyLoadable {
         return speakerUri;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + id;
+        return result;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof DevoxxSpeaker))
+            return false;
+
+        final DevoxxSpeaker other = (DevoxxSpeaker) obj;
+        if (id != other.getId())
+            return false;
+
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "[id: " + id + ", " + name + "]";
+    }
 }
