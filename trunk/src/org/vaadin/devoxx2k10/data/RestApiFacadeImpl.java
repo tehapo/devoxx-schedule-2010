@@ -308,9 +308,11 @@ public class RestApiFacadeImpl implements RestApiFacade, LazyLoadProvider {
                 for (int i = 0; i < speakersJson.length(); i++) {
                     final String speakerUri = ((JSONObject) speakersJson.get(i)).getString("speakerUri");
                     final String speakerName = ((JSONObject) speakersJson.get(i)).getString("speaker");
+                    final int speakerId = Integer.valueOf(speakerUri.substring(speakerUri.lastIndexOf("/") + 1));
 
                     // wrap the speaker inside a lazy loading proxy
-                    speakers.add(LazyLoadProxyFactory.getProxy(new DevoxxSpeakerImpl(speakerName, speakerUri), this));
+                    speakers.add(LazyLoadProxyFactory.getProxy(new DevoxxSpeakerImpl(speakerId, speakerName, speakerUri),
+                            this));
                 }
             }
 

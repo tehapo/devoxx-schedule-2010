@@ -110,8 +110,14 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener, Us
      * @param devoxxEvent
      */
     public void setEvent(final DevoxxCalendarEvent devoxxEvent) {
-        event = devoxxEvent;
-        updateEventDetails();
+        if (devoxxEvent == null) {
+            return;
+        }
+
+        if (!devoxxEvent.getDevoxxEvent().equals(event.getDevoxxEvent())) {
+            event = devoxxEvent;
+            updateEventDetails();
+        }
     }
 
     /**
