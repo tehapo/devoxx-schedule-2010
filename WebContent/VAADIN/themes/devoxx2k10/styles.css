@@ -93,7 +93,8 @@ body.v-full-screen {
 .v-button-wrap {
 	padding: 1px 12px 0 9px;	
 }
-.v-button-caption {
+.v-button-caption,
+.v-checkbox label {
 	color: #cbc7c0 !important;
 	line-height: 16px !important;
 	font-size: 12px !important;
