@@ -71,9 +71,12 @@ public class DevoxxScheduleApplication extends Application implements Transactio
 
         backendFacade = new CachingRestApiFacade();
 
-        final Window mainWindow = new Window("Devoxx 2010 Schedule");
-        setMainWindow(mainWindow);
+        setMainWindow(createMainWindow());
         setTheme("devoxx2k10");
+    }
+
+    private Window createMainWindow() {
+        final Window mainWindow = new Window("Devoxx 2010 Schedule");
 
         final MainView mainView = new MainView();
         mainWindow.setContent(mainView);
@@ -84,6 +87,8 @@ public class DevoxxScheduleApplication extends Application implements Transactio
         cookies = new BrowserCookies(true);
         cookies.addListener(this);
         mainWindow.addComponent(cookies);
+
+        return mainWindow;
     }
 
     public void storeUserCookie() {
@@ -167,6 +172,21 @@ public class DevoxxScheduleApplication extends Application implements Transactio
      */
     public static DevoxxScheduleApplication getCurrentInstance() {
         return currentApplication.get();
+    }
+
+    @Override
+    public Window getWindow(final String name) {
+        Window window = super.getWindow(name);
+        if (window == null) {
+            // support for multiple browser windows or tabs
+            if (logger.isDebugEnabled()) {
+                logger.debug("Creating new Window for name: " + name);
+            }
+            window = createMainWindow();
+            window.setName(name);
+            addWindow(window);
+        }
+        return window;
     }
 
     public void transactionStart(final Application application, final Object transactionData) {

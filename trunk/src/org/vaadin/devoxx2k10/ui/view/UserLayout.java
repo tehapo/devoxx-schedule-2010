@@ -4,6 +4,7 @@ import org.vaadin.devoxx2k10.DevoxxScheduleApplication;
 import org.vaadin.devoxx2k10.data.domain.MyScheduleUser;
 import org.vaadin.devoxx2k10.data.domain.MyScheduleUser.UserFavouritesChangedListener;
 
+import com.vaadin.Application;
 import com.vaadin.Application.UserChangeEvent;
 import com.vaadin.Application.UserChangeListener;
 import com.vaadin.addon.calendar.ui.Calendar;
@@ -49,7 +50,9 @@ public class UserLayout extends CssLayout implements ClickListener, UserChangeLi
         addComponent(signOutButton);
 
         DevoxxScheduleApplication.getCurrentInstance().addListener(this);
-        updateComponentVisibility();
+
+        // handle initialization of user related data
+        handleUserChange();
     }
 
     @Override
@@ -96,8 +99,13 @@ public class UserLayout extends CssLayout implements ClickListener, UserChangeLi
 
     @Override
     public void applicationUserChanged(final UserChangeEvent event) {
-        if (getApplication().getUser() != null && getApplication().getUser() instanceof MyScheduleUser) {
-            final MyScheduleUser newUser = (MyScheduleUser) getApplication().getUser();
+        handleUserChange();
+    }
+
+    private void handleUserChange() {
+        final Application app = DevoxxScheduleApplication.getCurrentInstance();
+        if (app.getUser() != null && app.getUser() instanceof MyScheduleUser) {
+            final MyScheduleUser newUser = (MyScheduleUser) app.getUser();
             String label = newUser.getEmail();
             if (label.length() > 20) {
                 label = label.substring(0, 17) + "..";

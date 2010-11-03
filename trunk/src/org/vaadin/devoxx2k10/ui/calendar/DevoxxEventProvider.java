@@ -21,6 +21,7 @@ public class DevoxxEventProvider extends BasicEventProvider {
 
     private static final long SHORT_EVENT_THRESHOLD_MS = 1000 * 60 * 30;
 
+    @Override
     public List<CalendarEvent> getEvents(final Date startDate, final Date endDate) {
         loadEventsFromBackendIfNeeded();
 
@@ -37,8 +38,7 @@ public class DevoxxEventProvider extends BasicEventProvider {
         loadEventsFromBackendIfNeeded();
 
         for (final CalendarEvent event : eventList) {
-            if (event instanceof DevoxxCalendarEvent &&
-                ((DevoxxCalendarEvent) event).getDevoxxEvent().getId() == id) {
+            if (event instanceof DevoxxCalendarEvent && ((DevoxxCalendarEvent) event).getDevoxxEvent().getId() == id) {
                 return event;
             }
         }
@@ -48,7 +48,7 @@ public class DevoxxEventProvider extends BasicEventProvider {
 
     public void refreshAttendingStyles() {
         final MyScheduleUser user = (MyScheduleUser) DevoxxScheduleApplication.getCurrentInstance().getUser();
-
+        
         for (final CalendarEvent event : eventList) {
             if (event instanceof DevoxxCalendarEvent) {
                 final DevoxxCalendarEvent devoxxEvent = (DevoxxCalendarEvent) event;
@@ -74,7 +74,7 @@ public class DevoxxEventProvider extends BasicEventProvider {
         for (final DevoxxPresentation event : schedule) {
             final DevoxxCalendarEvent calEvent = new DevoxxCalendarEvent();
             calEvent.setStyleName(event.getKind().name().toLowerCase());
-            calEvent.addStyleName("at-"+ event.getRoom().toLowerCase().replaceAll(" ", ""));
+            calEvent.addStyleName("at-" + event.getRoom().toLowerCase().replaceAll(" ", ""));
             if (isShortEvent(event)) {
                 calEvent.addStyleName("short-event");
             }
@@ -83,6 +83,7 @@ public class DevoxxEventProvider extends BasicEventProvider {
             super.addEvent(calEvent);
         }
         eventsLoaded = true;
+        refreshAttendingStyles();
 
         if (logger.isDebugEnabled()) {
             logger.debug("Fetched schedule from backend (total " + schedule.size() + " events).");
