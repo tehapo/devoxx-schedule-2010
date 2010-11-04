@@ -35,8 +35,12 @@ public class MainView extends HorizontalLayout implements EventClickHandler, Val
 
     private static final long serialVersionUID = 7622207451668068454L;
 
+    /** Currently displayed event. */
+    private DevoxxCalendarEvent currentEvent;
+    /** Event for which selected style has been set on server-side. */
+    private DevoxxCalendarEvent eventWithSelectedStyleName;
+
     private DevoxxCalendar calendar;
-    private DevoxxCalendarEvent selectedEvent;
     private EventDetailsPanel detailsPanel;
     private HorizontalLayout toolbar;
     private DaySelectorField daySelector;
@@ -119,7 +123,7 @@ public class MainView extends HorizontalLayout implements EventClickHandler, Val
 
     @Override
     public void eventClick(final EventClick eventClick) {
-        if (!eventClick.getCalendarEvent().equals(selectedEvent)) {
+        if (!eventClick.getCalendarEvent().equals(currentEvent)) {
             final CalendarEvent calEvent = eventClick.getCalendarEvent();
             // Select the event without style name change since it's now done
             // directly on the client-side when clicking an event.
@@ -135,20 +139,21 @@ public class MainView extends HorizontalLayout implements EventClickHandler, Val
         if (calEvent instanceof DevoxxCalendarEvent) {
             detailsPanel.setVisible(true);
 
-            if (performStyleNameChange && selectedEvent != null) {
-                selectedEvent.removeStyleName("selected");
-            }
-
             final DevoxxCalendarEvent devoxxCalEvent = (DevoxxCalendarEvent) calEvent;
-            selectedEvent = devoxxCalEvent;
+
             if (performStyleNameChange) {
-                selectedEvent.addStyleName("selected");
+                if (eventWithSelectedStyleName != null) {
+                    eventWithSelectedStyleName.removeStyleName("selected");
+                }
+                eventWithSelectedStyleName = devoxxCalEvent;
+                eventWithSelectedStyleName.addStyleName("selected");
             }
 
             if (!fullScreenButton.isFullScreen()) {
                 getWindow().scrollIntoView(toolbar);
             }
 
+            currentEvent = devoxxCalEvent;
             detailsPanel.setEvent(devoxxCalEvent);
         }
     }
