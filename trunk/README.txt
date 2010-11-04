@@ -46,6 +46,10 @@ BrowserCookies
  - BrowserCookies add-on for Vaadin
  - http://vaadin.com/addon/browsercookies
 
+GoogleAnalyticsTracker
+ - GoogleAnalyticsTracker add-on for Vaadin
+ - http://vaadin.com/addon/googleanalyticstracker
+
 AddThis
  - AddThis add-on for Vaadin
  - http://vaadin.com/addon/addthis
