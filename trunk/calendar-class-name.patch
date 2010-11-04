@@ -12,7 +12,17 @@ Index: src/com/vaadin/addon/calendar/gwt/client/ui/schedule/WeekGrid.java
              private Element caption = null;
              private final Element eventContent;
              private CalendarEvent calendarEvent = null;
-@@ -1723,6 +1724,13 @@
+@@ -1505,6 +1506,9 @@
+                 Style s = getElement().getStyle();
+                 if (event.getStyleName().length() > 0) {
+                     addStyleDependentName(event.getStyleName());
++                    if (event.getStyleName().contains("selected")) {
++                        currentlySelectedElement = getElement();
++                    }
+                 }
+                 s.setPosition(Position.ABSOLUTE);
+ 
+@@ -1723,6 +1727,13 @@
                                          calendar.getPID(),
                                          CalendarEventId.EVENTCLICK,
                                          calendarEvent.getIndex(), true);
