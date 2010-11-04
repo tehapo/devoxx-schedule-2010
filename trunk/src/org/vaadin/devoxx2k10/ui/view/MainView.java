@@ -142,11 +142,7 @@ public class MainView extends HorizontalLayout implements EventClickHandler, Val
             final DevoxxCalendarEvent devoxxCalEvent = (DevoxxCalendarEvent) calEvent;
 
             if (performStyleNameChange) {
-                if (eventWithSelectedStyleName != null) {
-                    eventWithSelectedStyleName.removeStyleName("selected");
-                }
-                eventWithSelectedStyleName = devoxxCalEvent;
-                eventWithSelectedStyleName.addStyleName("selected");
+                addSelectedStyleName(devoxxCalEvent);
             }
 
             if (!fullScreenButton.isFullScreen()) {
@@ -156,6 +152,14 @@ public class MainView extends HorizontalLayout implements EventClickHandler, Val
             currentEvent = devoxxCalEvent;
             detailsPanel.setEvent(devoxxCalEvent);
         }
+    }
+
+    public void addSelectedStyleName(final DevoxxCalendarEvent devoxxCalEvent) {
+        if (eventWithSelectedStyleName != null) {
+            eventWithSelectedStyleName.removeStyleName("selected");
+        }
+        eventWithSelectedStyleName = devoxxCalEvent;
+        eventWithSelectedStyleName.addStyleName("selected");
     }
 
     @Override

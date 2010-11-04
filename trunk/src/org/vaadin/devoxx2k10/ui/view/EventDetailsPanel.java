@@ -37,6 +37,7 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener, Us
     private static final long serialVersionUID = -671137262550574991L;
 
     private DevoxxCalendarEvent event;
+    private final MainView mainView;
 
     private CustomLayout layout;
     private Label roomLabel;
@@ -54,6 +55,7 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener, Us
     private Button selectedTagButton;
 
     public EventDetailsPanel(final MainView mainView) {
+        this.mainView = mainView;
         setWidth("310px");
         setHeight("100%");
         initUi(mainView);
@@ -296,6 +298,8 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener, Us
                 } else {
                     event.removeStyleName("attending");
                 }
+                // make sure it remains selected visually
+                mainView.addSelectedStyleName(calEvent);
                 updateFavouriteButtons();
             } catch (final RestApiException e) {
                 getWindow().showNotification(e.getMessage(), Notification.TYPE_ERROR_MESSAGE);
