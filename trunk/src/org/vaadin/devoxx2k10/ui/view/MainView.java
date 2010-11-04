@@ -35,10 +35,7 @@ public class MainView extends HorizontalLayout implements EventClickHandler, Val
 
     private static final long serialVersionUID = 7622207451668068454L;
 
-    /** Currently displayed event. */
     private DevoxxCalendarEvent currentEvent;
-    /** Event for which selected style has been set on server-side. */
-    private DevoxxCalendarEvent eventWithSelectedStyleName;
 
     private DevoxxCalendar calendar;
     private EventDetailsPanel detailsPanel;
@@ -125,41 +122,30 @@ public class MainView extends HorizontalLayout implements EventClickHandler, Val
     public void eventClick(final EventClick eventClick) {
         if (!eventClick.getCalendarEvent().equals(currentEvent)) {
             final CalendarEvent calEvent = eventClick.getCalendarEvent();
-            // Select the event without style name change since it's now done
-            // directly on the client-side when clicking an event.
+            // Select the event without repainting the calendar as the selected
+            // style name is set on the client-side when clicking an event.
             selectCalendarEvent(calEvent, false);
         }
     }
 
-    private void selectCalendarEvent(final CalendarEvent calEvent) {
-        selectCalendarEvent(calEvent, true);
-    }
-
-    private void selectCalendarEvent(final CalendarEvent calEvent, final boolean performStyleNameChange) {
+    private void selectCalendarEvent(final CalendarEvent calEvent, final boolean repaintCalendar) {
         if (calEvent instanceof DevoxxCalendarEvent) {
             detailsPanel.setVisible(true);
 
             final DevoxxCalendarEvent devoxxCalEvent = (DevoxxCalendarEvent) calEvent;
-
-            if (performStyleNameChange) {
-                addSelectedStyleName(devoxxCalEvent);
-            }
 
             if (!fullScreenButton.isFullScreen()) {
                 getWindow().scrollIntoView(toolbar);
             }
 
             currentEvent = devoxxCalEvent;
+            calendar.setSelectedPresentation(devoxxCalEvent.getDevoxxEvent());
             detailsPanel.setEvent(devoxxCalEvent);
-        }
-    }
 
-    public void addSelectedStyleName(final DevoxxCalendarEvent devoxxCalEvent) {
-        if (eventWithSelectedStyleName != null) {
-            eventWithSelectedStyleName.removeStyleName("selected");
+            if (repaintCalendar) {
+                calendar.requestRepaint();
+            }
         }
-        eventWithSelectedStyleName = devoxxCalEvent;
-        eventWithSelectedStyleName.addStyleName("selected");
     }
 
     @Override
@@ -194,7 +180,7 @@ public class MainView extends HorizontalLayout implements EventClickHandler, Val
         if (event != null) {
             // select correct date and event
             daySelector.setValue(event.getDevoxxEvent().getFromTime());
-            selectCalendarEvent(event);
+            selectCalendarEvent(event, true);
         }
     }
 
