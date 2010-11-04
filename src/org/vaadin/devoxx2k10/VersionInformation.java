@@ -11,15 +11,13 @@ public class VersionInformation {
     static {
         // Load the application version from the properties file.
         try {
-            Properties versionProperties = new Properties();
-            InputStream propertiesStream = DevoxxScheduleApplication.class
-                    .getClassLoader()
-                    .getResourceAsStream("/version.properties");
+            final Properties versionProperties = new Properties();
+            final InputStream propertiesStream = DevoxxScheduleApplication.class.getResourceAsStream("/version.properties");
             if (propertiesStream != null) {
                 versionProperties.load(propertiesStream);
                 version = versionProperties.getProperty("version");
             }
-        } catch (IOException e) {
+        } catch (final IOException e) {
             // Shouldn't happen -> print the stack trace and just use the
             // default value.
             e.printStackTrace();
