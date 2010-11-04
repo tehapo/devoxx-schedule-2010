@@ -1,6 +1,8 @@
 package org.vaadin.devoxx2k10.ui.view;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -9,6 +11,7 @@ import org.vaadin.devoxx2k10.ui.FullScreenButton;
 import org.vaadin.devoxx2k10.ui.calendar.DevoxxCalendar;
 import org.vaadin.devoxx2k10.ui.calendar.DevoxxCalendarEvent;
 import org.vaadin.devoxx2k10.ui.calendar.DevoxxEventProvider;
+import org.vaadin.googleanalytics.tracking.GoogleAnalyticsTracker;
 
 import com.vaadin.addon.calendar.event.CalendarEvent;
 import com.vaadin.addon.calendar.ui.CalendarComponentEvents.EventClick;
@@ -44,6 +47,7 @@ public class MainView extends HorizontalLayout implements EventClickHandler, Val
     private FullScreenButton fullScreenButton;
     private Label dayLabel;
     private UriFragmentUtility uriFragment;
+    private GoogleAnalyticsTracker tracker;
 
     public MainView() {
         initUi();
@@ -103,6 +107,11 @@ public class MainView extends HorizontalLayout implements EventClickHandler, Val
 
         // make the calendar expand to use all available space
         setExpandRatio(calendarPanel, 1f);
+
+        // init Google Analytics tracker
+        tracker = new ScheduleGATracker();
+        tracker.trackPageview("/");
+        addComponent(tracker);
     }
 
     private boolean iOSUserAgent() {
@@ -144,6 +153,13 @@ public class MainView extends HorizontalLayout implements EventClickHandler, Val
 
             if (repaintCalendar) {
                 calendar.requestRepaint();
+            }
+
+            try {
+                tracker.trackPageview("/" + devoxxCalEvent.getDevoxxEvent().getId() + "/"
+                        + URLEncoder.encode(devoxxCalEvent.getDevoxxEvent().getTitle().replaceAll(" ", "_"), "utf-8"));
+            } catch (final UnsupportedEncodingException e) {
+                // shouldn't happen (utf-8 is always supported)
             }
         }
     }
