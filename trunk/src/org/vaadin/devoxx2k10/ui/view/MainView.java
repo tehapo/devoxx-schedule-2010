@@ -121,16 +121,29 @@ public class MainView extends HorizontalLayout implements EventClickHandler, Val
     public void eventClick(final EventClick eventClick) {
         if (!eventClick.getCalendarEvent().equals(selectedEvent)) {
             final CalendarEvent calEvent = eventClick.getCalendarEvent();
-            selectCalendarEvent(calEvent);
+            // Select the event without style name change since it's now done
+            // directly on the client-side when clicking an event.
+            selectCalendarEvent(calEvent, false);
         }
     }
 
     private void selectCalendarEvent(final CalendarEvent calEvent) {
+        selectCalendarEvent(calEvent, true);
+    }
+
+    private void selectCalendarEvent(final CalendarEvent calEvent, final boolean performStyleNameChange) {
         if (calEvent instanceof DevoxxCalendarEvent) {
             detailsPanel.setVisible(true);
 
+            if (performStyleNameChange && selectedEvent != null) {
+                selectedEvent.removeStyleName("selected");
+            }
+
             final DevoxxCalendarEvent devoxxCalEvent = (DevoxxCalendarEvent) calEvent;
             selectedEvent = devoxxCalEvent;
+            if (performStyleNameChange) {
+                selectedEvent.addStyleName("selected");
+            }
 
             if (!fullScreenButton.isFullScreen()) {
                 getWindow().scrollIntoView(toolbar);
