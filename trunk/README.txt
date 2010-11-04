@@ -34,7 +34,10 @@ Vaadin
 Vaadin Calendar (AGPL)
  - Calendar add-on for Vaadin
  - http://vaadin.com/addon/vaadin-calendar
-
+ - Note that this application uses a custom build of the add-on for better performance. Namely the "selected" 
+   class name is added and removed on client-side removing the need to update the whole calendar. See the 
+   calendar-class-name.patch file for the changes made.
+   
 CustomField
  - CustomField add-on for Vaadin
  - http://vaadin.com/addon/customfield
