@@ -18,6 +18,7 @@ public class DevoxxEventProvider extends BasicEventProvider {
 
     private transient final Logger logger = Logger.getLogger(getClass());
     private boolean eventsLoaded;
+    private DevoxxPresentation selectedEvent;
 
     private static final long SHORT_EVENT_THRESHOLD_MS = 1000 * 60 * 30;
 
@@ -26,6 +27,18 @@ public class DevoxxEventProvider extends BasicEventProvider {
         loadEventsFromBackendIfNeeded();
 
         final List<CalendarEvent> result = super.getEvents(startDate, endDate);
+
+        // Update the selected style name.
+        for (final CalendarEvent event : eventList) {
+            if (event instanceof DevoxxCalendarEvent) {
+                final DevoxxCalendarEvent devoxxCalEvent = ((DevoxxCalendarEvent) event);
+                if (devoxxCalEvent.getDevoxxEvent().equals(selectedEvent)) {
+                    devoxxCalEvent.addStyleName("selected");
+                } else {
+                    devoxxCalEvent.removeStyleName("selected");
+                }
+            }
+        }
 
         if (logger.isDebugEnabled()) {
             logger.debug("Returning " + result.size() + " events for " + startDate + " - " + endDate);
@@ -48,7 +61,7 @@ public class DevoxxEventProvider extends BasicEventProvider {
 
     public void refreshAttendingStyles() {
         final MyScheduleUser user = (MyScheduleUser) DevoxxScheduleApplication.getCurrentInstance().getUser();
-        
+
         for (final CalendarEvent event : eventList) {
             if (event instanceof DevoxxCalendarEvent) {
                 final DevoxxCalendarEvent devoxxEvent = (DevoxxCalendarEvent) event;
@@ -92,5 +105,9 @@ public class DevoxxEventProvider extends BasicEventProvider {
 
     private static boolean isShortEvent(final DevoxxPresentation event) {
         return event.getToTime().getTime() - event.getFromTime().getTime() < SHORT_EVENT_THRESHOLD_MS;
+    }
+
+    public void setSelectedPresentation(final DevoxxPresentation event) {
+        selectedEvent = event;
     }
 }

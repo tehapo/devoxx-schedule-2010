@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.apache.log4j.Logger;
 import org.vaadin.devoxx2k10.DevoxxScheduleApplication;
+import org.vaadin.devoxx2k10.data.domain.DevoxxPresentation;
 import org.vaadin.devoxx2k10.data.domain.MyScheduleUser;
 import org.vaadin.devoxx2k10.data.domain.MyScheduleUser.UserFavouritesChangedListener;
 
@@ -91,6 +92,12 @@ public class DevoxxCalendar extends Calendar implements UserChangeListener, User
     private void refreshCalendarStyles() {
         if (getEventProvider() instanceof DevoxxEventProvider) {
             ((DevoxxEventProvider) getEventProvider()).refreshAttendingStyles();
+        }
+    }
+
+    public void setSelectedPresentation(final DevoxxPresentation event) {
+        if (getEventProvider() instanceof DevoxxEventProvider) {
+            ((DevoxxEventProvider) getEventProvider()).setSelectedPresentation(event);
         }
     }
 

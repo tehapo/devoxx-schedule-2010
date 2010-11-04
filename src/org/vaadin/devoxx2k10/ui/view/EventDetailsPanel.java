@@ -298,8 +298,6 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener, Us
                 } else {
                     event.removeStyleName("attending");
                 }
-                // make sure it remains selected visually
-                mainView.addSelectedStyleName(calEvent);
                 updateFavouriteButtons();
             } catch (final RestApiException e) {
                 getWindow().showNotification(e.getMessage(), Notification.TYPE_ERROR_MESSAGE);
