@@ -129,13 +129,8 @@ public class MainView extends HorizontalLayout implements EventClickHandler, Val
         if (calEvent instanceof DevoxxCalendarEvent) {
             detailsPanel.setVisible(true);
 
-            if (selectedEvent != null) {
-                selectedEvent.removeStyleName("selected");
-            }
-
             final DevoxxCalendarEvent devoxxCalEvent = (DevoxxCalendarEvent) calEvent;
             selectedEvent = devoxxCalEvent;
-            devoxxCalEvent.addStyleName("selected");
 
             if (!fullScreenButton.isFullScreen()) {
                 getWindow().scrollIntoView(toolbar);
