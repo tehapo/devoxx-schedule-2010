@@ -72,3 +72,7 @@ GWT
 XMLTask
  - For modifying the web.xml from Ant script
  - http://www.oopsconsultancy.com/software/xmltask/
+ 
+YUI Compressor
+ - For minimizing the CSS theme file
+ - http://developer.yahoo.com/yui/compressor/
