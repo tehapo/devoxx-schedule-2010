@@ -2,6 +2,11 @@
 <!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 1.7.0//EN" "http://google-web-toolkit.googlecode.com/svn/tags/1.7.0/distro-source/core/src/gwt-module.dtd">
 <module>
 	<inherits name="com.vaadin.terminal.gwt.DefaultWidgetSet" />
+
+	<generate-with class="org.vaadin.devoxx2k10.widgetset.CustomWidgetMapGenerator">
+		<when-type-is class="com.vaadin.terminal.gwt.client.WidgetMap"/>
+	</generate-with>
+
 	
     <!--
      Uncomment the following to compile the widgetset for one browser only.
@@ -20,8 +25,6 @@
     <!-- <set-property name="user.agent" value="gecko"/> -->
     
     <inherits name="com.vaadin.addon.calendar.gwt.CalendarWidgetset" />
-    
-    
 
     <inherits name="org.vaadin.browsercookies.widgetset.BrowserCookiesApplicationWidgetset" />
 
