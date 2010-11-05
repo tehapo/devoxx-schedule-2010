@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import org.vaadin.devoxx2k10.DevoxxScheduleApplication;
+
 import com.vaadin.data.Property;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -20,15 +22,14 @@ import com.vaadin.ui.UriFragmentUtility.FragmentChangedListener;
  * CustomField for selecting days from a certain date interval given in the
  * constructor. Supports also selecting the day via an URI fragment.
  */
-public class DaySelectorField extends CustomField implements
-        Button.ClickListener, Property.ValueChangeListener,
+public class DaySelectorField extends CustomField implements Button.ClickListener, Property.ValueChangeListener,
         FragmentChangedListener {
 
     private static final long serialVersionUID = -4777985742354898074L;
 
-    private ComponentContainer layout;
+    private final ComponentContainer layout;
     private UriFragmentUtility uriFragment;
-    private Map<String, Button> uriFragmentToButtonMap = new HashMap<String, Button>();
+    private final Map<String, Button> uriFragmentToButtonMap = new HashMap<String, Button>();
 
     public DaySelectorField(final Date firstDay, final Date lastDay, final UriFragmentUtility uriFragment) {
         layout = new CssLayout();
@@ -44,7 +45,7 @@ public class DaySelectorField extends CustomField implements
         while (javaCalendar.getTime().compareTo(lastDay) <= 0) {
             final String dayName = javaCalendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.US);
 
-            boolean first = (dayButton == null);
+            final boolean first = (dayButton == null);
             dayButton = new Button(dayName, (Button.ClickListener) this);
             dayButton.setStyleName("day-button");
             if (first) {
@@ -77,6 +78,7 @@ public class DaySelectorField extends CustomField implements
                 if (uriFragment != null) {
                     uriFragment.setFragment(fragment, false);
                 }
+                DevoxxScheduleApplication.trackPageview("view/" + uriFragment.getFragment(), null);
             } else {
                 button.removeStyleName("selected");
             }
@@ -107,8 +109,8 @@ public class DaySelectorField extends CustomField implements
         final Calendar secondCal = Calendar.getInstance();
         secondCal.setTime(second);
 
-        return firstCal.get(Calendar.DAY_OF_YEAR) == secondCal .get(Calendar.DAY_OF_YEAR) &&
-               firstCal.get(Calendar.YEAR) == secondCal.get(Calendar.YEAR);
+        return firstCal.get(Calendar.DAY_OF_YEAR) == secondCal.get(Calendar.DAY_OF_YEAR)
+                && firstCal.get(Calendar.YEAR) == secondCal.get(Calendar.YEAR);
 
     }
 

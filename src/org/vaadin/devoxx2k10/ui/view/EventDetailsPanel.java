@@ -37,7 +37,6 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener, Us
     private static final long serialVersionUID = -671137262550574991L;
 
     private DevoxxCalendarEvent event;
-    private final MainView mainView;
 
     private CustomLayout layout;
     private Label roomLabel;
@@ -55,7 +54,6 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener, Us
     private Button selectedTagButton;
 
     public EventDetailsPanel(final MainView mainView) {
-        this.mainView = mainView;
         setWidth("310px");
         setHeight("100%");
         initUi(mainView);
@@ -295,8 +293,10 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener, Us
 
                 if (addToFavourites) {
                     event.addStyleName("attending");
+                    DevoxxScheduleApplication.trackPageview("attend", event.getDevoxxEvent());
                 } else {
                     event.removeStyleName("attending");
+                    DevoxxScheduleApplication.trackPageview("unattend", event.getDevoxxEvent());
                 }
                 updateFavouriteButtons();
             } catch (final RestApiException e) {
