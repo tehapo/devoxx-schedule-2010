@@ -1,5 +1,7 @@
 package org.vaadin.devoxx2k10;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Date;
 
 import org.apache.log4j.Logger;
@@ -7,9 +9,12 @@ import org.vaadin.browsercookies.BrowserCookies;
 import org.vaadin.devoxx2k10.data.CachingRestApiFacade;
 import org.vaadin.devoxx2k10.data.RestApiException;
 import org.vaadin.devoxx2k10.data.RestApiFacade;
+import org.vaadin.devoxx2k10.data.domain.DevoxxPresentation;
 import org.vaadin.devoxx2k10.data.domain.MyScheduleUser;
 import org.vaadin.devoxx2k10.ui.view.MainView;
+import org.vaadin.devoxx2k10.ui.view.ScheduleGATracker;
 import org.vaadin.devoxx2k10.ui.view.UnsupportedBrowserWindow;
+import org.vaadin.googleanalytics.tracking.GoogleAnalyticsTracker;
 
 import com.vaadin.Application;
 import com.vaadin.service.ApplicationContext.TransactionListener;
@@ -46,6 +51,7 @@ public class DevoxxScheduleApplication extends Application implements Transactio
     private transient RestApiFacade backendFacade;
 
     private BrowserCookies cookies;
+    private GoogleAnalyticsTracker tracker;
 
     static {
         systemMessages = new CustomizedSystemMessages();
@@ -78,17 +84,47 @@ public class DevoxxScheduleApplication extends Application implements Transactio
     private Window createMainWindow() {
         final Window mainWindow = new Window("Devoxx 2010 Schedule");
 
+        // init Google Analytics tracker
+        tracker = new ScheduleGATracker();
+
         final MainView mainView = new MainView();
         mainWindow.setContent(mainView);
         mainWindow.addURIHandler(mainView);
 
         checkBrowserSupport(mainWindow);
 
+        // init cookie handling
         cookies = new BrowserCookies(true);
         cookies.addListener(this);
         mainWindow.addComponent(cookies);
+        mainWindow.addComponent(tracker);
 
         return mainWindow;
+    }
+
+    /**
+     * Track a page view with Google Analytics.
+     * 
+     * @param action
+     *            name of the action to be tracked.
+     * @param target
+     *            target DevoxxPresentation for the action (null allowed).
+     */
+    public static void trackPageview(final String action, final DevoxxPresentation target) {
+        String path = "/" + action;
+        if (target != null) {
+            try {
+                path += "/" + target.getId() + "/" + URLEncoder.encode(target.getTitle(), "utf-8");
+            } catch (final UnsupportedEncodingException ignored) {
+                // should never happen
+            }
+        }
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("Tracking page view: " + path);
+        }
+
+        getCurrentInstance().tracker.trackPageview(path);
     }
 
     public void storeUserCookie() {
