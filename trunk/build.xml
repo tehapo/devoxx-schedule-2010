@@ -58,6 +58,22 @@
 		</java>
 	</target>
 	
+	<target name="minimize-theme">
+		<echo>Minimizing CSS file ${css.src.file} -> ${css.target.file}</echo>
+		<java jar="${build.lib.dir}/yuicompressor-2.4.2.jar" fork="true">
+			<arg value="--line-break"/>
+			<arg value="1000"/>
+			
+			<!-- source file -->
+			<arg value="${css.src.file}"/>
+			<!-- target file, replace the styles.css -->
+			<arg value="-o"/>
+			<arg value="${css.target.file}"/>
+		</java>
+	</target>
+		
+
+	
 	<target name="package-war" depends="clean, compile-server-side, compile-client-side">
 		<echo>Packaging WAR to ${dist.dir}.</echo>
 		<mkdir dir="${dist.dir}/WebContent"/>
@@ -66,6 +82,11 @@
 		<copy todir="${dist.dir}/WebContent">
 			<fileset dir="${webcontent.dir}"/>
 		</copy>
+		
+		<antcall target="minimize-theme">
+			<param name="css.src.file" value="${dist.dir}/WebContent/VAADIN/themes/devoxx2k10/styles.css"/>
+			<param name="css.target.file" value="${dist.dir}/WebContent/VAADIN/themes/devoxx2k10/styles.css"/>
+		</antcall>
 		
 		<copy todir="${dist.dir}/WebContent/WEB-INF/classes">
 			<fileset dir="${server-side.dest.dir}"/>
