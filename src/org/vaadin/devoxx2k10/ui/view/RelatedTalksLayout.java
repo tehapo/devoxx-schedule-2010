@@ -2,6 +2,7 @@ package org.vaadin.devoxx2k10.ui.view;
 
 import java.util.List;
 
+import org.vaadin.devoxx2k10.DebugIdGenerator;
 import org.vaadin.devoxx2k10.DevoxxScheduleApplication;
 import org.vaadin.devoxx2k10.data.domain.DevoxxPresentation;
 
@@ -23,6 +24,7 @@ public class RelatedTalksLayout extends CssLayout implements Button.ClickListene
 
     public RelatedTalksLayout(final MainView mainView) {
         this.mainView = mainView;
+        addListener(new DebugIdGenerator("related-talks"));
         setWidth("100%");
         setStyleName("related-talks");
     }

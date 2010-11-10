@@ -1,5 +1,7 @@
 package org.vaadin.devoxx2k10.ui.view;
 
+import org.vaadin.devoxx2k10.DebugIdGenerator;
+
 import com.vaadin.terminal.ExternalResource;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Link;
@@ -14,6 +16,7 @@ public class FooterLinksLayout extends CssLayout {
     public FooterLinksLayout() {
         setWidth("100%");
         setStyleName("footer-links");
+        addListener(new DebugIdGenerator("footer-links"));
 
         final Link vaadinLink = new Link("", new ExternalResource(VAADIN_LINK_URL));
         vaadinLink.setHeight("45px");

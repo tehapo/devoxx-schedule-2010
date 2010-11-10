@@ -1,5 +1,6 @@
 package org.vaadin.devoxx2k10.ui.view;
 
+import org.vaadin.devoxx2k10.DebugIdGenerator;
 import org.vaadin.devoxx2k10.data.domain.DevoxxSpeaker;
 
 import com.vaadin.ui.Button;
@@ -16,6 +17,7 @@ public class SpeakerDetails extends CssLayout implements Button.ClickListener {
 
     public SpeakerDetails(final DevoxxSpeaker speaker) {
         setStyleName("speaker-details");
+        addListener(new DebugIdGenerator("speaker-" + speaker.getId()));
 
         final Button speakerButton = new Button(speaker.getName(), this);
         speakerButton.setData(speaker);

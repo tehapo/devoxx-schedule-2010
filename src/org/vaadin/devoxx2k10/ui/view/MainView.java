@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.vaadin.devoxx2k10.DebugIdGenerator;
 import org.vaadin.devoxx2k10.DevoxxScheduleApplication;
 import org.vaadin.devoxx2k10.ui.FullScreenButton;
 import org.vaadin.devoxx2k10.ui.calendar.DevoxxCalendar;
@@ -52,6 +53,7 @@ public class MainView extends HorizontalLayout implements EventClickHandler, Val
     private void initUi() {
         setWidth("100%");
         setHeight("100%");
+        addListener(new DebugIdGenerator("main-view"));
 
         dayLabel = new Label();
         dayLabel.setStyleName("selected-day");
@@ -68,6 +70,7 @@ public class MainView extends HorizontalLayout implements EventClickHandler, Val
         daySelector.setValue(DevoxxCalendar.getDefaultDate());
 
         toolbar = new HorizontalLayout();
+        toolbar.addListener(new DebugIdGenerator("toolbar"));
         toolbar.setWidth("100%");
         toolbar.setHeight("33px");
         toolbar.setStyleName("v-toolbar");
@@ -82,6 +85,7 @@ public class MainView extends HorizontalLayout implements EventClickHandler, Val
         fullScreenButton = new FullScreenButton(false);
         fullScreenButton.setVisible(!iOSUserAgent());
         final CssLayout calendarWrapper = new CssLayout();
+        calendarWrapper.addListener(new DebugIdGenerator("calendar-wrapper"));
         calendarWrapper.setMargin(true);
         calendarWrapper.setSizeFull();
         calendarWrapper.addComponent(fullScreenButton);
@@ -89,6 +93,7 @@ public class MainView extends HorizontalLayout implements EventClickHandler, Val
         calendarWrapper.addComponent(calendar);
 
         final Panel calendarPanel = new Panel(new VerticalLayout());
+        calendarPanel.addListener(new DebugIdGenerator("calendar-panel"));
         ((Layout) calendarPanel.getContent()).setMargin(false);
         calendarPanel.setStyleName("calendar-panel");
         calendarPanel.setSizeFull();

@@ -1,5 +1,6 @@
 package org.vaadin.devoxx2k10.ui.view;
 
+import org.vaadin.devoxx2k10.DebugIdGenerator;
 import org.vaadin.devoxx2k10.DevoxxScheduleApplication;
 import org.vaadin.devoxx2k10.data.domain.MyScheduleUser;
 import org.vaadin.devoxx2k10.data.domain.MyScheduleUser.UserFavouritesChangedListener;
@@ -28,6 +29,7 @@ public class UserLayout extends CssLayout implements ClickListener, UserChangeLi
     public UserLayout(final Calendar calendar) {
         setStyleName("user-layout");
         setWidth("260px");
+        addListener(new DebugIdGenerator("user-layout"));
 
         this.calendar = calendar;
         currentUserLabel = new Label("");

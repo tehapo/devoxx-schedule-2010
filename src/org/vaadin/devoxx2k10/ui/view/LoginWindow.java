@@ -1,6 +1,7 @@
 package org.vaadin.devoxx2k10.ui.view;
 
 import org.apache.log4j.Logger;
+import org.vaadin.devoxx2k10.DebugIdGenerator;
 import org.vaadin.devoxx2k10.DevoxxScheduleApplication;
 import org.vaadin.devoxx2k10.data.RestApiException;
 
@@ -42,6 +43,7 @@ public class LoginWindow extends Window implements Button.ClickListener {
     public LoginWindow() {
         super("Sign in to MySchedule");
         setStyleName("login-window");
+        addListener(new DebugIdGenerator("login-window"));
         setModal(true);
         setWidth("235px");
         setResizable(false);

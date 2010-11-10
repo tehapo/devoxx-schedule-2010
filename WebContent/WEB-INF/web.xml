@@ -22,6 +22,10 @@
   		<param-name>widgetset</param-name>
   		<param-value>org.vaadin.devoxx2k10.widgetset.DevoxxscheduleappWidgetset</param-value>
   	</init-param>
+  	<init-param>
+      <param-name>disable-xsrf-protection</param-name>
+      <param-value>true</param-value>
+    </init-param>
   </servlet>
   
   <servlet-mapping>
