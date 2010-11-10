@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import org.vaadin.devoxx2k10.DebugIdGenerator;
 import org.vaadin.devoxx2k10.DevoxxScheduleApplication;
 
 import com.vaadin.data.Property;
@@ -33,6 +34,7 @@ public class DaySelectorField extends CustomField implements Button.ClickListene
 
     public DaySelectorField(final Date firstDay, final Date lastDay, final UriFragmentUtility uriFragment) {
         layout = new CssLayout();
+        layout.addListener(new DebugIdGenerator("day"));
         setWidth("260px");
         setCompositionRoot(layout);
         setStyleName("day-selector-field");

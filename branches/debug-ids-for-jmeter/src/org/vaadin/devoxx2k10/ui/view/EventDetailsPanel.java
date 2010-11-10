@@ -3,6 +3,7 @@ package org.vaadin.devoxx2k10.ui.view;
 import java.text.SimpleDateFormat;
 
 import org.vaadin.addthis.AddThis;
+import org.vaadin.devoxx2k10.DebugIdGenerator;
 import org.vaadin.devoxx2k10.DevoxxScheduleApplication;
 import org.vaadin.devoxx2k10.data.RestApiException;
 import org.vaadin.devoxx2k10.data.RestApiFacade;
@@ -56,6 +57,7 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener, Us
     public EventDetailsPanel(final MainView mainView) {
         setWidth("310px");
         setHeight("100%");
+        addListener(new DebugIdGenerator("event-details-panel"));
         initUi(mainView);
 
         setStyleName("event-details-panel");
@@ -74,6 +76,7 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener, Us
         hideButton = new Button("Hide Event Details", this);
         hideButton.setStyleName(BaseTheme.BUTTON_LINK);
         speakers = new VerticalLayout();
+        speakers.addListener(new DebugIdGenerator("speakers"));
         speakers.setMargin(true);
         speakers.setSpacing(true);
         speakers.setStyleName("speakers-layout");
@@ -83,10 +86,12 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener, Us
         addThis.addButton("google");
         addThis.addButton("mailto");
         tags = new CssLayout();
+        tags.addListener(new DebugIdGenerator("tags"));
         relatedTalks = new RelatedTalksLayout(mainView);
 
         // add to the layout
         layout = new CustomLayout("event-details");
+        layout.addListener(new DebugIdGenerator("event-details"));
         setContent(layout);
         layout.addComponent(roomLabel, "room");
         layout.addComponent(timeLabel, "time");

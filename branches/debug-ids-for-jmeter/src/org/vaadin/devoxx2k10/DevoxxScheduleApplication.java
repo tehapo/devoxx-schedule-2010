@@ -83,6 +83,7 @@ public class DevoxxScheduleApplication extends Application implements Transactio
 
     private Window createMainWindow() {
         final Window mainWindow = new Window("Devoxx 2010 Schedule");
+        mainWindow.addListener(new DebugIdGenerator("main-window"));
 
         // init Google Analytics tracker
         tracker = new ScheduleGATracker();
