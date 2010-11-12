@@ -47,20 +47,20 @@ public class RestApiFacadeImpl implements RestApiFacade, LazyLoadProvider {
 
     private static final String DEVOXX_JSON_DATE_PATTERN = "yyyy-MM-dd HH:mm:ss.SSS";
 
-    private static final String REST_API_BASE_URL = "http://cfp.devoxx.com/rest/v1";
+    public static final String REST_API_BASE_URL = "http://cfp.devoxx.com/rest/v1";
 
-    private static final String SCHEDULE_URL = REST_API_BASE_URL + "/events/" + DEVOXX_EVENT_ID + "/schedule";
+    public static final String SCHEDULE_URL = REST_API_BASE_URL + "/events/" + DEVOXX_EVENT_ID + "/schedule";
 
-    private static final String MY_SCHEDULE_ACTIVATE_URL = REST_API_BASE_URL + "/events/users/activate";
+    public static final String MY_SCHEDULE_ACTIVATE_URL = REST_API_BASE_URL + "/events/users/activate";
 
-    private static final String MY_SCHEDULE_VALIDATION_URL = REST_API_BASE_URL + "/events/users/validate";
+    public static final String MY_SCHEDULE_VALIDATION_URL = REST_API_BASE_URL + "/events/users/validate";
 
-    private static final String SEARCH_URL = REST_API_BASE_URL + "/events/" + DEVOXX_EVENT_ID + "/presentations/search";
+    public static final String SEARCH_URL = REST_API_BASE_URL + "/events/" + DEVOXX_EVENT_ID + "/presentations/search";
 
     private static final String UTF_8 = "utf-8";
 
     public RestApiFacadeImpl() {
-        // this(new OfflineHttpClientMock());
+        // this(new OfflineHttpClientMock("20101112110640"));
         this(new HttpClientImpl());
     }
 
