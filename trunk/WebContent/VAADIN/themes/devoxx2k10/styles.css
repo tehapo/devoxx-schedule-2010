@@ -314,20 +314,13 @@ body.v-full-screen {
 }
 
 /* Rooms */
-.v-theme-devoxx2k10 .at-room4 .v-calendar-event-caption,
-.v-theme-devoxx2k10 .at-room5 .v-calendar-event-caption,
-.v-theme-devoxx2k10 .at-room6 .v-calendar-event-caption,
-.v-theme-devoxx2k10 .at-room7 .v-calendar-event-caption,
-.v-theme-devoxx2k10 .at-room8 .v-calendar-event-caption,
-.v-theme-devoxx2k10 .at-room9 .v-calendar-event-caption,
-.v-theme-devoxx2k10 .at-hollywoodlounge .v-calendar-event-caption,
-.v-theme-devoxx2k10 .at-bof1 .v-calendar-event-caption,
-.v-theme-devoxx2k10 .at-bof2 .v-calendar-event-caption {
+.v-theme-devoxx2k10 .v-calendar-event-caption {
 	height: 100%;
 	background-color: transparent;
 	background-position: 98% 98%;
 	background-repeat: no-repeat;
 }
+/* Icons of the rooms */
 .v-theme-devoxx2k10 .at-room4 .v-calendar-event-caption { background-image: url("img/room4.png"); }
 .v-theme-devoxx2k10 .at-room5 .v-calendar-event-caption { background-image: url("img/room5.png"); }
 .v-theme-devoxx2k10 .at-room6 .v-calendar-event-caption { background-image: url("img/room6.png"); }
@@ -338,7 +331,7 @@ body.v-full-screen {
 .v-theme-devoxx2k10 .at-bof1 .v-calendar-event-caption { background-image: url("img/bof1.png"); }
 .v-theme-devoxx2k10 .at-bof2 .v-calendar-event-caption { background-image: url("img/bof2.png"); }
 .v-theme-devoxx2k10 .v-calendar-event-keynote .v-calendar-event-caption { background-image: url("img/devoxx.png"); }
-
+/* Inverted icons of the rooms */
 .v-theme-devoxx2k10 .selected.at-room4 .v-calendar-event-caption { background-image: url("img/room4-inv.png"); }
 .v-theme-devoxx2k10 .selected.at-room5 .v-calendar-event-caption { background-image: url("img/room5-inv.png"); }
 .v-theme-devoxx2k10 .selected.at-room6 .v-calendar-event-caption { background-image: url("img/room6-inv.png"); }

@@ -1,8 +1,12 @@
 package org.vaadin.devoxx2k10.ui.calendar;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.log4j.Logger;
+import org.vaadin.devoxx2k10.Configuration;
 import org.vaadin.devoxx2k10.DevoxxScheduleApplication;
 import org.vaadin.devoxx2k10.data.domain.DevoxxPresentation;
 import org.vaadin.devoxx2k10.data.domain.MyScheduleUser;
@@ -29,11 +33,13 @@ public class DevoxxCalendar extends Calendar implements UserChangeListener, User
     public static final Date DEVOXX_LAST_DAY;
 
     static {
-        final java.util.Calendar cal = java.util.Calendar.getInstance();
-        cal.set(2010, 10, 15, 0, 0);
-        DEVOXX_FIRST_DAY = cal.getTime();
-        cal.set(2010, 10, 19, 23, 59);
-        DEVOXX_LAST_DAY = cal.getTime();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        try {
+            DEVOXX_FIRST_DAY = df.parse(Configuration.getProperty("conference.first.day"));
+            DEVOXX_LAST_DAY = df.parse(Configuration.getProperty("conference.last.day"));
+        } catch (ParseException e) {
+            throw new ExceptionInInitializerError(e);
+        }
     }
 
     public DevoxxCalendar() {

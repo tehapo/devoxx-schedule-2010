@@ -8,7 +8,8 @@ public enum DevoxxPresentationKind {
     BREAK,
     BREAKFAST,
     COFFEE_BREAK,
-    KEYNOTE;
+    KEYNOTE,
+    EXHIBITION;
 
     public boolean isSpeak() {
         return this == KEYNOTE || this == TALK;

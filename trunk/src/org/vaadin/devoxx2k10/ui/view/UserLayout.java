@@ -1,5 +1,6 @@
 package org.vaadin.devoxx2k10.ui.view;
 
+import org.vaadin.devoxx2k10.Configuration;
 import org.vaadin.devoxx2k10.DevoxxScheduleApplication;
 import org.vaadin.devoxx2k10.data.domain.MyScheduleUser;
 import org.vaadin.devoxx2k10.data.domain.MyScheduleUser.UserFavouritesChangedListener;
@@ -95,6 +96,10 @@ public class UserLayout extends CssLayout implements ClickListener, UserChangeLi
         currentUserLabel.setVisible(userLoggedIn);
         signInButton.setVisible(!userLoggedIn);
         signOutButton.setVisible(userLoggedIn);
+
+        if (!Configuration.getBooleanProperty("myschedule.enabled")) {
+            signInButton.setVisible(false);
+        }
     }
 
     @Override
