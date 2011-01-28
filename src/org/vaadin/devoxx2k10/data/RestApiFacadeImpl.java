@@ -19,6 +19,7 @@ import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.vaadin.devoxx2k10.Configuration;
 import org.vaadin.devoxx2k10.data.domain.DevoxxPresentation;
 import org.vaadin.devoxx2k10.data.domain.DevoxxPresentationKind;
 import org.vaadin.devoxx2k10.data.domain.DevoxxSpeaker;
@@ -47,7 +48,7 @@ public class RestApiFacadeImpl implements RestApiFacade, LazyLoadProvider {
 
     private static final String DEVOXX_JSON_DATE_PATTERN = "yyyy-MM-dd HH:mm:ss.SSS";
 
-    public static final String REST_API_BASE_URL = "http://cfp.devoxx.com/rest/v1";
+    public static final String REST_API_BASE_URL = Configuration.getProperty("rest.base.url");
 
     public static final String SCHEDULE_URL = REST_API_BASE_URL + "/events/" + DEVOXX_EVENT_ID + "/schedule";
 

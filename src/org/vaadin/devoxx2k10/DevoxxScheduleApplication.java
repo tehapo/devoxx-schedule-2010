@@ -172,7 +172,7 @@ public class DevoxxScheduleApplication extends Application implements Transactio
     }
 
     public boolean doSignIn(final String email, final String activationCode) throws RestApiException {
-        if (email == null || activationCode == null) {
+        if (email == null || activationCode == null || !Configuration.getBooleanProperty("myschedule.enabled")) {
             return false;
         }
 

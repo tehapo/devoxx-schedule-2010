@@ -3,6 +3,7 @@ package org.vaadin.devoxx2k10.ui.view;
 import java.text.SimpleDateFormat;
 
 import org.vaadin.addthis.AddThis;
+import org.vaadin.devoxx2k10.Configuration;
 import org.vaadin.devoxx2k10.DevoxxScheduleApplication;
 import org.vaadin.devoxx2k10.data.RestApiException;
 import org.vaadin.devoxx2k10.data.RestApiFacade;
@@ -204,6 +205,12 @@ public class EventDetailsPanel extends Panel implements Button.ClickListener, Us
      * @see #updateEventDetails()
      */
     private void updateFavouriteButtons() {
+        if (!Configuration.getBooleanProperty("myschedule.enabled")) {
+            addToFavouritesButton.setVisible(false);
+            removeFromFavouritesButton.setVisible(false);
+            return;
+        }
+
         final DevoxxPresentation presentation = event.getDevoxxEvent();
 
         addToFavouritesButton.setData(event);
