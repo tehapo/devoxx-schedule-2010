@@ -208,7 +208,6 @@ body.v-full-screen {
 }
 
 .v-theme-devoxx2k10 .v-calendar-current-time {
-	margin-top: 118px; /* 1h hack */
 	background-color: #e18007;
 	-moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
 	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
