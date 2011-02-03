@@ -8,6 +8,8 @@ public class Configuration {
 
     private static final Properties configuration;
 
+    private static final String[] EMPTY_STRING_ARRAY = new String[0];
+
     static {
         // Load the properties file.
         configuration = new Properties();
@@ -30,6 +32,17 @@ public class Configuration {
 
     public static boolean getBooleanProperty(String key) {
         return Boolean.valueOf(configuration.getProperty(key));
+    }
+
+    public static String[] getArrayProperty(String key) {
+        if (configuration.getProperty(key) != null) {
+            String[] result = configuration.getProperty(key).split(",");
+            for (int i = 0; i < result.length; i++) {
+                result[i] = result[i].trim();
+            }
+            return result;
+        }
+        return EMPTY_STRING_ARRAY;
     }
 
 }

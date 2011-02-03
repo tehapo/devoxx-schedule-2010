@@ -3,7 +3,9 @@ package org.vaadin.devoxx2k10.ui.view;
 import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
+import org.vaadin.devoxx2k10.Configuration;
 import org.vaadin.devoxx2k10.DevoxxScheduleApplication;
 import org.vaadin.devoxx2k10.ui.FullScreenButton;
 import org.vaadin.devoxx2k10.ui.calendar.DevoxxCalendar;
@@ -74,7 +76,7 @@ public class MainView extends HorizontalLayout implements EventClickHandler, Val
         toolbar.addComponent(new UserLayout(calendar));
         toolbar.addComponent(daySelector);
         final Label placeHolder = new Label("");
-        placeHolder.setWidth("250px");
+        placeHolder.setWidth("275px");
         toolbar.addComponent(placeHolder);
         toolbar.setComponentAlignment(daySelector, Alignment.TOP_CENTER);
         toolbar.setExpandRatio(daySelector, 1.0f);
@@ -159,21 +161,13 @@ public class MainView extends HorizontalLayout implements EventClickHandler, Val
     private String getLabelForDate(final Date value) {
         final Calendar cal = Calendar.getInstance();
         cal.setTime(value);
-
-        switch (cal.get(Calendar.DAY_OF_WEEK)) {
-        case Calendar.MONDAY:
-            return "University day 1";
-        case Calendar.TUESDAY:
-            return "University day 2";
-        case Calendar.WEDNESDAY:
-            return "Conference day 1";
-        case Calendar.THURSDAY:
-            return "Conference day 2";
-        case Calendar.FRIDAY:
-            return "Conference day 3";
+        String day = cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.US).toLowerCase();
+        
+        String dayLabel = Configuration.getProperty("conference.day." + day);
+        if (dayLabel == null) {
+            dayLabel = "";
         }
-
-        return "";
+        return dayLabel;
     }
 
     public void selectPresentationWithId(final int id) {

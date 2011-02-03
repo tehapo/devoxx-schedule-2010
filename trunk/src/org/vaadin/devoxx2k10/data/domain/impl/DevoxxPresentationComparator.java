@@ -1,9 +1,12 @@
 package org.vaadin.devoxx2k10.data.domain.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+import org.vaadin.devoxx2k10.Configuration;
 import org.vaadin.devoxx2k10.data.domain.DevoxxPresentation;
 
 /**
@@ -14,25 +17,20 @@ import org.vaadin.devoxx2k10.data.domain.DevoxxPresentation;
 public class DevoxxPresentationComparator implements Comparator<DevoxxPresentation> {
 
     /** Predefined room order of Devoxx */
-    private static final List<String> devoxxRoomOrder;
+    private static final List<String> conferenceRoomOrder;
 
     static {
-        devoxxRoomOrder = new ArrayList<String>();
-        devoxxRoomOrder.add("Room 8");
-        devoxxRoomOrder.add("Room 5");
-        devoxxRoomOrder.add("Room 4");
-        devoxxRoomOrder.add("Room 9");
-        devoxxRoomOrder.add("Room 6");
-        devoxxRoomOrder.add("Room 7");
-        devoxxRoomOrder.add("BOF 1");
-        devoxxRoomOrder.add("BOF 2");
+        conferenceRoomOrder = Arrays.asList(Configuration.getArrayProperty("conference.room.ordering"));
+        if (!conferenceRoomOrder.isEmpty()) {
+            Logger.getLogger(DevoxxPresentationComparator.class).info("Using room ordering: " + conferenceRoomOrder);
+        }
     }
 
     public int compare(final DevoxxPresentation o1, final DevoxxPresentation o2) {
         final int dateCompare = o1.getFromTime().compareTo(o2.getFromTime());
         if (dateCompare == 0) {
             // compare against the predefined room ordering
-            return devoxxRoomOrder.indexOf(o2.getRoom()) - devoxxRoomOrder.indexOf(o1.getRoom());
+            return conferenceRoomOrder.indexOf(o2.getRoom()) - conferenceRoomOrder.indexOf(o1.getRoom());
         }
         return dateCompare;
     }

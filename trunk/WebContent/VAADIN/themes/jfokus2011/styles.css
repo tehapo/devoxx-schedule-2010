@@ -1,0 +1,95 @@
+@import url('../devoxx2k10/styles.css');
+
+.v-app {
+	background: #fff;
+}
+
+.speaker-details img {
+	height: auto;	
+}
+
+.event-details-panel,
+.calendar-panel {
+	background: url("img/calendar-bg.png") #efede8 top left;
+}
+
+.event-details-panel .hide-button,
+.v-toolbar,
+.login-window .v-window-contents {
+	background: url("img/toolbar-bg.png") #c2c0bd top left repeat-x;
+}
+
+.v-app .v-calendar-day-times .v-slot {
+	background: url("img/slot-bg.png") bottom left repeat-x;
+	border-bottom: 1px solid #fff;	
+}
+
+.v-calendar-event-keynote .v-calendar-event-content {
+	background: url("img/keynote-gradient.png") top left repeat-x #009cbf;
+}
+.v-calendar-event-registration .v-calendar-event-content,
+.v-calendar-event-breakfast .v-calendar-event-content {
+	background: url("img/registration-gradient.png") #1ba634 top left repeat-x;
+}
+
+/* Icons of the rooms */
+.v-app .at-roomc1 .v-calendar-event-caption { background-image: url("img/roomc1.png"); }
+.v-app .at-roomc3 .v-calendar-event-caption { background-image: url("img/roomc3.png"); }
+.v-app .at-roomc4 .v-calendar-event-caption { background-image: url("img/roomc4.png"); }
+.v-app .at-rooma1 .v-calendar-event-caption { background-image: url("img/rooma1.png"); }
+.v-app .at-rooma2 .v-calendar-event-caption { background-image: url("img/rooma2.png"); }
+.v-app .at-rooma4 .v-calendar-event-caption { background-image: url("img/rooma4.png"); }
+.v-app .at-exhibition .v-calendar-event-caption { background-image: url("img/java.png"); }
+.v-app .v-calendar-event-keynote .v-calendar-event-caption { background-image: url("img/jfokus.png"); }
+/* Inverted icons of the rooms */
+.v-app .selected.at-roomc1 .v-calendar-event-caption { background-image: url("img/roomc1-inv.png"); }
+.v-app .selected.at-roomc3 .v-calendar-event-caption { background-image: url("img/roomc3-inv.png"); }
+.v-app .selected.at-roomc4 .v-calendar-event-caption { background-image: url("img/roomc4-inv.png"); }
+.v-app .selected.at-rooma1 .v-calendar-event-caption { background-image: url("img/rooma1-inv.png"); }
+.v-app .selected.at-rooma2 .v-calendar-event-caption { background-image: url("img/rooma2-inv.png"); }
+.v-app .selected.at-rooma4 .v-calendar-event-caption { background-image: url("img/rooma4-inv.png"); }
+.v-app .selected.at-exhibition .v-calendar-event-caption { background-image: url("img/java-inv.png"); }
+.v-app .selected.v-calendar-event-keynote .v-calendar-event-caption { background-image: url("img/jfokus-inv.png"); }
+
+.speakers-layout,
+.related-talks,
+.event-details .tags .v-button-tag {
+	background: #848380;
+}
+
+.speaker-details p,
+.event-details .tags .v-button-tag .v-button-caption {
+	color: #fff;
+}
+
+.event-details .room .v-label,
+.login-window .v-caption,
+.login-window .v-window-header,
+.speakers-layout .v-button-caption, 
+.related-talks .v-button-caption,
+.footer-links .v-link-project a span {
+	color: #00bcdf !important;
+}
+.footer-links .v-link-vaadin a {
+	background-image: url("img/vaadin-logo.png");
+}
+
+
+.event-details,
+.login-window .v-window-contents,
+.event-details-panel .hide-button .v-button-caption,
+.event-details .abstract div,
+.event-details .title .v-label {
+	color: #7a7977 !important;
+	text-shadow: none;
+}
+
+.v-label-selected-day {
+    color: #1ba634 !important;
+    text-shadow: none;
+}
+
+.v-app .v-calendar-time,
+.v-app .v-calendar-time span {
+	text-shadow: none;	
+}

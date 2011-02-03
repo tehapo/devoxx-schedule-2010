@@ -78,14 +78,18 @@ public class DevoxxScheduleApplication extends Application implements Transactio
         backendFacade = new CachingRestApiFacade();
 
         setMainWindow(createMainWindow());
-        setTheme("devoxx2k10");
+        setTheme(Configuration.getProperty("theme"));
     }
 
     private Window createMainWindow() {
-        final Window mainWindow = new Window("Devoxx 2010 Schedule");
+        final Window mainWindow = new Window(getWindowCaption());
 
         // init Google Analytics tracker
         tracker = new ScheduleGATracker();
+        if (tracker.getTrackerId() == null) {
+            tracker.setEnabled(false);
+            tracker.setVisible(false);
+        }
 
         final MainView mainView = new MainView();
         mainWindow.setContent(mainView);
@@ -102,6 +106,15 @@ public class DevoxxScheduleApplication extends Application implements Transactio
         return mainWindow;
     }
 
+    private String getWindowCaption() {
+        String conferenceName = Configuration.getProperty("conference.name");
+        if (conferenceName != null) {
+            return conferenceName + " Schedule";
+        } else {
+            return "Schedule";
+        }
+    }
+
     /**
      * Track a page view with Google Analytics.
      * 
@@ -111,6 +124,10 @@ public class DevoxxScheduleApplication extends Application implements Transactio
      *            target DevoxxPresentation for the action (null allowed).
      */
     public static void trackPageview(final String action, final DevoxxPresentation target) {
+        if (!getCurrentInstance().tracker.isEnabled()) {
+            return;
+        }
+
         String path = "/" + action;
         if (target != null) {
             try {

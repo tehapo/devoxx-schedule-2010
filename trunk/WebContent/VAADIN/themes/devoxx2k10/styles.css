@@ -201,24 +201,24 @@ body.v-full-screen {
 .v-panel-deco {
 	display: none;	
 }
-.v-theme-devoxx2k10 .v-calendar,
+.v-app .v-calendar,
 .v-panel-content-calendar-panel > div,
 .v-panel-content-event-details-panel > div {
 	background: transparent;
 }
 
-.v-theme-devoxx2k10 .v-calendar-current-time {
+.v-app .v-calendar-current-time {
 	background-color: #e18007;
 	-moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
 	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);	
 }
-.v-theme-devoxx2k10 .v-calendar-event {
+.v-app .v-calendar-event {
 	-moz-box-shadow: 0 1px 2px #2d2c2b;
 	-webkit-box-shadow: 0 1px 2px #2d2c2b;
 	box-shadow: 0 1px 2px #2d2c2b;
 }
-.v-theme-devoxx2k10 .v-calendar-event-caption {
+.v-app .v-calendar-event-caption {
 	left: 0;
 	top: 0;
 	padding: 4px 9px;
@@ -229,41 +229,41 @@ body.v-full-screen {
 	-ms-box-sizing: border-box;
 	box-sizing: border-box;	
 }
-.v-theme-devoxx2k10 .v-calendar-event-caption span {
+.v-app .v-calendar-event-caption span {
 	color: #fff;
 	text-shadow: 0 1px 0px rgba(0, 0, 0, 0.5);
 }
-.v-theme-devoxx2k10 .v-calendar-event-content {
+.v-app .v-calendar-event-content {
 	opacity: 1.0 !important;	
 	border: none;
 	margin: 1px;
 }
-.v-theme-devoxx2k10 .v-calendar-time,
-.v-theme-devoxx2k10 .v-calendar-time span {
+.v-app .v-calendar-time,
+.v-app .v-calendar-time span {
 	font-size: 12px;
 	color: #8a8885;
 	text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.4);
 	border-color: transparent;
 }
-.v-theme-devoxx2k10 .v-calendar-weekly-longevents {
+.v-app .v-calendar-weekly-longevents {
 	display: none;	
 }
-.v-theme-devoxx2k10 .v-calendar-day-times {
+.v-app .v-calendar-day-times {
 	border-color: transparent; 	
 }
-.v-theme-devoxx2k10 .v-calendar-day-times .v-slot {
+.v-app .v-calendar-day-times .v-slot {
 	background: url("img/slot-bg.png") bottom left repeat-x;
 	border-bottom: 1px solid #51504e;	
 }
-.v-theme-devoxx2k10 .v-calendar-day-times .v-slot-even {
+.v-app .v-calendar-day-times .v-slot-even {
 	border-bottom: 1px solid transparent;	
 }
 
 /* Event types */
-.v-theme-devoxx2k10 .v-calendar-event-content {
+.v-app .v-calendar-event-content {
 	background: url("img/default-gradient.png") top left repeat-x #413e3a;
 }
-.v-theme-devoxx2k10 .v-calendar-event-caption {
+.v-app .v-calendar-event-caption {
 	color: #fff;
 	line-height: 13px;
 }
@@ -314,35 +314,35 @@ body.v-full-screen {
 }
 
 /* Rooms */
-.v-theme-devoxx2k10 .v-calendar-event-caption {
+.v-app .v-calendar-event-caption {
 	height: 100%;
 	background-color: transparent;
 	background-position: 98% 98%;
 	background-repeat: no-repeat;
 }
 /* Icons of the rooms */
-.v-theme-devoxx2k10 .at-room4 .v-calendar-event-caption { background-image: url("img/room4.png"); }
-.v-theme-devoxx2k10 .at-room5 .v-calendar-event-caption { background-image: url("img/room5.png"); }
-.v-theme-devoxx2k10 .at-room6 .v-calendar-event-caption { background-image: url("img/room6.png"); }
-.v-theme-devoxx2k10 .at-room7 .v-calendar-event-caption { background-image: url("img/room7.png"); }
-.v-theme-devoxx2k10 .at-room8 .v-calendar-event-caption { background-image: url("img/room8.png"); }
-.v-theme-devoxx2k10 .at-room9 .v-calendar-event-caption { background-image: url("img/room9.png"); }
-.v-theme-devoxx2k10 .at-hollywoodlounge .v-calendar-event-caption { background-image: url("img/java.png"); }
-.v-theme-devoxx2k10 .at-bof1 .v-calendar-event-caption { background-image: url("img/bof1.png"); }
-.v-theme-devoxx2k10 .at-bof2 .v-calendar-event-caption { background-image: url("img/bof2.png"); }
-.v-theme-devoxx2k10 .v-calendar-event-keynote .v-calendar-event-caption { background-image: url("img/devoxx.png"); }
+.v-app .at-room4 .v-calendar-event-caption { background-image: url("img/room4.png"); }
+.v-app .at-room5 .v-calendar-event-caption { background-image: url("img/room5.png"); }
+.v-app .at-room6 .v-calendar-event-caption { background-image: url("img/room6.png"); }
+.v-app .at-room7 .v-calendar-event-caption { background-image: url("img/room7.png"); }
+.v-app .at-room8 .v-calendar-event-caption { background-image: url("img/room8.png"); }
+.v-app .at-room9 .v-calendar-event-caption { background-image: url("img/room9.png"); }
+.v-app .at-hollywoodlounge .v-calendar-event-caption { background-image: url("img/java.png"); }
+.v-app .at-bof1 .v-calendar-event-caption { background-image: url("img/bof1.png"); }
+.v-app .at-bof2 .v-calendar-event-caption { background-image: url("img/bof2.png"); }
+.v-app .v-calendar-event-keynote .v-calendar-event-caption { background-image: url("img/devoxx.png"); }
 /* Inverted icons of the rooms */
-.v-theme-devoxx2k10 .selected.at-room4 .v-calendar-event-caption { background-image: url("img/room4-inv.png"); }
-.v-theme-devoxx2k10 .selected.at-room5 .v-calendar-event-caption { background-image: url("img/room5-inv.png"); }
-.v-theme-devoxx2k10 .selected.at-room6 .v-calendar-event-caption { background-image: url("img/room6-inv.png"); }
-.v-theme-devoxx2k10 .selected.at-room7 .v-calendar-event-caption { background-image: url("img/room7-inv.png"); }
-.v-theme-devoxx2k10 .selected.at-room8 .v-calendar-event-caption { background-image: url("img/room8-inv.png"); }
-.v-theme-devoxx2k10 .selected.at-room9 .v-calendar-event-caption { background-image: url("img/room9-inv.png"); }
-.v-theme-devoxx2k10 .selected.at-hollywoodlounge .v-calendar-event-caption { background-image: url("img/java-inv.png"); }
-.v-theme-devoxx2k10 .selected.at-bof1 .v-calendar-event-caption { background-image: url("img/bof1-inv.png"); }
-.v-theme-devoxx2k10 .selected.at-bof2 .v-calendar-event-caption { background-image: url("img/bof2-inv.png"); }
-.v-theme-devoxx2k10 .selected.v-calendar-event-keynote .v-calendar-event-caption { background-image: url("img/devoxx-inv.png"); }
-.v-theme-devoxx2k10 .short-event .v-calendar-event-caption {
+.v-app .selected.at-room4 .v-calendar-event-caption { background-image: url("img/room4-inv.png"); }
+.v-app .selected.at-room5 .v-calendar-event-caption { background-image: url("img/room5-inv.png"); }
+.v-app .selected.at-room6 .v-calendar-event-caption { background-image: url("img/room6-inv.png"); }
+.v-app .selected.at-room7 .v-calendar-event-caption { background-image: url("img/room7-inv.png"); }
+.v-app .selected.at-room8 .v-calendar-event-caption { background-image: url("img/room8-inv.png"); }
+.v-app .selected.at-room9 .v-calendar-event-caption { background-image: url("img/room9-inv.png"); }
+.v-app .selected.at-hollywoodlounge .v-calendar-event-caption { background-image: url("img/java-inv.png"); }
+.v-app .selected.at-bof1 .v-calendar-event-caption { background-image: url("img/bof1-inv.png"); }
+.v-app .selected.at-bof2 .v-calendar-event-caption { background-image: url("img/bof2-inv.png"); }
+.v-app .selected.v-calendar-event-keynote .v-calendar-event-caption { background-image: url("img/devoxx-inv.png"); }
+.v-app .short-event .v-calendar-event-caption {
 	background-image: none !important;	
 }
 
@@ -398,6 +398,9 @@ body.v-full-screen {
 }
 
 /* Day Selector */
+.day-selector-field {
+	white-space: nowrap;	
+}
 .day-selector-field .v-csslayout-container,
 .day-selector-field .v-csslayout-margin {
 	-moz-border-radius: 4px;
