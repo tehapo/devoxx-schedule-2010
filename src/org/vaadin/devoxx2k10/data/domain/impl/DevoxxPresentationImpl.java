@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import org.vaadin.devoxx2k10.Configuration;
 import org.vaadin.devoxx2k10.data.LazyLoad;
 import org.vaadin.devoxx2k10.data.LazyLoadable;
 import org.vaadin.devoxx2k10.data.domain.DevoxxPresentation;
@@ -79,7 +80,10 @@ public class DevoxxPresentationImpl implements DevoxxPresentation, LazyLoadable 
 
     public String getRoomExtraInfo() {
         if (kind == DevoxxPresentationKind.KEYNOTE) {
-            return "(Overflow in rooms 5 and 4)";
+            String keynoteRoomInfo = Configuration.getProperty("conference.keynote.roominfo");
+            if (keynoteRoomInfo != null) {
+                return keynoteRoomInfo;
+            }
         }
         return "";
     }

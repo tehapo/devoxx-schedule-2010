@@ -33,7 +33,7 @@ public class DaySelectorField extends CustomField implements Button.ClickListene
 
     public DaySelectorField(final Date firstDay, final Date lastDay, final UriFragmentUtility uriFragment) {
         layout = new CssLayout();
-        setWidth("260px");
+        setWidth(null);
         setCompositionRoot(layout);
         setStyleName("day-selector-field");
         addListener(this);
