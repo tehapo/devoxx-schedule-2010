@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<project name="Devoxx 2010 Schedule Application" basedir="." default="package-war">
+<project name="Conference Calendar Application" basedir="." default="package-war">
 
 	<property file="build.properties"/>
 	
@@ -88,6 +88,11 @@
 			<param name="css.target.file" value="${dist.dir}/WebContent/VAADIN/themes/devoxx2k10/styles.css"/>
 		</antcall>
 		
+		<antcall target="minimize-theme">
+			<param name="css.src.file" value="${dist.dir}/WebContent/VAADIN/themes/jfokus2011/styles.css"/>
+			<param name="css.target.file" value="${dist.dir}/WebContent/VAADIN/themes/jfokus2011/styles.css"/>
+		</antcall>
+		
 		<copy todir="${dist.dir}/WebContent/WEB-INF/classes">
 			<fileset dir="${server-side.dest.dir}"/>
 		</copy>
@@ -103,7 +108,7 @@
 			<replace path="/:web-app/:context-param[:param-name='productionMode']/:param-value/text()" withText="${productionMode}"/>
 		</xmltask>
 		
-		<war destfile="${dist.dir}/devoxx-schedule.war" basedir="${dist.dir}/WebContent" />
+		<war destfile="${dist.dir}/conference-calendar.war" basedir="${dist.dir}/WebContent" />
 	</target>
 	
 </project>

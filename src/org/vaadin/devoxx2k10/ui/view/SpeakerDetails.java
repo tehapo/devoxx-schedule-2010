@@ -28,10 +28,9 @@ public class SpeakerDetails extends CssLayout implements Button.ClickListener {
 
         if (detailsLabel == null) {
             // opened for the first time
-            detailsLabel = new Label("<p><img src=\"" + speaker.getImageUri()
-                    + "\" alt=\"\" />" + speaker.getBio() + "</p>",
+            detailsLabel = new Label(
+                    "<p><img src=\"" + speaker.getImageUri() + "\" alt=\"\" />" + speaker.getBio() + "</p>",
                     Label.CONTENT_XHTML);
-            detailsLabel.setWidth("215px");
 
             event.getButton().addStyleName("open");
             addComponent(detailsLabel);
