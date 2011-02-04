@@ -162,7 +162,7 @@ public class MainView extends HorizontalLayout implements EventClickHandler, Val
         final Calendar cal = Calendar.getInstance();
         cal.setTime(value);
         String day = cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.US).toLowerCase();
-        
+
         String dayLabel = Configuration.getProperty("conference.day." + day);
         if (dayLabel == null) {
             dayLabel = "";
@@ -181,7 +181,13 @@ public class MainView extends HorizontalLayout implements EventClickHandler, Val
     }
 
     @Override
-    public DownloadStream handleURI(final URL context, final String relativeUri) {
+    public DownloadStream handleURI(final URL context, String relativeUri) {
+        // Workaround for an URIHandler quirk:
+        // http://dev.vaadin.com/ticket/6390
+        if (context.toString().endsWith("presentation/")) {
+            relativeUri = "presentation/" + relativeUri;
+        }
+
         if (relativeUri.startsWith("presentation/")) {
             try {
                 final int id = Integer.valueOf(relativeUri.split("/")[1]);

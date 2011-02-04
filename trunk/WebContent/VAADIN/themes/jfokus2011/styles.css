@@ -2,34 +2,108 @@
 
 .v-app {
 	background: #fff;
+	font-family: Verdana, sans-serif !important;
+}
+
+.v-app .v-view .v-label {
+	line-height: 16px;
 }
 
 .speaker-details img {
 	height: auto;	
 }
 
+.event-details .tags {
+	display: none;		
+}
+
 .event-details-panel,
 .calendar-panel {
-	background: url("img/calendar-bg.png") #efede8 top left;
+	background: #f6f5fa;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
 }
 
 .event-details-panel .hide-button,
 .v-toolbar,
 .login-window .v-window-contents {
-	background: url("img/toolbar-bg.png") #c2c0bd top left repeat-x;
+	background: #d9dde8;
 }
 
 .v-app .v-calendar-day-times .v-slot {
 	background: url("img/slot-bg.png") bottom left repeat-x;
-	border-bottom: 1px solid #fff;	
+	border-bottom: 1px solid #f6f5fa;
+}
+.v-app .v-calendar-event {
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+.v-app .v-calendar-event-caption,
+.v-app .v-calendar-event-caption span {
+	color: #373c46;
+	text-shadow: 0 1px 0px rgba(255, 255, 255, 0.75);
+}
+.v-app .v-calendar-event-caption {
+	font-weight: bold;
+}
+.v-app .v-calendar-event-content {
+	background: url("img/default-gradient.png") top left repeat-x #c5cbd3;
+}
+.v-calendar .selected .v-calendar-event-content {
+	background: url("img/selected-gradient.png") top left repeat-x #5d95ac;
+}
+.v-calendar .v-calendar-event-lunch .v-calendar-event-caption,
+.v-calendar .v-calendar-event-lunch .v-calendar-event-caption span,
+.v-calendar .v-calendar-event-coffee_break .v-calendar-event-caption,
+.v-calendar .v-calendar-event-coffee_break .v-calendar-event-caption span {
+	color: #676c77;
+	font-weight: normal;
+	text-shadow: none;
+}
+.v-calendar .selected .v-calendar-event-caption,
+.v-calendar .selected .v-calendar-event-caption span,
+.v-calendar .v-calendar-event-keynote .v-calendar-event-caption,
+.v-calendar .v-calendar-event-keynote .v-calendar-event-caption span {
+	color: #fff;
+	text-shadow: 0 1px 0px rgba(0, 0, 0, 0.4);
+	font-weight: bold;
+}
+
+.v-calendar .v-calendar-event-caption {
+	border: 1px solid #92969c;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
 }
 
 .v-calendar-event-keynote .v-calendar-event-content {
-	background: url("img/keynote-gradient.png") top left repeat-x #009cbf;
+	background: url("img/keynote-gradient.png") top left repeat-x #579533;
 }
 .v-calendar-event-registration .v-calendar-event-content,
-.v-calendar-event-breakfast .v-calendar-event-content {
-	background: url("img/registration-gradient.png") #1ba634 top left repeat-x;
+.v-calendar-event-breakfast .v-calendar-event-content,
+.v-calendar-event-exhibition .v-calendar-event-content {
+	background: url("img/registration-gradient.png") #f2e79a top left repeat-x;
+}
+.v-calendar-event-lunch .v-calendar-event-content,
+.v-calendar-event-coffee_break .v-calendar-event-content {
+	background: #fff;
+}
+.v-calendar-event-registration .v-calendar-event-caption,
+.v-calendar-event-breakfast .v-calendar-event-caption,
+.v-calendar-event-exhibition .v-calendar-event-caption {
+	border-color: #b8b17c;
+}
+.v-calendar .selected .v-calendar-event-caption {
+	border-color: #3f6f85;
+}
+.v-calendar-event-lunch .v-calendar-event-caption,
+.v-calendar-event-coffee_break .v-calendar-event-caption {
+	border-color: #bcbcbc;
+}
+.v-calendar-event-keynote .v-calendar-event-caption {
+	border-color: #426f28;
 }
 
 /* Icons of the rooms */
@@ -39,7 +113,7 @@
 .v-app .at-rooma1 .v-calendar-event-caption { background-image: url("img/rooma1.png"); }
 .v-app .at-rooma2 .v-calendar-event-caption { background-image: url("img/rooma2.png"); }
 .v-app .at-rooma4 .v-calendar-event-caption { background-image: url("img/rooma4.png"); }
-.v-app .at-exhibition .v-calendar-event-caption { background-image: url("img/java.png"); }
+.v-app .at-exhibition .v-calendar-event-caption { background-image: url("img/java-inv.png"); }
 .v-app .v-calendar-event-keynote .v-calendar-event-caption { background-image: url("img/jfokus.png"); }
 /* Inverted icons of the rooms */
 .v-app .selected.at-roomc1 .v-calendar-event-caption { background-image: url("img/roomc1-inv.png"); }
@@ -48,18 +122,36 @@
 .v-app .selected.at-rooma1 .v-calendar-event-caption { background-image: url("img/rooma1-inv.png"); }
 .v-app .selected.at-rooma2 .v-calendar-event-caption { background-image: url("img/rooma2-inv.png"); }
 .v-app .selected.at-rooma4 .v-calendar-event-caption { background-image: url("img/rooma4-inv.png"); }
-.v-app .selected.at-exhibition .v-calendar-event-caption { background-image: url("img/java-inv.png"); }
+.v-app .selected.at-exhibition .v-calendar-event-caption { background-image: url("img/java.png"); }
 .v-app .selected.v-calendar-event-keynote .v-calendar-event-caption { background-image: url("img/jfokus-inv.png"); }
 
 .speakers-layout,
 .related-talks,
 .event-details .tags .v-button-tag {
-	background: #848380;
+	background: #fff;
+	border: 1px solid #c1c4cd;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
 }
 
+.speaker-details .v-label {
+	width: 235px;	
+}
 .speaker-details p,
 .event-details .tags .v-button-tag .v-button-caption {
-	color: #fff;
+	color: #4d4d4d;
+}
+.speaker-details p {
+	margin-left: 11px;	
+}
+.speaker-details img {
+	-moz-box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.33);	
+	-webkit-box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.33);	
+	box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.33);	
+}
+.v-verticallayout-speakers-layout .v-verticallayout-margin {
+    padding: 11px 6px;
 }
 
 .event-details .room .v-label,
@@ -68,28 +160,79 @@
 .speakers-layout .v-button-caption, 
 .related-talks .v-button-caption,
 .footer-links .v-link-project a span {
-	color: #00bcdf !important;
+	color: #006c91 !important;
 }
 .footer-links .v-link-vaadin a {
 	background-image: url("img/vaadin-logo.png");
+}
+.footer-links .v-link a {
+	opacity: 1; 		
 }
 
 
 .event-details,
 .login-window .v-window-contents,
-.event-details-panel .hide-button .v-button-caption,
-.event-details .abstract div,
-.event-details .title .v-label {
+.event-details .abstract div {
 	color: #7a7977 !important;
 	text-shadow: none;
 }
 
+.event-details-panel .hide-button .v-button-caption {
+	color: #4b5e76 !important;
+	background: url("img/sidebar-collapse.png") transparent center right no-repeat;
+}
+
+.event-details .title .v-label {
+	color: #0e1b1f !important;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.4);
+}
+
 .v-label-selected-day {
-    color: #1ba634 !important;
-    text-shadow: none;
+	font-weight: bold;
+    color: #373c46 !important;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.4);
 }
 
 .v-app .v-calendar-time,
 .v-app .v-calendar-time span {
-	text-shadow: none;	
+	color: #9da2b1;
+	text-shadow: none;
+}
+
+/* Day Selector */
+.day-selector-field .v-csslayout-container {
+	-moz-box-shadow: 0 1px 0px #eef0f5;
+	-webkit-box-shadow: 0 1px 0px #eef0f5;
+	box-shadow: 0 1px 0px #eef0f5;
+}
+.day-selector-field .v-csslayout-margin {
+	-moz-box-shadow: 0 -1px 0px rgba(0, 0, 0, 0.24);
+	-webkit-box-shadow: 0 -1px 0px rgba(0, 0, 0, 0.24);
+	box-shadow: 0 -1px 0px rgba(0, 0, 0, 0.24);
+}
+.day-selector-field .v-button {
+	background: url("img/toggle-button-up-bg.png") #d7dae2 top left repeat-x;
+	border-color: #eceef2 #bcbec5 #b1b4bc;
+	border-left: none;
+	height: 25px;
+}
+.day-selector-field .v-button .v-button-wrap {
+	padding: 1px 8px 0 4px;
+}
+.day-selector-field .v-button-selected {
+	background: url("img/toggle-button-down-bg.png") #585f6b top left repeat-x;
+	border-color: #272a2f #2c2f35 #4d535c #383d44;
+}
+.day-selector-field .v-button-first {
+	border-left: 1px solid #a9abb1;	
+}
+.day-selector-field .v-button .v-button-caption,
+.day-selector-field .v-button:hover .v-button-caption {
+	color: #52525a !important;	
+	text-shadow: 0 1px 0px rgba(255, 255, 255, 0.77);
+}
+.day-selector-field .v-button-selected .v-button-caption,
+.day-selector-field .v-button-selected:hover .v-button-caption {
+	color: #fff !important;
+	text-shadow: 0 -1px 0px rgba(0, 0, 0, 0.75);	
 }

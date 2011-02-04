@@ -651,7 +651,9 @@ body.v-full-screen {
 .speaker-details .v-button-open .v-button-caption {
 	background: url("img/arrow-down.png") center left no-repeat;	
 }
-
+.speaker-details .v-label {
+	width: 215px;	
+}
 .speaker-details p {
 	font-size: 11px;
 	color: #b5b2ad;
