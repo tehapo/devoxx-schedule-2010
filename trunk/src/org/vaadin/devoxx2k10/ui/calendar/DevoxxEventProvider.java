@@ -87,7 +87,7 @@ public class DevoxxEventProvider extends BasicEventProvider {
         for (final DevoxxPresentation event : schedule) {
             final DevoxxCalendarEvent calEvent = new DevoxxCalendarEvent();
             calEvent.setStyleName(event.getKind().name().toLowerCase());
-            calEvent.addStyleName("at-" + event.getRoom().toLowerCase().replaceAll(" ", ""));
+            calEvent.addStyleName("at-" + event.getRoom().toLowerCase().replaceAll(" ", "").replaceAll("/", ""));
             if (isShortEvent(event)) {
                 calEvent.addStyleName("short-event");
             }

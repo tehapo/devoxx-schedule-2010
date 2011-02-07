@@ -107,6 +107,7 @@
 }
 
 /* Icons of the rooms */
+.v-app .at-room2425 .v-calendar-event-caption { background-image: url("img/room2425.png"); }
 .v-app .at-roomc1 .v-calendar-event-caption { background-image: url("img/roomc1.png"); }
 .v-app .at-roomc3 .v-calendar-event-caption { background-image: url("img/roomc3.png"); }
 .v-app .at-roomc4 .v-calendar-event-caption { background-image: url("img/roomc4.png"); }
@@ -116,6 +117,7 @@
 .v-app .at-exhibition .v-calendar-event-caption { background-image: url("img/java-inv.png"); }
 .v-app .v-calendar-event-keynote .v-calendar-event-caption { background-image: url("img/jfokus.png"); }
 /* Inverted icons of the rooms */
+.v-app .selected.at-room2425 .v-calendar-event-caption { background-image: url("img/room2425-inv.png"); }
 .v-app .selected.at-roomc1 .v-calendar-event-caption { background-image: url("img/roomc1-inv.png"); }
 .v-app .selected.at-roomc3 .v-calendar-event-caption { background-image: url("img/roomc3-inv.png"); }
 .v-app .selected.at-roomc4 .v-calendar-event-caption { background-image: url("img/roomc4-inv.png"); }
