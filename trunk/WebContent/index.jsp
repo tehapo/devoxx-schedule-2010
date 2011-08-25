@@ -47,7 +47,7 @@
 			document.write('<iframe tabIndex="-1" id="__gwt_historyFrame" style="position:absolute;width:0;height:0;border:0;overflow:hidden;" src="javascript:false"></iframe>');
 			document.write("<script language='javascript' src='<%= contextPath %>/VAADIN/widgetsets/org.vaadin.devoxx2k10.widgetset.DevoxxscheduleappWidgetset/org.vaadin.devoxx2k10.widgetset.DevoxxscheduleappWidgetset.nocache.js?1287649373268'><\/script>");
 		}
-		vaadin.vaadinConfigurations["schedule-wrapper"] = {appUri:'<%= contextPath %>/application', pathInfo: '/', themeUri:'<%= contextPath %>/VAADIN/themes/<%= theme %>', versionInfo : {vaadinVersion:"6.5.0",applicationVersion:"1.2"},"comErrMsg": {"caption":"Communication problem","message" : "Take note of any unsaved data, and <u>click here</u> to continue.","url" : null},"authErrMsg": {"caption":"Authentication problem","message" : "Take note of any unsaved data, and <u>click here</u> to continue.","url" : null}};
+		vaadin.vaadinConfigurations["schedule-wrapper"] = {appUri:'<%= contextPath %>/application', standalone: true, themeUri:'<%= contextPath %>/VAADIN/themes/<%= theme %>', versionInfo : {vaadinVersion:"6.6.5",applicationVersion:"1.2"},"comErrMsg": {"caption":"Communication problem","message" : "Take note of any unsaved data, and <u>click here<\/u> to continue.","url" : null},"authErrMsg": {"caption":"Authentication problem","message" : "Take note of any unsaved data, and <u>click here<\/u> to continue.","url" : null}};
 		//]]>
 		</script>
 		<script type="text/javascript">
