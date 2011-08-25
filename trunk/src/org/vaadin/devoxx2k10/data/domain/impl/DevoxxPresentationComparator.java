@@ -1,6 +1,5 @@
 package org.vaadin.devoxx2k10.data.domain.impl;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
