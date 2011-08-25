@@ -15,6 +15,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,19 +46,19 @@ public class RestApiFacadeImpl implements RestApiFacade, LazyLoadProvider {
 
     private final HttpClient httpClient;
 
-    private static final int DEVOXX_EVENT_ID = 1;
-
+    private static final String EVENT_ID = Configuration.getProperty("event.id");
+    
     private static final String DEVOXX_JSON_DATE_PATTERN = "yyyy-MM-dd HH:mm:ss.SSS";
 
     public static final String REST_API_BASE_URL = Configuration.getProperty("rest.base.url");
 
-    public static final String SCHEDULE_URL = REST_API_BASE_URL + "/events/" + DEVOXX_EVENT_ID + "/schedule";
+    public static final String SCHEDULE_URL = REST_API_BASE_URL + "/events/" + EVENT_ID + "/schedule";
 
     public static final String MY_SCHEDULE_ACTIVATE_URL = REST_API_BASE_URL + "/events/users/activate";
 
     public static final String MY_SCHEDULE_VALIDATION_URL = REST_API_BASE_URL + "/events/users/validate";
 
-    public static final String SEARCH_URL = REST_API_BASE_URL + "/events/" + DEVOXX_EVENT_ID + "/presentations/search";
+    public static final String SEARCH_URL = REST_API_BASE_URL + "/events/" + EVENT_ID + "/presentations/search";
 
     private static final String UTF_8 = "utf-8";
 
@@ -341,7 +343,15 @@ public class RestApiFacadeImpl implements RestApiFacade, LazyLoadProvider {
                 logger.debug("Lazy loading object details " + lazy.getLazyLoadingUri());
             }
 
-            final JSONObject jsonData = new JSONObject(httpClient.get(lazy.getLazyLoadingUri()).getResponse());
+            HttpResponse response = httpClient.get(lazy.getLazyLoadingUri());
+            if (response.getResponseCode() == HttpServletResponse.SC_NOT_FOUND) {
+                // 404 error (not found)
+                logger.warn("URL " + lazy.getLazyLoadingUri() + " returned with error code "
+                        + response.getResponseCode());
+                return;
+            }
+
+            final JSONObject jsonData = new JSONObject(response.getResponse());
 
             for (final Method method : lazy.getClass().getMethods()) {
                 if (method.getName().startsWith("get") && method.isAnnotationPresent(LazyLoad.class)) {
