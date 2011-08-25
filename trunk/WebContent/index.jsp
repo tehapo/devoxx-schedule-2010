@@ -1,7 +1,11 @@
+<%@page import="org.vaadin.devoxx2k10.VersionInformation"%>
+<%@page import="com.vaadin.terminal.gwt.server.ApplicationServlet"%>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%
 	String theme = "jfokus2011";
 	String contextPath = request.getContextPath();
+	String vaadinVersion = ApplicationServlet.VERSION;
+	String appVersion = VersionInformation.getVersion();
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -47,7 +51,7 @@
 			document.write('<iframe tabIndex="-1" id="__gwt_historyFrame" style="position:absolute;width:0;height:0;border:0;overflow:hidden;" src="javascript:false"></iframe>');
 			document.write("<script language='javascript' src='<%= contextPath %>/VAADIN/widgetsets/org.vaadin.devoxx2k10.widgetset.DevoxxscheduleappWidgetset/org.vaadin.devoxx2k10.widgetset.DevoxxscheduleappWidgetset.nocache.js?1287649373268'><\/script>");
 		}
-		vaadin.vaadinConfigurations["schedule-wrapper"] = {appUri:'<%= contextPath %>/application', standalone: true, themeUri:'<%= contextPath %>/VAADIN/themes/<%= theme %>', versionInfo : {vaadinVersion:"6.6.5",applicationVersion:"1.2"},"comErrMsg": {"caption":"Communication problem","message" : "Take note of any unsaved data, and <u>click here<\/u> to continue.","url" : null},"authErrMsg": {"caption":"Authentication problem","message" : "Take note of any unsaved data, and <u>click here<\/u> to continue.","url" : null}};
+		vaadin.vaadinConfigurations["schedule-wrapper"] = {appUri:'<%= contextPath %>/application', standalone: true, themeUri:'<%= contextPath %>/VAADIN/themes/<%= theme %>', versionInfo : {vaadinVersion:"<%= vaadinVersion %>",applicationVersion:"<%= appVersion %>"},"comErrMsg": {"caption":"Communication problem","message" : "Take note of any unsaved data, and <u>click here<\/u> to continue.","url" : null},"authErrMsg": {"caption":"Authentication problem","message" : "Take note of any unsaved data, and <u>click here<\/u> to continue.","url" : null}};
 		//]]>
 		</script>
 		<script type="text/javascript">
