@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<project name="Conference Calendar Application" basedir="." default="package-war">
+<project name="Conference Calendar Application" basedir="." default="package-devoxx2011-war">
 
 	<property file="build.properties"/>
 	
@@ -71,23 +71,23 @@
 			<arg value="${css.target.file}"/>
 		</java>
 	</target>
-		
 
-	
-	<target name="package-war" depends="clean, compile-server-side, compile-client-side">
-		<echo>Packaging WAR to ${dist.dir}.</echo>
+	<target name="internal-package-war" depends="clean, compile-server-side, compile-client-side">
+		<!-- load the configuration for the conference -->
+		<property file="${configuration.file}"/>
+				
+		<echo>Packaging WAR configured for ${conference.name} to ${dist.dir}.</echo>
 		<mkdir dir="${dist.dir}/WebContent"/>
 		<mkdir dir="${dist.dir}/WebContent/WEB-INF/classes"/>
-			
+
 		<copy todir="${dist.dir}/WebContent">
 			<fileset dir="${webcontent.dir}"/>
 		</copy>
-		
+				
 		<antcall target="minimize-theme">
 			<param name="css.src.file" value="${dist.dir}/WebContent/VAADIN/themes/devoxx2k10/styles.css"/>
 			<param name="css.target.file" value="${dist.dir}/WebContent/VAADIN/themes/devoxx2k10/styles.css"/>
 		</antcall>
-		
 		<antcall target="minimize-theme">
 			<param name="css.src.file" value="${dist.dir}/WebContent/VAADIN/themes/jfokus2011/styles.css"/>
 			<param name="css.target.file" value="${dist.dir}/WebContent/VAADIN/themes/jfokus2011/styles.css"/>
@@ -102,13 +102,36 @@
 		      tofile="${dist.dir}/WebContent/WEB-INF/classes/log4j.properties"
 			  overwrite="true"/>
 		
+		<!-- copy production configuration to be used -->
+		<copy file="${configuration.file}" 
+		      tofile="${dist.dir}/WebContent/WEB-INF/classes/configuration.properties"
+			  overwrite="true"/>
+		
 		<!-- update productionMode flag on web.xml -->
 		<echo>Setting productionMode parameter to ${productionMode}.</echo>
 		<xmltask source="${dist.dir}/WebContent/WEB-INF/web.xml" dest="${dist.dir}/WebContent/WEB-INF/web.xml" encoding="utf-8">
 			<replace path="/:web-app/:context-param[:param-name='productionMode']/:param-value/text()" withText="${productionMode}"/>
 		</xmltask>
 		
-		<war destfile="${dist.dir}/conference-calendar.war" basedir="${dist.dir}/WebContent" />
+		<war destfile="${dist.dir}/conference-calendar.war" basedir="${dist.dir}/WebContent"/>
+	</target>
+	
+	<target name="package-devoxx2010-war">
+		<antcall target="internal-package-war">
+			<param name="configuration.file" value="${basedir}/devoxx2010.properties"/>
+		</antcall>
+	</target>
+	
+	<target name="package-devoxx2011-war">
+		<antcall target="internal-package-war">
+			<param name="configuration.file" value="${basedir}/devoxx2011.properties"/>
+		</antcall>
+	</target>
+	
+	<target name="package-jfokus2011-war">
+		<antcall target="internal-package-war">
+			<param name="configuration.file" value="${basedir}/jfokus2011.properties"/>
+		</antcall>
 	</target>
 	
 </project>
