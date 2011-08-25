@@ -1,8 +1,9 @@
+<%@page import="org.vaadin.devoxx2k10.Configuration"%>
 <%@page import="org.vaadin.devoxx2k10.VersionInformation"%>
 <%@page import="com.vaadin.terminal.gwt.server.ApplicationServlet"%>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%
-	String theme = "jfokus2011";
+	String theme = Configuration.getProperty("theme");
 	String contextPath = request.getContextPath();
 	String vaadinVersion = ApplicationServlet.VERSION;
 	String appVersion = VersionInformation.getVersion();
