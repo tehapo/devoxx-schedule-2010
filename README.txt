@@ -1,11 +1,11 @@
-Devoxx 2010 Schedule Application
-written by Teemu Pöntelin / Vaadin Ltd / http://vaadin.com/teemu
-theme design by Jouni Koivuviita / Vaadin Ltd / http://vaadin.com/jouni
+Conference Calendar Application
+code:           Teemu Pöntelin / Vaadin Ltd / http://vaadin.com/teemu
+theme design:   Jouni Koivuviita / Vaadin Ltd / http://vaadin.com/jouni
 
 About
 =====
 
-Vaadin application for displaying Devoxx 2010 schedule using the Devoxx
+Vaadin application for displaying conference schedule using the Devoxx
 REST interface as the data source for schedule details.
 
 More information about the REST interface:
@@ -16,8 +16,8 @@ http://www.devoxx.com/display/Devoxx2K10/Schedule+REST+interface
 Build the application
 =====================
 
-Package the war by running the package-war Ant target. After the 
-build is successful you should find the war in a newly created "dist"
+Package the war by running any of the package-xyz-war Ant targets. After the 
+build is successful you should find a conference-calendar.war in a newly created "dist"
 directory.
 
 
