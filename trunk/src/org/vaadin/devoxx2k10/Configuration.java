@@ -27,16 +27,20 @@ public class Configuration {
     }
 
     public static String getProperty(String key) {
-        return configuration.getProperty(key);
+        String property = configuration.getProperty(key);
+        if (property != null) {
+            property = property.trim();
+        }
+        return property;
     }
 
     public static boolean getBooleanProperty(String key) {
-        return Boolean.valueOf(configuration.getProperty(key));
+        return Boolean.valueOf(getProperty(key));
     }
 
     public static String[] getArrayProperty(String key) {
-        if (configuration.getProperty(key) != null) {
-            String[] result = configuration.getProperty(key).split(",");
+        if (getProperty(key) != null) {
+            String[] result = getProperty(key).split(",");
             for (int i = 0; i < result.length; i++) {
                 result[i] = result[i].trim();
             }
