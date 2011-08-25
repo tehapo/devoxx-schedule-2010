@@ -15,7 +15,7 @@
 		An example of embedding a Vaadin application inside a div.
 	-->
 	<head>
-		<title>Schedule - Jfokus 2011</title>
+		<title>Schedule - <%= Configuration.getProperty("conference.name") %></title>
 		<style type="text/css">
 			body {
 				background: #fff;
@@ -23,9 +23,8 @@
 				margin: 0;
 			}
 			#container {
-				padding-top: 199px;
-				background: url(jfokus-header.png) top left no-repeat;
-				width: 960px;
+				padding-top: 20px;
+				width: 1090px;
 				height: 1840px;
 				margin: 10px auto;
 			}
