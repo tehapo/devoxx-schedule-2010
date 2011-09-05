@@ -7,9 +7,6 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLSession;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
@@ -111,17 +108,6 @@ public class HttpClientImpl implements HttpClient {
         final URL url = new URL(urlString);
         final HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         urlConnection.setRequestProperty("User-Agent", USER_AGENT);
-        if (urlConnection instanceof HttpsURLConnection) {
-            // Define a HostnameVerifier that always returns true for HTTPS
-            // connections to avoid "No subject alternative DNS name
-            // matching xyz found." errors.
-            ((HttpsURLConnection) urlConnection).setHostnameVerifier(new HostnameVerifier() {
-                @Override
-                public boolean verify(String hostname, SSLSession session) {
-                    return true;
-                }
-            });
-        }
         return urlConnection;
     }
 }
