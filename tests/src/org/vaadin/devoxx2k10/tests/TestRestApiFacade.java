@@ -3,7 +3,9 @@ package org.vaadin.devoxx2k10.tests;
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+import org.vaadin.devoxx2k10.Configuration;
 import org.vaadin.devoxx2k10.data.CachingRestApiFacade;
 import org.vaadin.devoxx2k10.data.domain.DevoxxPresentation;
 import org.vaadin.devoxx2k10.data.domain.DevoxxSpeaker;
@@ -12,14 +14,19 @@ import org.vaadin.devoxx2k10.data.http.impl.OfflineHttpClientMock;
 
 public class TestRestApiFacade {
 
-    private final HttpClient httpClient;
-    private final CachingRestApiFacade devoxxFacade;
+    private HttpClient httpClient;
+    private CachingRestApiFacade devoxxFacade;
 
-    public TestRestApiFacade() {
+    static {
+        Configuration.loadConfigurationFile("/test.properties");
+    }
+
+    @Before
+    public void setup() {
         httpClient = new OfflineHttpClientMock("20101112110640");
         devoxxFacade = new CachingRestApiFacade(httpClient);
     }
-
+    
     @Test
     public void testFullSchedule() {
         final List<DevoxxPresentation> schedule = devoxxFacade.getFullSchedule();
