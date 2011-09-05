@@ -15,8 +15,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -344,7 +342,7 @@ public class RestApiFacadeImpl implements RestApiFacade, LazyLoadProvider {
             }
 
             HttpResponse response = httpClient.get(lazy.getLazyLoadingUri());
-            if (response.getResponseCode() == HttpServletResponse.SC_NOT_FOUND) {
+            if (response.getResponseCode() == HttpURLConnection.HTTP_NOT_FOUND) {
                 // 404 error (not found)
                 logger.warn("URL " + lazy.getLazyLoadingUri() + " returned with error code "
                         + response.getResponseCode());
