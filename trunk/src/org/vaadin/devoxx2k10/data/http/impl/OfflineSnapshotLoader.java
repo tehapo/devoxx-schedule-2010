@@ -85,6 +85,7 @@ public class OfflineSnapshotLoader {
             final HttpResponse response = httpClient.get(url);
             if (!(response.getResponseCode() == HttpURLConnection.HTTP_OK)) {
                 System.err.println(url + " response code " + response.getResponseCode());
+                return;
             }
 
             // response was ok
