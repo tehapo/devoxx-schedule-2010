@@ -165,7 +165,7 @@ public class RestApiFacadeImpl implements RestApiFacade, LazyLoadProvider {
      * {@inheritDoc}
      */
     @Override
-    public void getScheduleForUser(final MyScheduleUser user) {
+    public void getScheduleForUser(final MyScheduleUser user) throws RestApiException {
         if (user != null && user.getEmail() != null) {
             try {
                 final HttpResponse response = httpClient.get(SCHEDULE_URL + "/" + user.getEmail());
@@ -184,7 +184,7 @@ public class RestApiFacadeImpl implements RestApiFacade, LazyLoadProvider {
                     }
                 }
             } catch (final IOException e) {
-                throw new RuntimeException(e);
+                throw new RestApiException("Couldn't connect to MySchedule. Please try again later.", e);
             }
         }
     }

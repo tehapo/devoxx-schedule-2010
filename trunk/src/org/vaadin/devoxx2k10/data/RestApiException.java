@@ -15,4 +15,8 @@ public class RestApiException extends Exception {
     public RestApiException(final Throwable cause) {
         super(cause);
     }
+    
+    public RestApiException(final String message, final Throwable cause) {
+        super(message, cause);
+    }
 }
