@@ -1,8 +1,8 @@
-@import url(../reindeer/styles.css);
+@import url("../reindeer/styles.css");
 
 body.v-full-screen {
 	overflow: hidden !important;
-	background: url(img/devoxx-2011-bg.jpg) top center no-repeat;	
+	background: url("img/devoxx-2011-bg.jpg") top center no-repeat;	
 }
 
 .v-app {
@@ -89,18 +89,25 @@ body.v-full-screen {
 }
 .v-button-caption,
 .v-checkbox label {
-	color: #fff !important;
 	line-height: 16px !important;
 	font-size: 12px !important;
 	font-weight: normal;
-	text-shadow: 0 -1px 0px rgba(0, 0, 0, 0.4);
 	-moz-transition: text-shadow 0.2s;
 	-webkit-transition: text-shadow 0.2s;
 	-ms-transition: text-shadow 0.2s;
 	-o-transition: text-shadow 0.2s;
 	transition: text-shadow 0.2s;
 }
-.v-button:hover .v-button-caption {
+.v-button-caption {
+	color: #fff !important;
+	text-shadow: 0 -1px 0px rgba(0, 0, 0, 0.4);
+}
+.v-button-link .v-button-caption,
+.v-checkbox label {
+	color: #2E98BC !important;
+}
+.v-button:hover .v-button-caption,
+.v-button-calendar-mode.my-schedule:hover .v-button-wrap .v-button-caption {
 	text-shadow: 0 0 6px #fff;
 }
 .v-button-selected:hover .v-button-caption {
@@ -145,27 +152,27 @@ body.v-full-screen {
 /* Calendar mode button */
 .v-button-calendar-mode,
 .v-button-calendar-mode:focus {
-	background: url("img/calendar-mode-button-bg.png") #706f6d top left repeat-x;
-	border-color: #232221;
+	background: url("img/toggle-button-down-bg.png") #2687b1 top left repeat-x;
+	border-color: #1a5f7d;
 	padding: 0;
 }
 .v-button-calendar-mode .v-button-wrap {
 	padding: 1px 10px 0 9px;
 }
 .v-button-calendar-mode .v-button-wrap .v-button-caption {
-	color: #1a1a18 !important;
+	color: #fff !important;
 	font-weight: bold;
 	padding-left: 15px;
-	background: url("img/calendar-mode-button-star.png") transparent center left no-repeat;
+	background: url("img/calendar-mode-button-star-on.png") transparent center left no-repeat;
 	text-shadow: 0 1px 0px rgba(255, 255, 255, 0.25);
 }
 .v-button-calendar-mode.my-schedule,
 .v-button-calendar-mode.my-schedule:focus {
-	background: url("img/calendar-mode-button-bg-on.png") #b16a00 top left repeat-x;
-	border-color: #eebd75;
-	-moz-box-shadow: 0 0 6px #eebd75;
-	-webkit-box-shadow: 0 0 6px #eebd75;
-	box-shadow: 0 0 6px #eebd75;
+	background: url("img/toggle-button-up-bg.png") #2687b1 top left repeat-x;
+	border-color: #389abd;
+	-moz-box-shadow: 0 0 6px #51b6d0;
+	-webkit-box-shadow: 0 0 6px #51b6d0;
+	box-shadow: 0 0 6px #51b6d0;
 }
 .v-button-calendar-mode.my-schedule .v-button-wrap .v-button-caption {
 	color: #fff !important;
@@ -377,7 +384,7 @@ body.v-full-screen {
 }
 .user-layout .current-user,
 .user-layout .sign-out-button .v-button-caption {
-	color: #acaaa7 !important;
+	color: #fff !important;
 	text-decoration: none;
 	line-height: 19px;
 	font-weight: bold;
@@ -507,7 +514,13 @@ body.v-full-screen {
 .login-window .v-window-header {
 	color: #2e98bc;
 	font-weight: bold;
+}
+.event-details .room .v-label,
+.login-window .v-caption {
 	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+.login-window .v-window-header {
+	text-shadow: none;
 }
 .event-details .room .v-label {
 	font-size: 15px;
@@ -528,8 +541,7 @@ body.v-full-screen {
 	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 .event-details-panel .hide-button,
-.v-toolbar,
-.login-window .v-window-contents {
+.v-toolbar {
 	background: url("img/toolbar-bg.png") transparent top left repeat-x;
 }
 .event-details-panel .hide-button {
@@ -555,11 +567,17 @@ body.v-full-screen {
 .event-details-panel .attending-button .v-button-wrap,
 .event-details-panel .not-attending-button .v-button-wrap {
 	padding-left: 25px;
+}
+.event-details-panel .attending-button .v-button-wrap {
 	background: url("img/attending-button-star.png") no-repeat scroll 7px 2px transparent !important;
+}
+.event-details-panel .not-attending-button .v-button-wrap {
+	background: url("img/attending-button-star-on.png") no-repeat scroll 7px 2px transparent !important;
 }
 .event-details-panel .not-attending-button .v-button,
 .event-details-panel .not-attending-button .v-button:focus {
 	background: url("img/toggle-button-down-bg.png") #206b84 top left repeat-x;
+	border-color: #1a5f7d;
 }
 .event-details-panel .not-attending-button .v-button .v-button-caption {
 	color: #9d9c99;	
@@ -587,6 +605,7 @@ body.v-full-screen {
 	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.3);
 }
 .event-details .tags .v-button-tag .v-button-caption {
+	color: #fff !important;
 	text-decoration: none;
 	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.30);	
 }
@@ -595,7 +614,7 @@ body.v-full-screen {
 
 .speakers-layout,
 .related-talks {
-	background: url(img/speakers-layout-bg.png);
+	background: url("img/speakers-layout-bg.png");
 	-moz-border-radius: 8px;
 	-webkit-border-radius: 8px;
 	border-radius: 8px;
@@ -615,7 +634,9 @@ body.v-full-screen {
 	margin: 15px 0;
 }
 .speakers-layout .v-button-caption,
-.related-talks .v-button-caption {
+.speakers-layout .v-button:hover .v-button-caption,
+.related-talks .v-button-caption,
+.related-talks .v-button:hover .v-button-caption {
 	text-decoration: none;
 	font-weight: bold;
 	font-size: 13px !important;
@@ -657,6 +678,9 @@ body.v-full-screen {
 	box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);	
 }
 
+.login-window .v-window-contents {
+	background: #fff;
+}
 .login-window .v-button:focus {
 	border-color: #8abfea;
 	-moz-box-shadow: 0 0 3px #8abfea;
