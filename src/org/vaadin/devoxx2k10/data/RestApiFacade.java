@@ -42,8 +42,9 @@ public interface RestApiFacade {
     /**
      * 
      * @param user
+     * @throws RestApiException 
      */
-    void getScheduleForUser(MyScheduleUser user);
+    void getScheduleForUser(MyScheduleUser user) throws RestApiException;
 
     /**
      * 
