@@ -6,23 +6,27 @@ import java.util.Properties;
 
 public class Configuration {
 
-    private static final Properties configuration;
+    private static Properties configuration;
 
     private static final String[] EMPTY_STRING_ARRAY = new String[0];
 
     static {
+        loadConfigurationFile("/configuration.properties");
+    }
+    
+    public static void loadConfigurationFile(String filename) {
         // Load the properties file.
         configuration = new Properties();
         try {
             final InputStream propertiesStream = DevoxxScheduleApplication.class
-                    .getResourceAsStream("/configuration.properties");
+                    .getResourceAsStream(filename);
             if (propertiesStream != null) {
                 configuration.load(propertiesStream);
             } else {
-                throw new RuntimeException("Cannot read properties file: configuration.properties");
+                throw new RuntimeException("Cannot read properties file: " + filename);
             }
         } catch (final IOException e) {
-            throw new ExceptionInInitializerError(e);
+            throw new RuntimeException("Cannot read properties file: " + filename, e);
         }
     }
 
