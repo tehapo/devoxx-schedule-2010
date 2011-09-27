@@ -320,23 +320,27 @@ body.v-full-screen {
 	background-repeat: no-repeat;
 }
 /* Icons of the rooms */
+.v-app .at-room3 .v-calendar-event-caption { background-image: url("img/room3.png"); }
 .v-app .at-room4 .v-calendar-event-caption { background-image: url("img/room4.png"); }
 .v-app .at-room5 .v-calendar-event-caption { background-image: url("img/room5.png"); }
 .v-app .at-room6 .v-calendar-event-caption { background-image: url("img/room6.png"); }
 .v-app .at-room7 .v-calendar-event-caption { background-image: url("img/room7.png"); }
 .v-app .at-room8 .v-calendar-event-caption { background-image: url("img/room8.png"); }
 .v-app .at-room9 .v-calendar-event-caption { background-image: url("img/room9.png"); }
+.v-app .at-room10 .v-calendar-event-caption { background-image: url("img/room10.png"); }
 .v-app .at-hollywoodlounge .v-calendar-event-caption { background-image: url("img/java.png"); }
 .v-app .at-bof1 .v-calendar-event-caption { background-image: url("img/bof1.png"); }
 .v-app .at-bof2 .v-calendar-event-caption { background-image: url("img/bof2.png"); }
 .v-app .v-calendar-event-keynote .v-calendar-event-caption { background-image: url("img/devoxx.png"); }
 /* Inverted icons of the rooms */
+.v-app .selected.at-room3 .v-calendar-event-caption { background-image: url("img/room3-inv.png"); }
 .v-app .selected.at-room4 .v-calendar-event-caption { background-image: url("img/room4-inv.png"); }
 .v-app .selected.at-room5 .v-calendar-event-caption { background-image: url("img/room5-inv.png"); }
 .v-app .selected.at-room6 .v-calendar-event-caption { background-image: url("img/room6-inv.png"); }
 .v-app .selected.at-room7 .v-calendar-event-caption { background-image: url("img/room7-inv.png"); }
 .v-app .selected.at-room8 .v-calendar-event-caption { background-image: url("img/room8-inv.png"); }
 .v-app .selected.at-room9 .v-calendar-event-caption { background-image: url("img/room9-inv.png"); }
+.v-app .selected.at-room10 .v-calendar-event-caption { background-image: url("img/room10-inv.png"); }
 .v-app .selected.at-hollywoodlounge .v-calendar-event-caption { background-image: url("img/java-inv.png"); }
 .v-app .selected.at-bof1 .v-calendar-event-caption { background-image: url("img/bof1-inv.png"); }
 .v-app .selected.at-bof2 .v-calendar-event-caption { background-image: url("img/bof2-inv.png"); }
