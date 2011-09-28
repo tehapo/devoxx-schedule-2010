@@ -2,7 +2,11 @@
 
 body.v-full-screen {
 	overflow: hidden !important;
-	background: url("img/devoxx-2011-bg.jpg") top center no-repeat;	
+	background: url("img/devoxx-2011-bg.jpg") top center no-repeat;
+}
+
+body {
+    background: transparent !important;
 }
 
 .v-app {
@@ -144,6 +148,7 @@ body.v-full-screen {
 	-moz-box-shadow: none;
 	-webkit-box-shadow: none;
 	box-shadow: none;
+    display: none !important;
 }
 .v-button-full-screen .v-button-wrap {
 	display: none;	
@@ -529,7 +534,7 @@ body.v-full-screen {
 }
 .event-details .time div,
 .event-details .track div {
-	color: #69696a !important;
+	color: #444 !important;
 }
 .event-details .abstract div {
 	color: #69696a !important	
