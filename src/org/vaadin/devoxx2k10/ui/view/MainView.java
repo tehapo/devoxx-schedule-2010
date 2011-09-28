@@ -136,7 +136,8 @@ public class MainView extends HorizontalLayout implements EventClickHandler, Val
 
             final DevoxxCalendarEvent devoxxCalEvent = (DevoxxCalendarEvent) calEvent;
 
-            if (!fullScreenButton.isFullScreen()) {
+            if (!fullScreenButton.isFullScreen()
+                    && Configuration.getBooleanProperty("ui.scrollup.onselection")) {
                 getWindow().scrollIntoView(toolbar);
             }
 
