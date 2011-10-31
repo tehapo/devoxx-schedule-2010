@@ -134,4 +134,10 @@
 		</antcall>
 	</target>
 	
+	<target name="package-jfokus2012-war">
+		<antcall target="internal-package-war">
+			<param name="configuration.file" value="${basedir}/jfokus2012.properties"/>
+		</antcall>
+	</target>
+	
 </project>
