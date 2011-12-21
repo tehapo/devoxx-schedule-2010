@@ -18,13 +18,13 @@
 		<title>Schedule - <%= Configuration.getProperty("conference.name") %></title>
 		<style type="text/css">
 			body {
-				background: url(devoxx-bg-2011.png) #fff top center no-repeat;
 				padding: 0;
 				margin: 0;
 			}
 			#container {
-				padding-top: 160px;
-				width: 1090px;
+				background: url(jfokus2012-bg.png) #fff top center no-repeat;
+				padding-top: 165px;
+				width: 960px;
 				height: 1840px;
 				margin: 10px auto;
 			}
