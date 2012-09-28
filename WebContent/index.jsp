@@ -22,8 +22,6 @@
 				margin: 0;
 			}
 			#container {
-				background: url(jfokus2012-bg.png) #fff top center no-repeat;
-				padding-top: 165px;
 				width: 960px;
 				height: 1840px;
 				margin: 10px auto;
