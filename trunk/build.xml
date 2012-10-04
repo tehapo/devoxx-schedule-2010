@@ -92,6 +92,10 @@
 			<param name="css.src.file" value="${dist.dir}/WebContent/VAADIN/themes/jfokus2011/styles.css"/>
 			<param name="css.target.file" value="${dist.dir}/WebContent/VAADIN/themes/jfokus2011/styles.css"/>
 		</antcall>
+		<antcall target="minimize-theme">
+			<param name="css.src.file" value="${dist.dir}/WebContent/VAADIN/themes/devoxx2012/styles.css"/>
+			<param name="css.target.file" value="${dist.dir}/WebContent/VAADIN/themes/devoxx2012/styles.css"/>
+		</antcall>
 		
 		<copy todir="${dist.dir}/WebContent/WEB-INF/classes">
 			<fileset dir="${server-side.dest.dir}"/>
