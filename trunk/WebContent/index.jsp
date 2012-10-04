@@ -20,9 +20,12 @@
 			body {
 				padding: 0;
 				margin: 0;
+				background: url(devoxx2012-bg.jpg) #000 top center no-repeat !important; 
 			}
 			#container {
-				width: 960px;
+				background: transparent;
+				padding-top: 245px;
+				width: 1090px;
 				height: 1840px;
 				margin: 10px auto;
 			}
